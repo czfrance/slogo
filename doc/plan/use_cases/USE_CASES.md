@@ -44,7 +44,7 @@ The user sets a variable's value and sees it updated in the UI's Variable view.
 6) TurtleView updates its imageView with this new data which updates its speed
 ~~~
 String userInput = Console.newInsnInput("50");
-Compiler.validateString(userInput);
+Compiler.validateSpeed(userInput);
 int turtleSpeed = Compiler.parseInt(userInput);
 Animation.updateFrame();
 TurtleModel.updateSpeed(turtleSpeed);
@@ -141,4 +141,37 @@ Boolean isDrawing = TurtleModel.getPenStatus();
 Boolean isShowing = TurtleModel.getShowStatus();
 InfoModel.displayMessage(isDrawing);
 InfoModel.displayMessage(isShowing);
+~~~
+
+### Frontend/UI Use Case #1
+User tries to change the speed but enters "50f" instead of "50"
+1) Console takes in the user input as a string (said in Design Plan how console handles these things)
+2) Compiler checks the syntax of the string and parses for the Integer
+3) Once it has been determined that there is an error, an error message pops up on the UI
+~~~
+String userInput = Console.newInsnInput("50f");
+Compiler.validateSpeed(userInput);
+InfoModel.errorMessage();
+~~~
+
+### Frontend/UI Use Case #2
+User enters in command c.
+* To have gotten to this point, c would've already been verified by the compiler, & pushed to
+  the instruction queue
+1) TurtleModel runs the instruction
+2) TurtleView updates itself
+~~~
+TurtleModel.runNextInsn();
+TurtleView.updateTurtleView();
+~~~
+
+### Frontend/UI Use Case #1
+User enters in command c.
+* To have gotten to this point, c would've already been verified by the compiler, & pushed to
+  the instruction queue
+1) TurtleModel runs the instruction
+2) TurtleView updates itself
+~~~
+TurtleModel.runNextInsn();
+TurtleView.updateTurtleView();
 ~~~
