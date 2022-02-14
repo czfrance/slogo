@@ -14,7 +14,7 @@ made from [a tool that generates UML from existing code](http://staruml.io/).
 
 Here is our amazing UI:
 
-![This is cool, too bad you can't see it](29-sketched-ui-wireframe.jpg "An alternate design")
+[Link to UI on Figma](https://www.figma.com/file/Nv9FsnAwINr8tNr5HwGPbZ/SLogo-UI?node-id=0%3A1)
 
 taken from [Brilliant Examples of Sketched UI Wireframes and Mock-Ups](https://onextrapixel.com/40-brilliant-examples-of-sketched-ui-wireframes-and-mock-ups/).
 
@@ -109,8 +109,26 @@ External API: Animation
 
 ## User Interface
 
-![](Main.jpg)
-
+- [Link to UI on Figma](https://www.figma.com/file/Nv9FsnAwINr8tNr5HwGPbZ/SLogo-UI?node-id=0%3A1)
+- Walking through the UI
+  - when the user runs the program, the opening window will pop up, giving the user a chance to proceed to the main screen
+  - once the user presses to blue button to continue, they have the option to upload files to create a drawing
+    - on the main screen, the user also has the ability to go to the dashboard and go to controls
+  - if a user decides to upload a file, the program will move to a drawing window
+    - here, they can access other running drawings if they please and move back to add more files (and subsequently create more drawings)
+    - they can also view and have easy access to change some variables like speed on the screen
+      - these controls will be affecting the drawing as a whole
+    - the user can access different drawings on the top menu and different variables on the bottom menu
+  - if a user moves to the dashboard, here they can view the history of previous runs and select/edit the variables as they wish
+  - if a user moves to the control, here they will get a better view of all the variables to change 
+    - item 1 and item 2 are saved for future specifications
+    - these controls will most likely be influencing a chosen pen, as every turtle object has a pen 
+- Possible Errors
+  - Much of the errors will deal with the file uploaded
+    - Empty file
+    - Invalid command
+    - Wrong file format
+  - Other errors or at least user warnings that might come in handy are a warning if the speed is past the maximum (user cannot see the drawing being created and can have the option to proceed)
 
 ## Design Details
 - Controller External API
