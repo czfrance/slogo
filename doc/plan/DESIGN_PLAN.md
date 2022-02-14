@@ -241,6 +241,27 @@ External API: Animation
 
 
 ## Design Considerations
+- FileParser
+  - We initially discussed having a control between FileParser and the Compiler, as it made sense to let the Compiler know if the file had gone through successfully
+  - We ended up making FileParser an internal API for our Console
+  - We thought this would consolidate checking the file in one area and streamline the controls between the FileParser, the Console, and the Compiler
+- Pen 
+  - We initially wanted to create an overarching Pen class since we didn't know how the way we would draw would change as the project specifications changed
+  - We quickly realized that this was an ineffective way to structure the drawing component of our program
+    - It was redundant as the turtles were the ones drawing and having a Pen parent class didn't make sense if TurtleView was supposed to be the subclass
+  - In the end, we agreed to make a separate Pen object that was not involved in the hierarchy of the Turtle classes
+  - We figured this way, our turtle could have a Pen object, but we could easily add onto the Pen object attributes without editing code within the Turtle classes
+- TurtleModel & TurtleView
+  - The design discussion above about the Pen object also affected how we created Turtle classes
+  - We decided to split the Turtle into a Model and a View API
+  - This was decided after looking at our overview as a whole and seeing which classes would fit into which packages
+    - The turtle class(es) are perhaps the most important functionality wise to creating a drawing, but also involved a lot of backend work
+    - Thus, we split up the classes to also help our team in dividing up the frontend and backend work (two people working at once in one java class would be too chaotic if we weren't partner programming)
+- InstructionModel
+  - In our discussion of what limitations we needed to remove from our current expectations of the project, we realized we didn't know if we would only have one element involved in the drawing
+  - In the case that more than one drawing component was needed in the animation to create the drawing, we created the InstructionModel API
+  - Even though this API might seem redundant if there is just one turtle controlling the animation, if there are multiple components specified, having the InstructionModel API allows for us to have these multiple components and have specific rules that allow for them to interact without error
+  - Thus, in our discussion, the pros outweighed the cons in including the InstructionModel
 
 
 ## Test Plan
