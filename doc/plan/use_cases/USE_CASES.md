@@ -42,7 +42,7 @@ The user sets the pen's color using the UI so subsequent lines drawn when the tu
 
 ## Custom Use Cases
 
-###Compiler Use Case #1
+### Compiler Use Case #1
 User defines a custom method "CustomInsn" in a text file and uploads it. Compiler saves method
 1) Uploaded File is sent through the console and sent to the FileParser
 2) Parser returns raw input string from file
@@ -56,7 +56,7 @@ Compiler.validateString(Console.getUserInput);
 Compiler.saveMethod() //helper method
 ~~~
 
-###Compiler Use Case #2
+### Compiler Use Case #2
 User calls custom method "CustomInsn" after defining it previously.
 1) Console receives user input of "CustomInsn" and saves it
 2) Compiler asks console for any new inputs and receives "CustomInsn"
@@ -80,3 +80,39 @@ Compiler.validateString(userInput);
 //Compiler finds that userInput is not in its known instruction map so throws exception
 Animation.updateFrame(); //exception handled here
 Animation.showError();
+~~~
+
+### TurtleModel Use Case #1
+User enters in command c.
+* To have gotten to this point, c would've already been verified by the compiler, & pushed to 
+  the instruction queue
+1) TurtleModel runs the instruction
+2) TurtleView updates itself
+~~~
+TurtleModel.runNextInsn();
+TurtleView.updateTurtleView();
+~~~
+
+### TurtleModel Use Case #2
+User wants to know the location & orientation of the turtle
+1) Obtain location of turtle
+2) Obtain orientation of turtle
+3) Display the obtained information in the UI message box
+~~~
+Location location = TurtleModel.getNextPos();
+Double heading = TurtleModel.getHeading();
+InfoModel.displayMessage(location);
+InfoModel.displayMessage(heading);
+~~~
+
+### TurtleModel Use Case #3
+User wants to know the pen & turtle status
+1) Obtain pen status
+2) Obtain pen status
+3) Display the obtained information in the UI message box
+~~~
+Boolean isDrawing = TurtleModel.getPenStatus();
+Boolean isShowing = TurtleModel.getShowStatus();
+InfoModel.displayMessage(isDrawing);
+InfoModel.displayMessage(isShowing);
+~~~
