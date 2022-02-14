@@ -142,7 +142,55 @@ taken from [Brilliant Examples of Sketched UI Wireframes and Mock-Ups](https://o
 
 
 ## Test Plan
+Testing Strategies 
+- Program Default known return values from the API to determine if default values 
+work
+- Allow for API to throw errors back to the client if given improper inputs
 
+- Compiler
+  - Happy Test
+    - The user types in goLeft 50 
+    - The compiler should output a queue that has "go left" - 50 as the output;
+  - Happy test
+    - The user types in function square{ ~ instructions ~ }
+    - The user then types in square
+    - the compilier should not output anything at first, but then with the square call it should
+    it should output fifo queue with the instructions from the function body
+  - Sad Test
+    - The user make the call square without initializing it first. 
+    - The compiler should throw an error that says "Function/Variable "Square" not found"
+- Intstruction Model - 
+  - Happy Test 1
+    - Same input as teh first compiler happy test
+    - The turtle should move 50 units to the left
+  - Happy test 2
+    - Same input as the 2nd compiler happy test
+    - The turtle should move in a square 
+  - Sad test 
+    - Same input as compiler sad test
+    - If the somehow a non possible basic instruction passes through (which should not be possible)
+      its should throw an error saying "Not valid Function"
+- View External
+  - Happy 1 - 
+    - The position returned 10 units right of the current
+    - View external Animates the turtle to go right 10
+  - Happy 2 - 
+    - The position returned 10 units left of the current
+    - View external Animates the turtle to go left 10
+  - Sad
+    - The view looks at the backend model to get current position
+    - It's returned null or not a valid position
+    - View External Shows throws error
+- View Internal
+  - Happy 1 -
+    - The api gets called to go left 50
+    - it subtracts 50 from the y position
+  - Happy 2 - 
+    - The api gets called turn 90 ccw
+    - it adds 90 degrees to the current frog value
+  - Sad 
+    - The api gets called using an illegal parameter
+    - The api throws an error saying the call is illegal
 
 ## Team Responsibilities
 

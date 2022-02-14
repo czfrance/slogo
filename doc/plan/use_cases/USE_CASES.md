@@ -41,3 +41,47 @@ The user sets a variable's value and sees it updated in the UI's Variable view.
 The user sets the pen's color using the UI so subsequent lines drawn when the turtle moves use that color.
 
 ## Custom Use Cases
+
+
+
+### Console Use Case #1
+
+User wants to know the instructions defined in a custom instruction
+
+1) Console recieves the name of the custom instruction and a toString commend
+2) Console asks the compiler for the map entry of the custom instruction
+3) Console converts the map entry to list of instruction
+
+~~~
+String[] instructionList = Compiler.get(Instruction)
+instructionList.toString();
+~~~
+
+Console use Case #2
+
+User wantes to parse a custom file
+
+1) User is prompted for the specific file as a txt file
+2) File goes through parser
+3) Instructions are passed to compiler in order
+
+~~~
+Parser parse = new Parser(path/textfile.txt);
+Compiler.nextInstruct(parse.next());
+~~~
+
+Console use Case #3
+
+User wants to parse a custom file
+
+1) User is prompted for the specific file as a txt file that has an error in the code
+2) File goes through parser
+3) Instructions are passed to compiler in order
+4) When the error occurs the parser halts and throws back the line where the error occurs
+
+~~~
+Parser parse = new Parser(path/textfile.txt);
+Compiler.nextInstruct(parse.next());
+...
+"Error on line n"
+~~~
