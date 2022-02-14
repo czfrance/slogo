@@ -41,3 +41,42 @@ The user sets a variable's value and sees it updated in the UI's Variable view.
 The user sets the pen's color using the UI so subsequent lines drawn when the turtle moves use that color.
 
 ## Custom Use Cases
+
+###Compiler Use Case #1
+User defines a custom method "CustomInsn" in a text file and uploads it. Compiler saves method
+1) Uploaded File is sent through the console and sent to the FileParser
+2) Parser returns raw input string from file
+3) Console sends input to compiler
+4) Compiler recognizes token for new method definition and stores the custom method in its custom method map
+~~~
+customMethodString = FileParser.parseTxtFile(customMethodFile);
+Console.newInsnInput(customMethodString);
+Compiler.validateString(Console.getUserInput);
+//validateString method will call helper methods that will save customMethod
+Compiler.saveMethod() //helper method
+~~~
+
+###Compiler Use Case #2
+User calls custom method "CustomInsn" after defining it previously.
+1) Console receives user input of "CustomInsn" and saves it
+2) Compiler asks console for any new inputs and receives "CustomInsn"
+3) Compiler checks its previousInsn map for "CustomInsn" and finds it
+4) Compiler sends the base instructions associated with "CustomInsn" to InstructionModel
+~~~
+Console.newInsnInput("CustomInsn");
+String userInput = Console.getUserInput();
+Compiler.validateString(userInput);
+//Compiler checks for "CustomInsn" in its custom methods map and finds it
+ValidInsn = CustomMethodMap.get("CustomInsn");
+InstructionModel.pushNewInsn(Compiler.getValidInsn());
+~~~
+
+### Compiler Use Case #3
+User calls custom method "CustomInsn2" but never defined it previously. Shows an error to the user
+~~~
+Console.newInsnInput("CustomInsn2");
+String userInput = Console.getUserInput();
+Compiler.validateString(userInput);
+//Compiler finds that userInput is not in its known instruction map so throws exception
+Animation.updateFrame(); //exception handled here
+Animation.showError();
