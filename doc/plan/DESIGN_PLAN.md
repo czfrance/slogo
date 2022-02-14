@@ -146,10 +146,10 @@ taken from [Brilliant Examples of Sketched UI Wireframes and Mock-Ups](https://o
 
 ## Team Responsibilities
 
- * Team Member #1
+ * Brandon Bae: Back End (Compiler)
 
- * Team Member #2
+ * Prajwal Jagadish: Back End (Console)
 
- * Team Member #3
+ * Thivya Sivarajah: Front End
 
- * Team Member #4
+ * Cynthia France: Back End (TurtleModel)
