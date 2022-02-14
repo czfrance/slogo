@@ -14,10 +14,16 @@ import java.util.List;
 public interface Console {
 
   /**
-   * Returns the a list of strings with each string representing individual instructions
+   * Returns a list of strings with each string representing individual instructions
    * @author Brandon Bae
    */
   public List<String> getUserInput();
+
+  /**
+   * Method for inputting a new instruction (from console or file)
+   * @author Brandon Bae
+   */
+  public void newInsnInput(String input);
 
 
 

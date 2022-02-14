@@ -20,4 +20,10 @@ public interface Compiler {
    *                                  defined user method
    */
   public void validateString(String rawInstruction, InstructionModel model) throws UndefinedMethodException;
+
+  /**
+   * This is a getter method to get the instruction that was validated
+   * @return
+   */
+  public String getValidInsn();
 }
