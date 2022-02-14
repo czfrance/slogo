@@ -1,6 +1,6 @@
 # SLogo Design Plan
-### NAMES
-### TEAM
+### Brandon Bae, Cynthia France, Prajwal Jagadish, Thivya Sivarajah
+### TEAM 01
 
 
 #### Examples
@@ -20,10 +20,48 @@ taken from [Brilliant Examples of Sketched UI Wireframes and Mock-Ups](https://o
 
 
 ## Introduction
+Our goal is to create a well-designed program that takes in user-defined commands in the form of 
+.txt files and instructions from the console to create some sort of drawing. The user controls
+a pen (turtle) and feeds it commands. As the turtle moves, its path is visualized, taking the form
+of a picture/drawing.
+
+The primary design goal is to make the program as flexible as possible so that new features can be
+introduced with ease. In particular, we should be flexible in adding new languages, pen types, 
+movement, etc., so classes that relate to these features (compiler, model(s), view(s)) should be 
+open to extension. However, components that deal with the core functioning of the program (ie 
+drawing, moving, reading input) should be closed for modification.
+
+In general, the user will input commands either through the console or uploaded files that control 
+how the turtle will move. From there, the commands are read and broken down into its base
+components/commands. These will be executed one by one, which are visually reflected in the UI.
+
+This continues until either the user quits or starts a new drawing, in which case the entire
+process would be repeated.
 
 
 ## Overview
 
+![](Main.jpg)
+
+#### External APIs - user facing
+Backend: Console
+  * input commands
+  * input files
+  * define drawing "functions"
+
+Frontend: View
+  * obtain turtle's location (x, y coordinates)
+  * direction turtle is facing (in degrees)
+  * pen status (up/down)
+  * turtle viewable status (showing/hiding)
+
+#### Internal APIs
+Backend
+  * User instructions
+  * Function definitions (name -> broken down commands)
+  * Commands to execute (& their order)
+Frontend
+  * next location/status/status
 
 ## User Interface
 
