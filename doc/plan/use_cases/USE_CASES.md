@@ -155,23 +155,27 @@ InfoModel.errorMessage();
 ~~~
 
 ### Frontend/UI Use Case #2
-User enters in command c.
-* To have gotten to this point, c would've already been verified by the compiler, & pushed to
-  the instruction queue
-1) TurtleModel runs the instruction
-2) TurtleView updates itself
+User uploads a file into the program
+1) Uploaded File is sent through the console and sent to the FileParser
+2) Parser returns raw input string from file
+3) Console sends input to compiler
+4) Compiler recognizes that the file is formatted correctly, so we move to the Drawing window (seen in the UI)
 ~~~
-TurtleModel.runNextInsn();
-TurtleView.updateTurtleView();
+customMethodString = FileParser.parseTxtFile(customMethodFile);
+Console.newInsnInput(customMethodString);
+Boolean inputCorrect = Compiler.validateInput(Console.getUserInput);
+Animation.updateFrame();
+
 ~~~
 
-### Frontend/UI Use Case #1
-User enters in command c.
-* To have gotten to this point, c would've already been verified by the compiler, & pushed to
-  the instruction queue
-1) TurtleModel runs the instruction
-2) TurtleView updates itself
+### Frontend/UI Use Case #3
+User wants to view old drawing from Dashboard window (in the UI)
+* To have gotten to this point, the drawing would've had to have been successfully run once
+1) DashboardModel adds old drawing to list of current drawings
+2) DashboardView updates the menu of drawings to see
+3) User can now click on the drawing to view it
 ~~~
-TurtleModel.runNextInsn();
-TurtleView.updateTurtleView();
+DashboardModel.addDrawing();
+DashboardView.addDrawingMenu();
+Animation.updateFrame();
 ~~~
