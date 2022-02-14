@@ -17,7 +17,20 @@ fd 100
 fd 100 rt 90 fd 100 rt 90 fd 100 rt 90 fd 100
 
 # draw lower right quadrant
-repeat 4 [
-  fd 100
-  rt 90
-]
+fd
+ 100
+rt 
+90
+fd 
+100
+rt
+90
+fd
+
+100
+rt
+90
+
+fd 
+100
+
