@@ -44,35 +44,68 @@ process would be repeated.
 ![](Main.jpg)
 
 #### Controller
-Internal API
-  * input commands
-  * input files
-  * define drawing "functions"
+Internal API: FileParser
+  * Parse commands, functions, and other configuration information from txt files
+  * Breaks down txt file into individual strings for the Console to take care of
+  * Implementations
+    * support different/multiple file types
+      * .txt
+      * XML
 
-External API
-  * obtain turtle's location (x, y coordinates)
-  * direction turtle is facing (in degrees)
-  * pen status (up/down)
-  * turtle viewable status (showing/hiding)
+External API: Console
+  * Allows the user to communicate their needs to the program
+  * Communicates user's commands to the compiler, which breaks down larger functions into basic
+    commands, which are passed on to the InstructionModel to be executed
+  * Implementations
+    * Console (real-time commands and input)
+    * File upload (bulk configuration/instruction)
+  * In addition to creating functions and controlling the turtle's movement, the external API will 
+    also give the following information back to the user when prompted: 
+    * obtain turtle's location (x, y coordinates)
+    * direction turtle is facing (in degrees)
+    * pen status (up/down)
+    * turtle viewable status (showing/hiding)
+    
 
 #### Model
 Internal API
-* input commands
-* input files
-* define drawing "functions"
+* Compiler
+  * analyzes information from console to: 
+    * check for errors in user commands 
+    * create/keep track of user-defined functions
+    * break down functions into its basic commands/components 
+  * Passes on basic commands to InstructionModel
+  * Implementation
+    * Map -> key: function name, value: commands
+    * List<Pair<String, List<String>>>
+* InstructionModel
+  * Keeps track of the individual commands yet to be executed
+  * Feeds TurtleModel its next command when prompted
+  * Implementation
+    * Queue: pop the next instruction
+    * Linked List
 
-External API
-  * next location/status/status
-
+External API: TurtleModel
+  * Controls the backend side of the turtle (pen status, turtle status, speed, etc.)
+  * Takes in instructions from InstructionModel, executes, and updates TurtleView of its changes
+  * Implementation
+    * Turtle has a pen
+    * Pen extends Turtle
+    
 #### View
-Internal API
-* input commands
-* input files
-* define drawing "functions"
-
-External API
-* next location/status/status
-
+Internal API: TurtleView
+* Displays a visual representation of the user's commands (turtle movement, drawings, etc.)
+* Updates itself according to TurtleModel's state/status
+* Implementation
+  * Is solely responsible for updating the "drawing pad" part of the view
+  * Contains all aspects of the UI (drawing pad, buttons, etc.)
+  
+External API: Animation
+* Puts together TurtleView's individual states to create a fluid animation/display for the user
+* Implementation
+  * JavaFX Timeline class
+  * Some sort of internal timer/loop that calculates the time separating each frame and calls 
+    TurtleView's update every time the time is correct
 
 ## User Interface
 
