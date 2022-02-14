@@ -36,9 +36,35 @@ Animation.updateFrame();
 
 ### Use Case #3
 The user sets a variable's value and sees it updated in the UI's Variable view.
+1) For demonstration's sake, let the variable be speed
+2) Console takes in the user input as a string (said in Design Plan how console handles these things)
+3) Compiler checks the syntax of the string and parses for the Integer
+4) Animation class updatesFrame(), which would then update this value
+5) TurtleModel updates the speed in this case that it has
+6) TurtleView updates its imageView with this new data which updates its speed
+~~~
+String userInput = Console.newInsnInput("50");
+Compiler.validateString(userInput);
+int turtleSpeed = Compiler.parseInt(userInput);
+Animation.updateFrame();
+TurtleModel.updateSpeed(turtleSpeed);
+TurtleView.updateView();
+~~~
 
 ### Use Case #4
 The user sets the pen's color using the UI so subsequent lines drawn when the turtle moves use that color.
+1) Console takes in the user input as a string (said in Design Plan how console handles these things)
+2) Compiler checks the syntax of the string
+3) Animation class updatesFrame(), which would then update this value for the color of the line
+4) TurtleModel updates the color of the Pen object the turtle object in question has
+5) TurtleView updates its imageView with this new data which updates the color
+~~~
+   String userInput = Console.newInsnInput("Blue");
+   Compiler.validateString(userInput);
+   Animation.updateFrame();
+   TurtleModel.updateColor(userInput);
+   TurtleView.updateView();
+~~~
 
 ## Custom Use Cases
 
