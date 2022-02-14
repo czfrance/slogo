@@ -1,6 +1,6 @@
 # SLogo Design Plan
-### NAMES
-### TEAM
+### Brandon Bae, Cynthia France, Prajwal Jagadish, Thivya Sivarajah
+### TEAM 01
 
 
 #### Examples
@@ -20,10 +20,92 @@ taken from [Brilliant Examples of Sketched UI Wireframes and Mock-Ups](https://o
 
 
 ## Introduction
+Our goal is to create a well-designed program that takes in user-defined commands in the form of 
+.txt files and instructions from the console to create some sort of drawing. The user controls
+a pen (turtle) and feeds it commands. As the turtle moves, its path is visualized, taking the form
+of a picture/drawing.
+
+The primary design goal is to make the program as flexible as possible so that new features can be
+introduced with ease. In particular, we should be flexible in adding new languages, pen types, 
+movement, etc., so classes that relate to these features (compiler, model(s), view(s)) should be 
+open to extension. However, components that deal with the core functioning of the program (ie 
+drawing, moving, reading input) should be closed for modification.
+
+In general, the user will input commands either through the console or uploaded files that control 
+how the turtle will move. From there, the commands are read and broken down into its base
+components/commands. These will be executed one by one, which are visually reflected in the UI.
+
+This continues until either the user quits or starts a new drawing, in which case the entire
+process would be repeated.
 
 
 ## Overview
 
+![](Main.jpg)
+
+#### Controller
+Internal API: FileParser
+  * Parse commands, functions, and other configuration information from txt files
+  * Breaks down txt file into individual strings for the Console to take care of
+  * Implementations
+    * support different/multiple file types
+      * .txt
+      * XML
+
+External API: Console
+  * Allows the user to communicate their needs to the program
+  * Communicates user's commands to the compiler, which breaks down larger functions into basic
+    commands, which are passed on to the InstructionModel to be executed
+  * Implementations
+    * Console (real-time commands and input)
+    * File upload (bulk configuration/instruction)
+  * In addition to creating functions and controlling the turtle's movement, the external API will 
+    also give the following information back to the user when prompted: 
+    * obtain turtle's location (x, y coordinates)
+    * direction turtle is facing (in degrees)
+    * pen status (up/down)
+    * turtle viewable status (showing/hiding)
+    
+
+#### Model
+Internal API
+* Compiler
+  * analyzes information from console to: 
+    * check for errors in user commands 
+    * create/keep track of user-defined functions
+    * break down functions into its basic commands/components 
+  * Passes on basic commands to InstructionModel
+  * Implementation
+    * Map -> key: function name, value: commands
+    * List<Pair<String, List<String>>>
+* InstructionModel
+  * Keeps track of the individual commands yet to be executed
+  * Feeds TurtleModel its next command when prompted
+  * Implementation
+    * Queue: pop the next instruction
+    * Linked List
+
+External API: TurtleModel
+  * Controls the backend side of the turtle (pen status, turtle status, speed, etc.)
+  * Takes in instructions from InstructionModel, executes, and updates TurtleView of its changes
+  * Implementation
+    * Turtle has a pen
+    * Pen extends Turtle
+    
+#### View
+Internal API: TurtleView
+* Displays a visual representation of the user's commands (turtle movement, drawings, etc.)
+* Updates itself according to TurtleModel's state/status
+* Implementation
+  * Is solely responsible for updating the "drawing pad" part of the view
+  * Contains all aspects of the UI (drawing pad, buttons, etc.)
+  
+External API: Animation
+* Puts together TurtleView's individual states to create a fluid animation/display for the user
+* Implementation
+  * JavaFX Timeline class
+  * Some sort of internal timer/loop that calculates the time separating each frame and calls 
+    TurtleView's update every time the time is correct
 
 ## User Interface
 
