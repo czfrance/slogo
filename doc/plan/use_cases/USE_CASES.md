@@ -108,7 +108,7 @@ InfoModel.displayMessage(heading);
 ### TurtleModel Use Case #3
 User wants to know the pen & turtle status
 1) Obtain pen status
-2) Obtain pen status
+2) Obtain turtle status
 3) Display the obtained information in the UI message box
 ~~~
 Boolean isDrawing = TurtleModel.getPenStatus();
