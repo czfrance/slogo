@@ -44,7 +44,7 @@ The user sets a variable's value and sees it updated in the UI's Variable view.
 6) TurtleView updates its imageView with this new data which updates its speed
 ~~~
 String userInput = Console.newInsnInput("50");
-Compiler.validateString(userInput);
+Compiler.validateSpeed(userInput);
 int turtleSpeed = Compiler.parseInt(userInput);
 Animation.updateFrame();
 TurtleModel.updateSpeed(turtleSpeed);
@@ -141,4 +141,41 @@ Boolean isDrawing = TurtleModel.getPenStatus();
 Boolean isShowing = TurtleModel.getShowStatus();
 InfoModel.displayMessage(isDrawing);
 InfoModel.displayMessage(isShowing);
+~~~
+
+### Frontend/UI Use Case #1
+User tries to change the speed but enters "50f" instead of "50"
+1) Console takes in the user input as a string (said in Design Plan how console handles these things)
+2) Compiler checks the syntax of the string and parses for the Integer
+3) Once it has been determined that there is an error, an error message pops up on the UI
+~~~
+String userInput = Console.newInsnInput("50f");
+Compiler.validateSpeed(userInput);
+InfoModel.errorMessage();
+~~~
+
+### Frontend/UI Use Case #2
+User uploads a file into the program
+1) Uploaded File is sent through the console and sent to the FileParser
+2) Parser returns raw input string from file
+3) Console sends input to compiler
+4) Compiler recognizes that the file is formatted correctly, so we move to the Drawing window (seen in the UI)
+~~~
+customMethodString = FileParser.parseTxtFile(customMethodFile);
+Console.newInsnInput(customMethodString);
+Boolean inputCorrect = Compiler.validateInput(Console.getUserInput);
+Animation.updateFrame();
+
+~~~
+
+### Frontend/UI Use Case #3
+User wants to view old drawing from Dashboard window (in the UI)
+* To have gotten to this point, the drawing would've had to have been successfully run once
+1) DashboardModel adds old drawing to list of current drawings
+2) DashboardView updates the menu of drawings to see
+3) User can now click on the drawing to view it
+~~~
+DashboardModel.addDrawing();
+DashboardView.addDrawingMenu();
+Animation.updateFrame();
 ~~~
