@@ -43,25 +43,36 @@ process would be repeated.
 
 ![](Main.jpg)
 
-#### External APIs - user facing
-Backend: Console
+#### Controller
+Internal API
   * input commands
   * input files
   * define drawing "functions"
 
-Frontend: View
+External API
   * obtain turtle's location (x, y coordinates)
   * direction turtle is facing (in degrees)
   * pen status (up/down)
   * turtle viewable status (showing/hiding)
 
-#### Internal APIs
-Backend
-  * User instructions
-  * Function definitions (name -> broken down commands)
-  * Commands to execute (& their order)
-Frontend
+#### Model
+Internal API
+* input commands
+* input files
+* define drawing "functions"
+
+External API
   * next location/status/status
+
+#### View
+Internal API
+* input commands
+* input files
+* define drawing "functions"
+
+External API
+* next location/status/status
+
 
 ## User Interface
 
