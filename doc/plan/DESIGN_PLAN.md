@@ -109,6 +109,8 @@ External API: Animation
 
 ## User Interface
 
+![](Main.jpg)
+
 
 ## Design Details
 - Controller External API
