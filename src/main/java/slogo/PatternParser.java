@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
-public class RegexParser {
+public class PatternParser {
   public static final String NO_MATCH = "NO MATCH";
 
   // where to find resources specifically for this class
@@ -21,7 +21,7 @@ public class RegexParser {
   /**
    * Create an empty parser
    */
-  public RegexParser () {
+  public PatternParser() {
     reset();
   }
 
