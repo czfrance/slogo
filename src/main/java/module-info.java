@@ -1,4 +1,4 @@
-module slogo_app {
+open module slogo_app {
     // list all imported class packages since they are dependencies
     requires javafx.controls;
     requires javafx.graphics;
