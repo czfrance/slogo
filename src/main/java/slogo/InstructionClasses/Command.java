@@ -1,5 +1,6 @@
 package slogo.InstructionClasses;
 
+import java.util.List;
 import java.util.Stack;
 import slogo.PatternParser;
 
@@ -11,7 +12,9 @@ public abstract class Command {
     valueParser.addPatterns("Syntax");
   }
 
-  public abstract void setParameters(Stack<String> valueStack);
+  public abstract void setParameters(Stack<Command> valueStack);
+
+  public abstract int getNumParameters();
 
   public abstract double returnValue();
 
