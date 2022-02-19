@@ -8,7 +8,7 @@ public class InstructionModel {
   Queue<String> insnQueue;
 
   public InstructionModel() {
-    insnQueue = new LinkedList<String>();
+    insnQueue = new LinkedList<>();
   }
 
   public void addInsn(String instruction) {
