@@ -65,11 +65,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        Main m = new Main();
-        System.out.println(m.getVersion());
-        System.out.println(m.getCommand("English", "Forward"));
-        System.out.println(m.getExampleProgram("loops", "star"));
-
         TurtleModel model = new TurtleModel(0, 0, 90);
         model.addInsn("forward 100");
         SketchbookView view = new SketchbookView(model);
