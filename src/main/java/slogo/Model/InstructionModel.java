@@ -19,4 +19,8 @@ public class InstructionModel {
     return insnQueue.poll();
   }
 
+  public boolean hasNextInsn() {
+    return !insnQueue.isEmpty();
+  }
+
 }
