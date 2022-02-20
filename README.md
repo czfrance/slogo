@@ -18,7 +18,7 @@ Hours Spent:
 
 
 ### Resources Used
-
+* [Java Reflection Tutorial](https://www.baeldung.com/java-reflection)
 
 ### Running the Program
 
