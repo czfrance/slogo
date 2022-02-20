@@ -114,6 +114,15 @@ public class Compiler {
     }
   }
 
+  private Queue<String> getStringQueue() {
+    Queue<String> stringQueue = new LinkedList<String>();
+    while(!finalInstructionQueue.isEmpty()) {
+      Instruction currInstruction = finalInstructionQueue.poll();
+      stringQueue.offer(currInstruction.toString());
+    }
+    return stringQueue;
+  }
+
   @Override
   public String toString() {
     StringBuilder returnString = new StringBuilder();
