@@ -15,6 +15,6 @@ public class RandomRange extends MathTwoParam{
 
   @Override
   public String toString() {
-    return String.format("randomrange %d %d\n", (int) getParamOne(), (int) getParamTwo());
+    return String.format("randomrange %f %f\n", getParamOne(), getParamTwo());
   }
 }

@@ -9,6 +9,6 @@ public class Difference extends MathTwoParam{
 
   @Override
   public String toString() {
-    return String.format("difference %d %d\n", (int) getParamOne(), (int) getParamTwo());
+    return String.format("difference %f %f\n", getParamOne(), getParamTwo());
   }
 }

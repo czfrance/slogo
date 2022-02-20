@@ -9,6 +9,6 @@ public class Quotient extends MathTwoParam{
 
   @Override
   public String toString() {
-    return String.format("quotient %d %d\n", (int) getParamOne(), (int) getParamTwo());
+    return String.format("quotient %f %f\n", getParamOne(), getParamTwo());
   }
 }

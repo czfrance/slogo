@@ -10,6 +10,6 @@ public class Random extends MathOneParam{
 
   @Override
   public String toString() {
-    return String.format("random %d\n", (int) getParam());
+    return String.format("random %f\n", getParam());
   }
 }

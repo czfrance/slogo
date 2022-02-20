@@ -9,6 +9,6 @@ public class Product extends MathTwoParam{
 
   @Override
   public String toString() {
-    return String.format("product %d %d\n", (int) getParamOne(), (int) getParamTwo());
+    return String.format("product %f %f\n", getParamOne(), getParamTwo());
   }
 }
