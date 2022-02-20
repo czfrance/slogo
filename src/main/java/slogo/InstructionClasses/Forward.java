@@ -1,4 +1,4 @@
-package slogo.InstructionClasses.TurtleCommands;
+package slogo.InstructionClasses;
 
 import java.util.Stack;
 import slogo.InstructionClasses.Instruction;
@@ -35,6 +35,6 @@ public class Forward extends Instruction {
 
   @Override
   public String toString() {
-    return String.format("forward %d\n", (int) myPixels);
+    return String.format("forward %f\n", myPixels);
   }
 }

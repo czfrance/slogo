@@ -2,7 +2,7 @@ package slogo.InstructionClasses;
 
 import java.util.Stack;
 
-public class BooleanOperations extends Instruction{
+public abstract class BooleanOperations extends Instruction{
 
 
   @Override

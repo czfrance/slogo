@@ -19,10 +19,18 @@ class CompilerTest {
 
 
   @Test
-  public void forwardTest()
+  public void simpleEnglishForwardTest()
       throws ClassNotFoundException, InvocationTargetException, NotAValueException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     String forwardInsn = "fd 50";
     myCompiler.getCommands(forwardInsn);
-    assertEquals("forward 50", myCompiler.toString());
+    assertEquals(String.format("forward %f\n", 50.0), myCompiler.toString());
+  }
+
+  @Test
+  public void simpleDoubleInstructionTest()
+      throws ClassNotFoundException, InvocationTargetException, NotAValueException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    String doubleInsn = "fd 50 rt 100";
+    myCompiler.getCommands(doubleInsn);
+    assertEquals(String.format("forward %f\nright %f\n", 50.0, 100.0), myCompiler.toString());
   }
 }

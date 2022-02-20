@@ -6,4 +6,9 @@ public class Sum extends MathTwoParam{
   public double returnValue() {
     return getParamOne()+getParamTwo();
   }
+
+  @Override
+  public String toString() {
+    return String.format("sum %f %f\n", getParamOne(), getParamTwo());
+  }
 }

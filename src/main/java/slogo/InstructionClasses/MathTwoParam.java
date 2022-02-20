@@ -19,6 +19,7 @@ public abstract class MathTwoParam extends Instruction {
     while(myExpressions.size()<MATHTWOPARAM_NUM_PARAM) {
       myExpressions.add(valueStack.pop());
     }
+    valueStack.push(this);
   }
 
   protected double getParamOne() {

@@ -1,4 +1,4 @@
-package slogo.InstructionClasses.TurtleCommands;
+package slogo.InstructionClasses;
 
 import java.util.Stack;
 import slogo.InstructionClasses.Instruction;
@@ -35,6 +35,6 @@ public class Left extends Instruction {
 
   @Override
   public String toString() {
-    return String.format("left %d\n", (int) myDegrees);
+    return String.format("left %f\n", myDegrees);
   }
 }
