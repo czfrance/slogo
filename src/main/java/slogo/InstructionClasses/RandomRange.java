@@ -12,4 +12,9 @@ public class RandomRange extends MathTwoParam{
     double rangeMax = getParamTwo();
     return rangeMin + (r.nextDouble() * (rangeMax - rangeMin));
   }
+
+  @Override
+  public String toString() {
+    return String.format("randomrange %d %d\n", (int) getParamOne(), (int) getParamTwo());
+  }
 }

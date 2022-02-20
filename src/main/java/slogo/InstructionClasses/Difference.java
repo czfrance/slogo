@@ -6,4 +6,9 @@ public class Difference extends MathTwoParam{
   public double returnValue() {
     return getParamOne()-getParamTwo();
   }
+
+  @Override
+  public String toString() {
+    return String.format("difference %d %d\n", (int) getParamOne(), (int) getParamTwo());
+  }
 }
