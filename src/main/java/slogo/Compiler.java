@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 import slogo.CompilerExceptions.NotAValueException;
-import slogo.InstructionClasses.Command;
+import slogo.InstructionClasses.Instruction;
 
 public class Compiler {
 
@@ -17,18 +17,18 @@ public class Compiler {
 
   private PatternParser syntaxParser = new PatternParser();
   private PatternParser languageParser = new PatternParser();
-  private Stack<Command> commandStack = new Stack<Command>();
-  private Stack<Command> valueStack = new Stack<Command>();
+  private Stack<Instruction> commandStack = new Stack<Instruction>();
+  private Stack<Instruction> valueStack = new Stack<Instruction>();
   private Queue<String> userInputQueue = new LinkedList<String>();
-  private Queue<Command> finalInstructionQueue = new LinkedList<Command>();
-  private Map<String, Command> variablesMap = new HashMap<String, Command>(); //change out command for variable instead
+  private Queue<Instruction> finalInstructionQueue = new LinkedList<Instruction>();
+  private Map<String, Instruction> variablesMap = new HashMap<String, Instruction>(); //change out command for variable instead
 
   public Compiler(String language) {
     syntaxParser.addPatterns("Syntax");
     languageParser.addPatterns(language);
   }
 
-  public Queue<Command> getCommands(String userInput)
+  public Queue<Instruction> getCommands(String userInput)
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, NotAValueException {
 
     finalInstructionQueue.clear();
@@ -62,9 +62,9 @@ public class Compiler {
       throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
     String cmdString = userInputQueue.poll();
     String translatedCmd = languageParser.getSymbol(cmdString);
-    Class<?> currCmdClass = Class.forName(translatedCmd);
+    Class<?> currCmdClass = Class.forName(INSTRUCTION_PACKAGE + translatedCmd);
     Constructor<?> cmdConstructor = currCmdClass.getConstructor();
-    Command currCmd = (Command) cmdConstructor.newInstance();
+    Instruction currCmd = (Instruction) cmdConstructor.newInstance();
 
     finalInstructionQueue.offer(currCmd);
     for(int i = 0; i<currCmd.getNumParameters(); i++) {
@@ -84,7 +84,6 @@ public class Compiler {
       }
     }
     currCmd.setParameters(valueStack);
-    valueStack.push(currCmd);
   }
 
   private void initializeAndPushValue()
@@ -95,16 +94,16 @@ public class Compiler {
       throw new NotAValueException();
     }
     valString = userInputQueue.poll();
-    Class<?> currValClass = Class.forName(valType);
+    Class<?> currValClass = Class.forName(INSTRUCTION_PACKAGE + valType);
     Constructor<?> valConstructor = currValClass.getConstructor(String.class);
-    Command currVal = (Command) valConstructor.newInstance(valString);
+    Instruction currVal = (Instruction) valConstructor.newInstance(valString);
 
     valueStack.push(currVal);
   }
 
   private void finishCmdStack() {
     while(!commandStack.isEmpty()) {
-      Command currCmd = commandStack.pop();
+      Instruction currCmd = commandStack.pop();
       currCmd.setParameters(valueStack);
     }
   }
