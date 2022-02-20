@@ -8,9 +8,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.beans.value.ObservableDoubleValue;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import slogo.Model.TurtleModel;
 import slogo.View.SketchbookView;
 
@@ -21,6 +25,8 @@ import slogo.View.SketchbookView;
 public class Main extends Application {
     private static final String LANGUAGE_RESOURCE_PATH = "/slogo/languages/";
     private static final String EXAMPLE_PROGRAMS_PATH = "/examples";
+    public static final int FRAMES_PER_SECOND = 60;
+    public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 
     /**
      * Get command in a given language.
@@ -67,20 +73,15 @@ public class Main extends Application {
     public void start(Stage stage) {
         TurtleModel model = new TurtleModel(0, 0, 90);
         model.addInsn("forward 100");
+        model.addInsn("back 200");
+        model.addInsn("forward 200");
+        model.addInsn("back 200");
         SketchbookView view = new SketchbookView(model);
         stage.setScene(view.makeScene());
         stage.show();
 
-        try {
-            Animation animation = view.makeAnimation();
-            animation.play();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        view.play();
+        model.addInsn("forward 50");
     }
 
     /**

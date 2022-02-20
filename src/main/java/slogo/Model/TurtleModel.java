@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class TurtleModel {
   InstructionModel insnModel;
@@ -20,12 +21,15 @@ public class TurtleModel {
     heading = startHeading;
   }
 
-  public Object runNextInsn()
+  public Optional<Object> runNextInsn()
       throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-    String[] insn = insnModel.getNextInsn().split(" ");
-    int[] params = makeInts(insn);
-    Method m = this.getClass().getDeclaredMethod(insn[0], params.getClass());
-    return m.invoke(this, params);
+    if (insnModel.hasNextInsn()) {
+      String[] insn = insnModel.getNextInsn().split(" ");
+      int[] params = makeInts(insn);
+      Method m = this.getClass().getDeclaredMethod(insn[0], params.getClass());
+      return Optional.of(m.invoke(this, params));
+    }
+    return Optional.empty();
   }
 
   public void addInsn(String instruction) {
@@ -47,6 +51,25 @@ public class TurtleModel {
     y = y + calcYchange(pixels);
     return pixels;
   }
+
+  private int back(int[] params) {
+    System.out.println("back");
+    int pixels = params[0];
+    x = x - calcXchange(pixels);
+    y = y - calcYchange(pixels);
+    return pixels;
+  }
+
+//  private int right(int[] params) {
+//    System.out.println("right");
+//    int degrees = params[0];
+//    heading = heading;
+//    return degrees;
+//  }
+//
+//  private double checkHeading(int tempHeading) {
+//    double newHeading = heading
+//  }
 
   private double calcXchange(int pixels) {
     return pixels * Math.cos(Math.toRadians(heading));

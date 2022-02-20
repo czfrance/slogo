@@ -2,6 +2,7 @@ package slogo.View;
 
 import java.awt.Dimension;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Optional;
 import javafx.animation.Animation;
 import javafx.animation.PathTransition;
 import javafx.animation.RotateTransition;
@@ -17,6 +18,8 @@ import slogo.Model.TurtleModel;
 
 public class SketchbookView {
   public static final Dimension DEFAULT_SIZE = new Dimension(400, 400);
+  public static final int TURTLE_SPEED = 25; //pixels per second
+
   TurtleModel myModel;
   TurtleView turtle;
 
@@ -37,23 +40,44 @@ public class SketchbookView {
         myModel.getHeading(), "turtleOutline", Color.RED);
   }
 
+  public void play() {
+    try {
+      Animation animation = makeAnimation();
+      animation.play();
+      animation.setOnFinished(e -> play());
+    } catch (InvocationTargetException e) {
+      e.printStackTrace();
+    } catch (NoSuchMethodException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    }
+  }
+
   public Animation makeAnimation ()
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     // create something to follow
 
     MoveTo move = new MoveTo(convertX(myModel.getNextPos()[0]), convertY(myModel.getNextPos()[1]));
-    myModel.runNextInsn();
     Path path = new Path();
-    path.getElements().addAll(move,
-        new LineTo(convertX(myModel.getNextPos()[0]), convertY(myModel.getNextPos()[1])));
-    // create an animation where the shape follows a path
-    PathTransition pt = new PathTransition(Duration.seconds(4), path, turtle);
+    Optional<Object> o = myModel.runNextInsn();
+    Duration currAnimDuration;
+    if (o.isPresent()) {
+      path.getElements().addAll(move,
+          new LineTo(convertX(myModel.getNextPos()[0]), convertY(myModel.getNextPos()[1])));
+      // create an animation where the shape follows a path
+      currAnimDuration = Duration.seconds((int) o.get() / TURTLE_SPEED);
+    } else {
+      currAnimDuration = Duration.seconds(0.1);
+
+    }
+    return new PathTransition(currAnimDuration, path, turtle);
+
 //    // create an animation that rotates the shape
 //    RotateTransition rt = new RotateTransition(Duration.seconds(3));
-//    rt.setByAngle(90);
+//    rt.setByAngle(-90);
 //    // put them together in order
-//    return new SequentialTransition(turtle, pt);
-    return pt;
+    //return new SequentialTransition(turtle, pt, rt);
   }
 
   private double convertX(double modelX) {
