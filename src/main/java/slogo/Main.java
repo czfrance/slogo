@@ -1,17 +1,24 @@
 package slogo;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import javafx.animation.Animation;
+import javafx.application.Application;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import slogo.Model.TurtleModel;
+import slogo.View.SketchbookView;
 
 
 /**
  * Feel free to completely change this code or delete it entirely. 
  */
-public class Main {
+public class Main extends Application {
     private static final String LANGUAGE_RESOURCE_PATH = "/slogo/languages/";
     private static final String EXAMPLE_PROGRAMS_PATH = "/examples";
 
@@ -56,13 +63,49 @@ public class Main {
     }
 
 
+    @Override
+    public void start(Stage stage) {
+        TurtleModel model = new TurtleModel(0, 0, 90);
+        model.addInsn("forward 100");
+        SketchbookView view = new SketchbookView(model);
+        stage.setScene(view.makeScene());
+        stage.show();
+
+        try {
+            Animation animation = view.makeAnimation();
+            animation.play();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Start of the program.
      */
-    public static void main (String[] args) {
-        Main m = new Main();
-        System.out.println(m.getVersion());
-        System.out.println(m.getCommand("English", "Forward"));
-        System.out.println(m.getExampleProgram("loops", "star"));
-    }
+//    public static void main (String[] args) {
+//        Main m = new Main();
+//        System.out.println(m.getVersion());
+//        System.out.println(m.getCommand("English", "Forward"));
+//        System.out.println(m.getExampleProgram("loops", "star"));
+//
+//        TurtleModel model = new TurtleModel(0, 0, 90);
+//        model.addInsn("forward 50");
+//        try {
+//            model.runNextInsn();
+//        } catch (NoSuchMethodException e) {
+//            e.printStackTrace();
+//        } catch (InvocationTargetException e) {
+//            e.printStackTrace();
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.printf("location: %f, %f\n", model.getNextPos()[0], model.getNextPos()[1]);
+//        SketchbookView view = new SketchbookView(model);
+//        view.makeScene();
+//
+//    }
 }
