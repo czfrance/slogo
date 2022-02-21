@@ -83,19 +83,19 @@ public class TurtleModel {
 
   private int setHeading(int[] params) {
     System.out.println("setHeading");
+
     double oldHeading = heading;
-    double newHeading = calcAbsHeading(params[0], params[1]);
-    heading = checkHeading(newHeading);
-    return (int)Math.abs(oldHeading - heading);
+    heading = checkHeading(params[0]);
+    return (int)(oldHeading - heading);
   }
 
   private int towards(int[] params) {
     System.out.println("towards");
     double oldHeading = heading;
-    heading = checkHeading(params[0]);
+    double newHeading = calcAbsHeading(params[0], params[1]);
+    heading = checkHeading(newHeading);
     return (int)Math.abs(oldHeading - heading);
   }
-
   private int setXY(int[] params) {
     System.out.println("setXY");
     myX = params[0];
