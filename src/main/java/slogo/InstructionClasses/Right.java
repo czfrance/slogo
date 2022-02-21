@@ -35,6 +35,6 @@ public class Right extends Instruction {
 
   @Override
   public String toString() {
-    return String.format("right %d\n", (int) myDegrees);
+    return String.format("right %f\n", myDegrees);
   }
 }

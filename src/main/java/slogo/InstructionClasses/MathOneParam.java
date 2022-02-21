@@ -1,4 +1,4 @@
-package slogo.InstructionClasses.MathOperations;
+package slogo.InstructionClasses;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +17,7 @@ public abstract class MathOneParam extends Instruction {
   public void setParameters(Stack<Instruction> valueStack) {
     //exception if not enough parameters needed to be implemented
     myParam = valueStack.pop().returnValue();
+    valueStack.push(this);
   }
 
   protected double getParam() {

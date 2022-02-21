@@ -2,11 +2,14 @@ package slogo;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
+import java.util.ResourceBundle;
 import java.util.Stack;
+import slogo.CompilerExceptions.CompilerException;
 import slogo.CompilerExceptions.NotAValueException;
 import slogo.InstructionClasses.Instruction;
 
@@ -14,22 +17,29 @@ public class Compiler {
 
   public static final String DELIMITER = "\\s+";
   public static final String INSTRUCTION_PACKAGE = "slogo.InstructionClasses.";
+  public static final String ERROR_RESOURCE_PACKAGE = "testfx.Error.";
 
-  private PatternParser syntaxParser = new PatternParser();
-  private PatternParser languageParser = new PatternParser();
+  private static ResourceBundle inputToMethodBundle = ResourceBundle.getBundle("slogo.languages.SyntaxMethods");
+  private PatternParser syntaxParser;
+  private PatternParser languageParser;
   private Stack<Instruction> commandStack = new Stack<Instruction>();
   private Stack<Instruction> valueStack = new Stack<Instruction>();
   private Queue<String> userInputQueue = new LinkedList<String>();
   private Queue<Instruction> finalInstructionQueue = new LinkedList<Instruction>();
   private Map<String, Instruction> variablesMap = new HashMap<String, Instruction>(); //change out command for variable instead
+  private ResourceBundle myErrorBundle;
+
 
   public Compiler(String language) {
+    myErrorBundle = ResourceBundle.getBundle(ERROR_RESOURCE_PACKAGE+language);
+    syntaxParser = new PatternParser();
+    languageParser = new PatternParser();
     syntaxParser.addPatterns("Syntax");
     languageParser.addPatterns(language);
   }
 
   public Queue<Instruction> getCommands(String userInput)
-      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, NotAValueException {
+      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, CompilerException {
 
     finalInstructionQueue.clear();
     makeUserInputStack(userInput);
@@ -37,29 +47,23 @@ public class Compiler {
     while(!userInputQueue.isEmpty()) {
       String currString = userInputQueue.peek();
       String currStringType = syntaxParser.getSymbol(currString);
-      if(currStringType.equals("Comment")) {
-        userInputQueue.poll();
-        continue;
-      }
-      if(currStringType.equals("UserCommand")) {
-        checkAndPushCommand();
-      }
-      //do this in initializeValue instead
       /*
-      else if(currStringType.equals("Variable")) {
-        initializeVariable();
+      if(currStringType.equals("Constant")) {
+        String errorMessage = myErrorBundle.get()
+        throw new CompilerException(myErrorBundle.get())
       }
-       */
-      else {
-        initializeAndPushValue();
-      }
+      */
+      String methodName = inputToMethodBundle.getString(currStringType);
+      Method inputMethod = this.getClass().getDeclaredMethod(methodName, null);
+      inputMethod.setAccessible(true);
+      Object returnValue = inputMethod.invoke(this);
     }
     finishCmdStack();
     return finalInstructionQueue;
   }
 
-  private void checkAndPushCommand()
-      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+  private void commandMethod()
+      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, CompilerException {
     String cmdString = userInputQueue.poll();
     String translatedCmd = languageParser.getSymbol(cmdString);
     Class<?> currCmdClass = Class.forName(INSTRUCTION_PACKAGE + translatedCmd);
@@ -68,15 +72,13 @@ public class Compiler {
 
     finalInstructionQueue.offer(currCmd);
     for(int i = 0; i<currCmd.getNumParameters(); i++) {
-      //implement exceptions later
-      /*
+
       if(userInputQueue.size() == 0) {
-        throw WrongNumParameterException();
+        throw new CompilerException(myErrorBundle.getString("numParamError"), cmdString, currCmd.getNumParameters());
       }
 
-       */
       try{
-        initializeAndPushValue();
+        constantMethod();
       }
       catch (Exception NotAValueException) {
         commandStack.push(currCmd);
@@ -86,7 +88,7 @@ public class Compiler {
     currCmd.setParameters(valueStack);
   }
 
-  private void initializeAndPushValue()
+  private void constantMethod()
       throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, NotAValueException {
     String valString = userInputQueue.peek();
     String valType = syntaxParser.getSymbol(valString);
@@ -112,6 +114,15 @@ public class Compiler {
     for (String token : userInput.split(DELIMITER)) {
       userInputQueue.offer(token);
     }
+  }
+
+  private Queue<String> getStringQueue() {
+    Queue<String> stringQueue = new LinkedList<String>();
+    while(!finalInstructionQueue.isEmpty()) {
+      Instruction currInstruction = finalInstructionQueue.poll();
+      stringQueue.offer(currInstruction.toString());
+    }
+    return stringQueue;
   }
 
   @Override

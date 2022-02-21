@@ -35,6 +35,6 @@ public class Forward extends Instruction {
 
   @Override
   public String toString() {
-    return String.format("forward %d\n", (int) myPixels);
+    return String.format("forward %f\n", myPixels);
   }
 }

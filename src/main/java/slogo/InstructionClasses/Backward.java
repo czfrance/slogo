@@ -37,6 +37,6 @@ public class Backward extends Instruction {
 
   @Override
   public String toString() {
-    return String.format("Backward %f\n", myPixels);
+    return String.format("back %f\n", myPixels);
   }
 }
