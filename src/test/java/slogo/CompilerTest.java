@@ -47,6 +47,14 @@ class CompilerTest {
   }
 
   @Test
+  public void differentLanguageInstructionWithCommentTest()
+      throws CompilerException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    myCompiler = new Compiler("Chinese");
+    String chineseInsn = "# this is a chinese instruction\nht 50";
+    myCompiler.getCommands(chineseInsn);
+    assertEquals(String.format("back %f\n", 50.0), myCompiler.toString());
+  }
+  @Test
   public void wrongParamNumTest()
       throws ClassNotFoundException, InvocationTargetException, NotAValueException, NoSuchMethodException, InstantiationException, IllegalAccessException, CompilerException {
     String wrongParamNumInsn = "fd";
