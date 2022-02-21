@@ -72,7 +72,8 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
         TurtleModel model = new TurtleModel(0, 0, 90);
-        model.addInsn("forward 100");
+//        Console input = new Console("", new Compiler(""));
+        model.addInsn("forward 200");
         model.addInsn("back 200");
         model.addInsn("forward 200");
         model.addInsn("back 200");
