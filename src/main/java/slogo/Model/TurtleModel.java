@@ -83,7 +83,8 @@ public class TurtleModel {
 
   private int setHeading(int[] params) {
     double oldHeading = heading;
-    heading = checkHeading(params[0]);
+    double newHeading = calcAbsHeading(params[0], params[1]);
+    heading = checkHeading(newHeading);
     return (int)Math.abs(oldHeading - heading);
   }
 
@@ -121,29 +122,39 @@ public class TurtleModel {
 
   private double calcAbsHeading(int x, int y) {
     double angleToX = calcAngleToX(x, y);
+    int quadrant = findQuadrant(x, y);
+
+    switch (quadrant) {
+      case 1 -> {return angleToX;}
+      case 2 -> {return 180-angleToX;}
+      case 3 -> {return 180+angleToX;}
+      default -> {return 360-angleToX;}
+    }
   }
 
   private double calcAngleToX(int x, int y) {
     double xDist = Math.abs(myX - x);
     double yDist = Math.abs(myY - y);
 
-    return Math.atan(xDist/yDist);
+    if (xDist == 0) {return 90;}
+
+    return Math.toDegrees(Math.atan(yDist/xDist));
   }
 
-//  private int findQuadrant(int x, int y) {
-//    if (x > 0 && y > 0) {
-//      return 1;
-//    }
-//    else if (x > 0 && y > 0) {
-//      return 1;
-//    }
-//    if (x > 0 && y > 0) {
-//      return 1;
-//    }
-//    if (x > 0 && y > 0) {
-//      return 1;
-//    }
-//  }
+  private int findQuadrant(int x, int y) {
+    if (x >= 0 && y >= 0) { //normal angle
+      return 1;
+    }
+    else if (x < 0 && y >= 0) { //180-angle
+      return 2;
+    }
+    else if (x < 0 && y < 0) { //180+angle
+      return 3;
+    }
+    else { //360-angle
+      return 4;
+    }
+  }
 
   private int calcDistanceToXY(int x, int y) {
     double xDist = Math.abs(myX - x);
