@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.ResourceBundle;
 import java.util.Stack;
+import slogo.CompilerExceptions.CompilerException;
 import slogo.CompilerExceptions.NotAValueException;
 import slogo.InstructionClasses.Instruction;
 
@@ -38,7 +39,7 @@ public class Compiler {
   }
 
   public Queue<Instruction> getCommands(String userInput)
-      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, NotAValueException {
+      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, CompilerException {
 
     finalInstructionQueue.clear();
     makeUserInputStack(userInput);
@@ -46,6 +47,12 @@ public class Compiler {
     while(!userInputQueue.isEmpty()) {
       String currString = userInputQueue.peek();
       String currStringType = syntaxParser.getSymbol(currString);
+      /*
+      if(currStringType.equals("Constant")) {
+        String errorMessage = myErrorBundle.get()
+        throw new CompilerException(myErrorBundle.get())
+      }
+      */
       String methodName = inputToMethodBundle.getString(currStringType);
       Method inputMethod = this.getClass().getDeclaredMethod(methodName, null);
       inputMethod.setAccessible(true);
@@ -56,7 +63,7 @@ public class Compiler {
   }
 
   private void commandMethod()
-      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+      throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, CompilerException {
     String cmdString = userInputQueue.poll();
     String translatedCmd = languageParser.getSymbol(cmdString);
     Class<?> currCmdClass = Class.forName(INSTRUCTION_PACKAGE + translatedCmd);
@@ -65,13 +72,11 @@ public class Compiler {
 
     finalInstructionQueue.offer(currCmd);
     for(int i = 0; i<currCmd.getNumParameters(); i++) {
-      //implement exceptions later
-      /*
+
       if(userInputQueue.size() == 0) {
-        throw WrongNumParameterException();
+        throw new CompilerException(myErrorBundle.getString("numParamError"), cmdString, currCmd.getNumParameters());
       }
 
-       */
       try{
         constantMethod();
       }
