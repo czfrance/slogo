@@ -98,9 +98,10 @@ public class TurtleModel {
   }
   private int setXY(int[] params) {
     System.out.println("setXY");
+    int distance = calcDistanceToXY(params[0], params[1]);
     myX = params[0];
     myY = params[1];
-    return calcDistanceToXY(params[0], params[1]);
+    return distance;
   }
 
   private int penDown(int[] params) {
