@@ -18,7 +18,8 @@ import slogo.Model.TurtleModel;
 
 public class SketchbookView {
   public static final Dimension DEFAULT_SIZE = new Dimension(400, 400);
-  public static final int TURTLE_SPEED = 25; //pixels per second
+  public static final int TURTLE_SPEED = 50; //pixels per second
+  public static final double NO_MOVEMENT = 0.01; //pixels per second
 
   TurtleModel myModel;
   TurtleView turtle;
@@ -37,7 +38,7 @@ public class SketchbookView {
 
   public TurtleView makeTurtle() {
     return new TurtleView(convertX(myModel.getNextPos()[0]), convertY(myModel.getNextPos()[1]),
-        myModel.getHeading(), "turtleOutline", Color.RED);
+        myModel.getHeading(), "turtle", Color.RED);
   }
 
   public void play() {
@@ -54,6 +55,13 @@ public class SketchbookView {
     }
   }
 
+
+  /*
+   TODO: CREATE PATH AND ROTATION BASED ON WHAT IS CHANGED (MAKE BOTH AND PASS THE
+    SEQUENTIAL TRANSITION WITH BOTH IN IT
+   todo:
+    figure out how all this ties in with turtleView
+  */
   public Animation makeAnimation ()
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     // create something to follow
@@ -68,7 +76,7 @@ public class SketchbookView {
       // create an animation where the shape follows a path
       currAnimDuration = Duration.seconds((int) o.get() / TURTLE_SPEED);
     } else {
-      currAnimDuration = Duration.seconds(0.1);
+      currAnimDuration = Duration.seconds(NO_MOVEMENT);
 
     }
     return new PathTransition(currAnimDuration, path, turtle);
