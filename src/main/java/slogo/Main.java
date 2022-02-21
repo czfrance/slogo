@@ -73,19 +73,20 @@ public class Main extends Application {
     public void start(Stage stage) {
         TurtleModel model = new TurtleModel(0, 0, 90);
 //        Console input = new Console("", new Compiler(""));
-       model.addInsn("forward 100");
-        model.addInsn("back 200");
-        model.addInsn("forward 200");
-        model.addInsn("back 200");
-        model.addInsn("right 45");
-        model.addInsn("left 90");
-        model.addInsn("");
-        SketchbookView view = new SketchbookView(model);
-        stage.setScene(view.makeScene());
-        stage.show();
+      model.addInsn("forward 100");
+      model.addInsn("back 100");
+      model.addInsn("right 45");
+      model.addInsn("left 90");
+      model.addInsn("setHeading 270");
+      model.addInsn("towards -1 0");
+      model.addInsn("setXY -1 0");
 
-        view.play();
-        //model.addInsn("forward 50");
+      SketchbookView view = new SketchbookView(model);
+      stage.setScene(view.makeScene());
+      stage.show();
+
+      view.play();
+      //model.addInsn("forward 50");
     }
 
     /**
