@@ -31,7 +31,7 @@ public class Compiler {
 
 
   public Compiler(String language) {
-    myErrorBundle = ResourceBundle.getBundle(ERROR_RESOURCE_PACKAGE+language);
+    myErrorBundle = ResourceBundle.getBundle(ERROR_RESOURCE_PACKAGE+"English");
     syntaxParser = new PatternParser();
     languageParser = new PatternParser();
     syntaxParser.addPatterns("Syntax");
@@ -72,7 +72,6 @@ public class Compiler {
 
     finalInstructionQueue.offer(currCmd);
     for(int i = 0; i<currCmd.getNumParameters(); i++) {
-
       if(userInputQueue.size() == 0) {
         throw new CompilerException(myErrorBundle.getString("numParamError"), cmdString, currCmd.getNumParameters());
       }
@@ -103,6 +102,10 @@ public class Compiler {
     valueStack.push(currVal);
   }
 
+  private void commentMethod() {
+    userInputQueue.poll();
+  }
+
   private void finishCmdStack() {
     while(!commandStack.isEmpty()) {
       Instruction currCmd = commandStack.pop();
@@ -111,8 +114,12 @@ public class Compiler {
   }
 
   private void makeUserInputStack(String userInput) {
-    for (String token : userInput.split(DELIMITER)) {
-      userInputQueue.offer(token);
+    for(String line : userInput.split("\n")) {
+      if(!syntaxParser.getSymbol(line).equals("Comment")) { // can't have space after newline after comment
+        for (String token : line.split(DELIMITER)) {
+          userInputQueue.offer(token);
+        }
+      }
     }
   }
 
