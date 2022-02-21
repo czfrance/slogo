@@ -21,7 +21,7 @@ public class TurtleModel {
   boolean penIsDown;
   boolean isShowing;
 
-  public TurtleModel(double startX, double startY, int startHeading) {
+  public TurtleModel(double startX, double startY, double startHeading) {
     insnModel = new InstructionModel();
     myX = startX;
     myY = startY;
@@ -71,14 +71,14 @@ public class TurtleModel {
     System.out.println("right");
     int degrees = params[0];
     heading = checkHeading(heading - degrees);
-    return -1*degrees;
+    return degrees;
   }
 
   private int left(int[] params) {
     System.out.println("left");
     int degrees = params[0];
     heading = checkHeading(heading + degrees);
-    return degrees;
+    return -1*degrees;
   }
 
   private int setHeading(int[] params) {
