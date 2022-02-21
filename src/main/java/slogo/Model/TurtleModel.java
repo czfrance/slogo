@@ -71,7 +71,7 @@ public class TurtleModel {
     System.out.println("right");
     int degrees = params[0];
     heading = checkHeading(heading - degrees);
-    return degrees;
+    return -1*degrees;
   }
 
   private int left(int[] params) {
@@ -82,6 +82,7 @@ public class TurtleModel {
   }
 
   private int setHeading(int[] params) {
+    System.out.println("setHeading");
     double oldHeading = heading;
     double newHeading = calcAbsHeading(params[0], params[1]);
     heading = checkHeading(newHeading);
@@ -89,33 +90,39 @@ public class TurtleModel {
   }
 
   private int towards(int[] params) {
+    System.out.println("towards");
     double oldHeading = heading;
     heading = checkHeading(params[0]);
     return (int)Math.abs(oldHeading - heading);
   }
 
   private int setXY(int[] params) {
+    System.out.println("setXY");
     myX = params[0];
     myY = params[1];
     return calcDistanceToXY(params[0], params[1]);
   }
 
   private int penDown(int[] params) {
+    System.out.println("penDown");
     penIsDown = true;
     return PEN_DOWN;
   }
 
   private int penUp(int[] params) {
+    System.out.println("penUp");
     penIsDown = false;
     return PEN_UP;
   }
 
   private int showTurtle(int[] params) {
+    System.out.println("showTurtle");
     isShowing = true;
     return SHOWING;
   }
 
   private int hideTurtle(int[] params) {
+    System.out.println("hideTurtle");
     isShowing = false;
     return HIDDEN;
   }
