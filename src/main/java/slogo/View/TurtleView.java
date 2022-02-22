@@ -9,6 +9,26 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
+/**
+ * View part of turtle that handles UI elements of the turtle and what the user sees
+ * @author Thivya Sivarajah
+ */
+
+
+
+//public interface TurtleView {
+//
+//    /**
+//     * updates turtleView with the new coordinates, heading, and other turtle queries from turtle model
+//     * @author Thivya Sivarajah
+//     */
+//    public void updateTurtleView();
+//
+//    void updateTurtle(double x, double y, double heading, Color color);
+//}
+
+
+
 public class TurtleView extends ImageView {
 
   public static final String RESOURCE_PATH = "/";
@@ -69,3 +89,4 @@ public class TurtleView extends ImageView {
   //TODO need to use PathTransitions to do stuff (see spike)
 
 }
+

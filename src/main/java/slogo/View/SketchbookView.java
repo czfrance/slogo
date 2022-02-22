@@ -10,6 +10,7 @@ import javafx.animation.RotateTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Transition;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
@@ -35,14 +36,24 @@ public class SketchbookView {
 
   public Scene makeScene () {
     Group root = new Group();
-    root.getChildren().add(turtle);
+    root.getChildren().add((Node) turtle);
     return new Scene(root, DEFAULT_SIZE.width, DEFAULT_SIZE.height);
 
   }
 
   public TurtleView makeTurtle() {
     return new TurtleView(convertX(myModel.getNextPos()[0]), convertY(myModel.getNextPos()[1]),
-        myModel.getHeading(), "turtle", Color.RED);
+            myModel.getHeading(), "turtle", Color.RED) {
+//      @Override
+//      public void updateTurtleView() {
+//
+//      }
+
+      @Override
+      public void updateTurtle(double x, double y, double heading, Color color) {
+
+      }
+    };
   }
 
   public void play() {
@@ -226,4 +237,5 @@ public class SketchbookView {
   public void updateTurtle(double x, double y, double heading, Color color) {
     turtle.updateTurtle(x, y, heading, color);
   }
+
 }
