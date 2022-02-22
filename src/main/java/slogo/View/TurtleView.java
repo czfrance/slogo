@@ -1,10 +1,5 @@
 package slogo.View;
 
-/**
- * View part of turtle that handles UI elements of the turtle and what the user sees
- * @author Thivya Sivarajah
- */
-
 import java.awt.Dimension;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -18,74 +13,83 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import slogo.Model.TurtleModel;
 
-public interface TurtleView {
-
-    /**
-     * updates turtleView with the new coordinates, heading, and other turtle queries from turtle model
-     * @author Thivya Sivarajah
-     */
-    public void updateTurtleView();
-}
+/**
+ * View part of turtle that handles UI elements of the turtle and what the user sees
+ * @author Thivya Sivarajah
+ */
 
 
 
-//public class TurtleView extends ImageView {
+//public interface TurtleView {
 //
-//  public static final String RESOURCE_PATH = "/";
-//  public static final String IMAGE_EXTENSION = ".png";
-//  public static final Dimension TURTLE_DEFAULT_SIZE = new Dimension(25, 25);
-//  public static final double ColorZlocation = 1000;
+//    /**
+//     * updates turtleView with the new coordinates, heading, and other turtle queries from turtle model
+//     * @author Thivya Sivarajah
+//     */
+//    public void updateTurtleView();
 //
-//  Lighting lighting = new Lighting();
-//  Light.Point turtleColor = new Light.Point();
-//
-//
-//  public TurtleView(double x, double y, double heading, String imageName, Color color) {
-//    super(new Image(RESOURCE_PATH + imageName + IMAGE_EXTENSION));
-//    prepColor(x, y, color);
-//    setSize();
-//    setLocation(x, y);
-//    setRotate(360-heading);
-//  }
-//
-//  public void updateTurtle(double x, double y, double heading, Color color) {
-//    setColor(x, y, color);
-//    setLocation(x, y);
-//    setRotate(360-heading);
-//  }
-//
-//  private void prepColor(double x, double y, Color color) {
-//    setColor(x, y, color);
-//    lighting.setLight(turtleColor);
-//    setEffect(lighting);
-//  }
-//
-//  private void setColor(double x, double y, Color color) {
-//    turtleColor.setX(x);
-//    turtleColor.setY(y);
-//    turtleColor.setZ(ColorZlocation);
-//    turtleColor.setColor(color);
-//  }
-//
-//  private void setLocation(double x, double y) {
-//    double[] location = calcCenter(x, y);
-//    setX(location[0]);
-//    setY(location[1]);
-//  }
-//
-//  private double[] calcCenter(double x, double y) {
-//    //return new double[] {x, y};
-//    double centerX = getFitWidth() / 2;
-//    double centerY = getFitHeight() / 2;
-//    return new double[] {x - centerX, y - centerY};
-//  }
-//
-//  private void setSize() {
-//    setFitWidth(TURTLE_DEFAULT_SIZE.width);
-//    setFitHeight(TURTLE_DEFAULT_SIZE.height);
-//  }
-//
-//  //TODO need to use PathTransitions to do stuff (see spike)
-//
+//    void updateTurtle(double x, double y, double heading, Color color);
 //}
+
+
+
+public class TurtleView extends ImageView {
+
+  public static final String RESOURCE_PATH = "/";
+  public static final String IMAGE_EXTENSION = ".png";
+  public static final Dimension TURTLE_DEFAULT_SIZE = new Dimension(25, 25);
+  public static final double ColorZlocation = 1000;
+
+  Lighting lighting = new Lighting();
+  Light.Point turtleColor = new Light.Point();
+
+
+  public TurtleView(double x, double y, double heading, String imageName, Color color) {
+    super(new Image(RESOURCE_PATH + imageName + IMAGE_EXTENSION));
+    prepColor(x, y, color);
+    setSize();
+    setLocation(x, y);
+    setRotate(360-heading);
+  }
+
+  public void updateTurtle(double x, double y, double heading, Color color) {
+    setColor(x, y, color);
+    setLocation(x, y);
+    setRotate(360-heading);
+  }
+
+  private void prepColor(double x, double y, Color color) {
+    setColor(x, y, color);
+    lighting.setLight(turtleColor);
+    setEffect(lighting);
+  }
+
+  private void setColor(double x, double y, Color color) {
+    turtleColor.setX(x);
+    turtleColor.setY(y);
+    turtleColor.setZ(ColorZlocation);
+    turtleColor.setColor(color);
+  }
+
+  private void setLocation(double x, double y) {
+    double[] location = calcCenter(x, y);
+    setX(location[0]);
+    setY(location[1]);
+  }
+
+  private double[] calcCenter(double x, double y) {
+    //return new double[] {x, y};
+    double centerX = getFitWidth() / 2;
+    double centerY = getFitHeight() / 2;
+    return new double[] {x - centerX, y - centerY};
+  }
+
+  private void setSize() {
+    setFitWidth(TURTLE_DEFAULT_SIZE.width);
+    setFitHeight(TURTLE_DEFAULT_SIZE.height);
+  }
+
+  //TODO need to use PathTransitions to do stuff (see spike)
+
+}
 
