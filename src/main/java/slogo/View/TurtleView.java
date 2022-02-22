@@ -1,17 +1,13 @@
 package slogo.View;
 
 import java.awt.Dimension;
-import javafx.scene.Group;
+
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.effect.ColorInput;
 import javafx.scene.effect.Light;
 import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Shape;
-import slogo.Model.TurtleModel;
 
 public class TurtleView extends ImageView {
 
@@ -68,6 +64,7 @@ public class TurtleView extends ImageView {
     setFitWidth(TURTLE_DEFAULT_SIZE.width);
     setFitHeight(TURTLE_DEFAULT_SIZE.height);
   }
+
 
   //TODO need to use PathTransitions to do stuff (see spike)
 
