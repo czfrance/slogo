@@ -1,5 +1,6 @@
 package slogo;
 
+import java.awt.*;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
@@ -7,6 +8,8 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.List;
+
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -21,14 +24,30 @@ import slogo.View.SketchbookView;
 
 
 /**
- * Feel free to completely change this code or delete it entirely. 
+ * Purpose: The main class which the program is run from. Contains the bare necessary static
+ * final variables for the start method in taking and creating a CellSocietyView object to display
+ *
+ * Assumptions: Wouldn't do much besides start up the simulation and display it
+ *
+ * Depends on SimulationInfo, extends Application, JavaFx stage and dimension to accomplish its task
+ *
+ * Example: When we run the program, it should start up the simulation viewer.
+ *
+ * Other: N/A
+ *
+ * @author Brandon Bae, Cynthia France, Prajwal Jagdish, & Thivya Sivarajah
  */
 public class Main extends Application {
+    // useful names for constant values used, ADD TO RESOURCE FILE (note to self from Thivya)
+    public static final String TITLE = "Cell Society";
+    public static final String LANGUAGE = "English";
+    public static final Dimension DEFAULT_SIZE = new Dimension(800, 600);
     private static final String LANGUAGE_RESOURCE_PATH = "/slogo/languages/";
     private static final String EXAMPLE_PROGRAMS_PATH = "/examples";
     public static final int FRAMES_PER_SECOND = 60;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 
+    // the next three methods should be used somewhere else if we are to make an efficient use of design
     /**
      * Get command in a given language.
      */
@@ -72,6 +91,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
+        // let's make someting called dashboard view as a class
         TurtleModel model = new TurtleModel(0, 0, 90);
 //        Console input = new Console("", new Compiler(""));
         model.addInsn("forward 200");
@@ -83,7 +103,7 @@ public class Main extends Application {
         stage.show();
 
         view.play();
-        model.addInsn("forward 50");
+
     }
 
     /**
