@@ -57,7 +57,6 @@ public class Console {
     chooseScript.setOnAction(e->{
       try {
         File script = fileChoice(myStage);
-        //System.out.println(fileToString(script));
         myCompiler.getCommands(fileToString(script));
       }
       catch(Exception err){
@@ -68,6 +67,7 @@ public class Console {
       if(!myConsole.getText().isEmpty()){
         try{
           myCompiler.getCommands(myConsole.getText());
+          myConsole.clear();
         }catch(Exception err){
           generateAlert(err.getStackTrace().toString());
         }
