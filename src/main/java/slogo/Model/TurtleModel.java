@@ -129,6 +129,10 @@ public class TurtleModel {
   }
 
   private double calcAbsHeading(int x, int y) {
+    if (x == myX && y == myY) {
+      return heading;
+    }
+
     double angleToX = calcAngleToX(x, y);
     int quadrant = findQuadrant(x, y);
 
