@@ -37,18 +37,18 @@ public class OpeningWindow {
 
     private void createScreen() {
         language = "English";
-        createElements("English");
+        // createElements("English");
         myPane.getChildren().add(myContainer);
     }
 
-    private void createElements(String val) {
-        myContainer.getChildren().clear();
-        myWelcome = new Label(myResources.getString("Welcome"));
-        selectLang = new Label(myResources.getString("SelectLanguage"));
-        myWelcome.setId("welcomeText");
-        myContainer.setId("welcomeScreen");
-        myContainer.getChildren().addAll(myWelcome, selectLang, myLangChoiceBox);
-    }
+//    private void createElements(String val) {
+//        myContainer.getChildren().clear();
+//        myWelcome = new Label(myResources.getString("Welcome"));
+//        selectLang = new Label(myResources.getString("SelectLanguage"));
+//        myWelcome.setId("welcomeText");
+//        myContainer.setId("welcomeScreen");
+//        myContainer.getChildren().addAll(myWelcome, selectLang, myLangChoiceBox);
+//    }
 
 
     public Pane getPane() {
