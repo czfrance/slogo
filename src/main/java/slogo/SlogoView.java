@@ -43,9 +43,8 @@ public class SlogoView {
     private String STYLESHEET;
 
     private ResourceBundle myResources;
-    private GridPane gridOfSimulations;
     private BorderPane myRoot;
-    // private SimulationInfo initialRecord;
+
     private OpeningWindow myWelcome;
     private HBox TitleBox;
     private ScrollPane ScrollBox;
@@ -91,43 +90,21 @@ public class SlogoView {
         myRoot.getChildren().clear();
         myWelcome = new OpeningWindow(myResources);
         myRoot.setCenter(myWelcome.getPane());
+        Button proceed = SlogoView.makeButton("Go", event -> displayWelcome(),
+                myResources);
+        myRoot.setBottom(proceed);
         currentGridY = 0;
         currentGridX = 0;
     }
 
-//    //sets the root to contain the elements of the main application: the title, bottom configuration
-//    //panel and the grid of simulations
-//    private void displayApplication() {
-//        myRoot.getChildren().clear();
-//        ScrollBox = new ScrollPane();
-//        myRoot.setTop(makeTitle());
-//        myRoot.setCenter(ScrollBox);
-//        // addSimulation();
-//    }
-
-//    //creates a popup message with the given passed message as a parameter
-//    public static void showMessage(Alert.AlertType type, String message) {
-//        (new Alert(type, message, new ButtonType[0])).showAndWait();
-//    }
-
-//        //creates a title centered on the top section of the root.
-//        private Node makeTitle() {
-//            TitleBox = new HBox();
-//            titleText = new Label(myResources.getString("Title"));
-//            titleText.setId("title");
-//            TitleBox.getChildren().add(titleText);
-//            TitleBox.setId("titleBox");
-//            return TitleBox;
-//        }
-//
-//        //returns a button with the title provided linked to the event passed as a parameter
-//        public static Button makeButton(String property, EventHandler<ActionEvent> handler,
-//                                        ResourceBundle resources) {
-//            Button result = new Button();
-//            String label = resources.getString(property);
-//            result.setText(label);
-//            result.setOnAction(handler);
-//            return result;
-//        }
+    //returns a button with the title provided linked to the event passed as a parameter
+    public static Button makeButton(String property, EventHandler<ActionEvent> handler,
+                                    ResourceBundle resources) {
+        Button result = new Button();
+        String label = resources.getString(property);
+        result.setText(label);
+        result.setOnAction(handler);
+        return result;
+    }
 
 }
