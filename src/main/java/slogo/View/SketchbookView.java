@@ -53,6 +53,11 @@ public class SketchbookView {
       public void updateTurtle(double x, double y, double heading, Color color) {
 
       }
+
+      @Override
+      public void updateTurtleView() {
+
+      }
     };
   }
 
