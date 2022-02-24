@@ -1,6 +1,8 @@
-package slogo.InstructionClasses;
+package slogo.InstructionClasses.Arithmetic;
 
-public class Power extends MathTwoParam{
+import slogo.InstructionClasses.Arithmetic.MathTwoParam;
+
+public class Power extends MathTwoParam {
 
   @Override
   public double returnValue() {

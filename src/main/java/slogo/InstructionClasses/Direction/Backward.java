@@ -1,4 +1,4 @@
-package slogo.InstructionClasses;
+package slogo.InstructionClasses.Direction;
 
 import java.util.Stack;
 import slogo.InstructionClasses.Instruction;

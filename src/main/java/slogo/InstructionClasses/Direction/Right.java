@@ -1,14 +1,14 @@
-package slogo.InstructionClasses;
+package slogo.InstructionClasses.Direction;
 
 import java.util.Stack;
 import slogo.InstructionClasses.Instruction;
 
-public class Forward extends Instruction {
-  private double myPixels = 0;
-  public static final int FORWARD_PARAM_NUM = 1;
+public class Right extends Instruction {
+  private double myDegrees = 0;
+  public static final int RIGHT_PARAM_NUM = 1;
 
-  public Forward() {
-    super(FORWARD_PARAM_NUM);
+  public Right() {
+    super(RIGHT_PARAM_NUM);
   }
 
   @Override
@@ -19,13 +19,13 @@ public class Forward extends Instruction {
       throw BadArgumentException;
     }
     */
-    myPixels = currParam.returnValue();
+    myDegrees = currParam.returnValue();
     valueStack.push(this);
   }
 
   @Override
   public double returnValue() {
-    return myPixels;
+    return myDegrees;
   }
 
   @Override
@@ -35,6 +35,6 @@ public class Forward extends Instruction {
 
   @Override
   public String toString() {
-    return String.format("forward %f\n", myPixels);
+    return String.format("right %f\n", myDegrees);
   }
 }

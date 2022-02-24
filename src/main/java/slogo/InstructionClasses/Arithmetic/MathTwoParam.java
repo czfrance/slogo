@@ -1,4 +1,4 @@
-package slogo.InstructionClasses;
+package slogo.InstructionClasses.Arithmetic;
 
 import java.util.ArrayList;
 import java.util.List;
