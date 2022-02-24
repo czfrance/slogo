@@ -95,13 +95,6 @@ public class SlogoView {
         currentGridX = 0;
     }
 
-    //chooses the resource bundle to use based on the type
-    private void submitLanguage() {
-        myResources = myWelcome.getMyResources();
-        myRoot.setTop(makeTitle());
-        displayApplication();
-    }
-
     //sets the root to contain the elements of the main application: the title, bottom configuration
     //panel and the grid of simulations
     private void displayApplication() {
