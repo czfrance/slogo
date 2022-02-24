@@ -1,7 +1,5 @@
 package slogo.InstructionClasses.Arithmetic;
 
-import slogo.InstructionClasses.MathTwoParam;
-
 public class Difference extends MathTwoParam {
 
   @Override
