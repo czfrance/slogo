@@ -88,6 +88,9 @@ public class Main extends Application {
         }
     }
 
+    /**
+     * Start of the program.
+     */
 
     @Override
     public void start(Stage stage) {
