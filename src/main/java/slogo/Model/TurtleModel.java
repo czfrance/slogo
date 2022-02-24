@@ -21,7 +21,7 @@ public class TurtleModel {
   boolean penIsDown;
   boolean isShowing;
 
-  public TurtleModel(double startX, double startY, int startHeading) {
+  public TurtleModel(double startX, double startY, double startHeading) {
     insnModel = new InstructionModel();
     myX = startX;
     myY = startY;
@@ -71,36 +71,37 @@ public class TurtleModel {
     System.out.println("right");
     int degrees = params[0];
     heading = checkHeading(heading - degrees);
-    return -1*degrees;
+    return degrees;
   }
 
   private int left(int[] params) {
     System.out.println("left");
     int degrees = params[0];
     heading = checkHeading(heading + degrees);
-    return degrees;
+    return -1*degrees;
   }
 
   private int setHeading(int[] params) {
     System.out.println("setHeading");
+
     double oldHeading = heading;
-    double newHeading = calcAbsHeading(params[0], params[1]);
-    heading = checkHeading(newHeading);
-    return (int)Math.abs(oldHeading - heading);
+    heading = checkHeading(params[0]);
+    return (int)(oldHeading - heading);
   }
 
   private int towards(int[] params) {
     System.out.println("towards");
     double oldHeading = heading;
-    heading = checkHeading(params[0]);
+    double newHeading = calcAbsHeading(params[0], params[1]);
+    heading = checkHeading(newHeading);
     return (int)Math.abs(oldHeading - heading);
   }
-
   private int setXY(int[] params) {
     System.out.println("setXY");
+    int distance = calcDistanceToXY(params[0], params[1]);
     myX = params[0];
     myY = params[1];
-    return calcDistanceToXY(params[0], params[1]);
+    return distance;
   }
 
   private int penDown(int[] params) {
@@ -128,6 +129,10 @@ public class TurtleModel {
   }
 
   private double calcAbsHeading(int x, int y) {
+    if (x == myX && y == myY) {
+      return heading;
+    }
+
     double angleToX = calcAngleToX(x, y);
     int quadrant = findQuadrant(x, y);
 
