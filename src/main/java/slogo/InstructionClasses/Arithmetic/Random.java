@@ -1,6 +1,8 @@
-package slogo.InstructionClasses;
+package slogo.InstructionClasses.Arithmetic;
 
-public class Random extends MathOneParam{
+import slogo.InstructionClasses.Arithmetic.MathOneParam;
+
+public class Random extends MathOneParam {
 
   @Override
   public double returnValue() {

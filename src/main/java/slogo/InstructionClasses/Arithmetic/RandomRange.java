@@ -1,8 +1,10 @@
-package slogo.InstructionClasses;
+package slogo.InstructionClasses.Arithmetic;
+
+import slogo.InstructionClasses.Arithmetic.MathTwoParam;
 
 import java.util.Random;
 
-public class RandomRange extends MathTwoParam{
+public class RandomRange extends MathTwoParam {
 
   @Override
   public double returnValue() {

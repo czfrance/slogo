@@ -1,6 +1,8 @@
-package slogo.InstructionClasses;
+package slogo.InstructionClasses.Arithmetic;
 
-public class Quotient extends MathTwoParam{
+import slogo.InstructionClasses.Arithmetic.MathTwoParam;
+
+public class Quotient extends MathTwoParam {
 
   @Override
   public double returnValue() {
