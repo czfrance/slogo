@@ -175,10 +175,6 @@ public class TurtleModel {
     return (int)Math.sqrt(xDist*xDist + yDist*yDist);
   }
 
-//  private double calcDegreestoXY(int x, int y) {
-//
-//  }
-
   private double checkHeading(double tempHeading) {
     if (tempHeading < 0) {
       return 360 + tempHeading;
