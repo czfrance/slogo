@@ -37,7 +37,7 @@ public class SlogoView {
      * @author Thivya Sivarjah
      */
 
-    public static final String DEFAULT_RESOURCE_PACKAGE = "/";
+    public static final String DEFAULT_RESOURCE_PACKAGE = "/slogo.languages/";
     private static final String DARK_BACKGROUND = "-fx-background-color: BLACK";
     private static final String LIGHT_BACKGROUND = "-fx-background-color: BEIGE";
     private String STYLESHEET;
@@ -67,7 +67,7 @@ public class SlogoView {
         currentGridY = 0;
         currentGridX = 0;
         myRoot = new BorderPane();
-        STYLESHEET = "dayMode.css";
+        STYLESHEET = "welcome.css";
         inNightMode = false;
     }
 
@@ -82,7 +82,7 @@ public class SlogoView {
         displayWelcome();
         Scene scene = new Scene(myRoot, width, height);
         scene.getStylesheets()
-                .add(getClass().getResource(DEFAULT_RESOURCE_PACKAGE + STYLESHEET).toExternalForm());
+                .add(getClass().getResource("/welcome.css").toExternalForm());
         return scene;
     }
 
@@ -95,39 +95,39 @@ public class SlogoView {
         currentGridX = 0;
     }
 
-    //sets the root to contain the elements of the main application: the title, bottom configuration
-    //panel and the grid of simulations
-    private void displayApplication() {
-        myRoot.getChildren().clear();
-        ScrollBox = new ScrollPane();
-        myRoot.setTop(makeTitle());
-        myRoot.setCenter(ScrollBox);
-        // addSimulation();
-    }
+//    //sets the root to contain the elements of the main application: the title, bottom configuration
+//    //panel and the grid of simulations
+//    private void displayApplication() {
+//        myRoot.getChildren().clear();
+//        ScrollBox = new ScrollPane();
+//        myRoot.setTop(makeTitle());
+//        myRoot.setCenter(ScrollBox);
+//        // addSimulation();
+//    }
 
-    //creates a popup message with the given passed message as a parameter
-    public static void showMessage(Alert.AlertType type, String message) {
-        (new Alert(type, message, new ButtonType[0])).showAndWait();
-    }
+//    //creates a popup message with the given passed message as a parameter
+//    public static void showMessage(Alert.AlertType type, String message) {
+//        (new Alert(type, message, new ButtonType[0])).showAndWait();
+//    }
 
-        //creates a title centered on the top section of the root.
-        private Node makeTitle() {
-            TitleBox = new HBox();
-            titleText = new Label(myResources.getString("Title"));
-            titleText.setId("title");
-            TitleBox.getChildren().add(titleText);
-            TitleBox.setId("titleBox");
-            return TitleBox;
-        }
-
-        //returns a button with the title provided linked to the event passed as a parameter
-        public static Button makeButton(String property, EventHandler<ActionEvent> handler,
-                                        ResourceBundle resources) {
-            Button result = new Button();
-            String label = resources.getString(property);
-            result.setText(label);
-            result.setOnAction(handler);
-            return result;
-        }
+//        //creates a title centered on the top section of the root.
+//        private Node makeTitle() {
+//            TitleBox = new HBox();
+//            titleText = new Label(myResources.getString("Title"));
+//            titleText.setId("title");
+//            TitleBox.getChildren().add(titleText);
+//            TitleBox.setId("titleBox");
+//            return TitleBox;
+//        }
+//
+//        //returns a button with the title provided linked to the event passed as a parameter
+//        public static Button makeButton(String property, EventHandler<ActionEvent> handler,
+//                                        ResourceBundle resources) {
+//            Button result = new Button();
+//            String label = resources.getString(property);
+//            result.setText(label);
+//            result.setOnAction(handler);
+//            return result;
+//        }
 
 }

@@ -1,0 +1,9 @@
+/* Opening Window */
+
+#OpeningWindow{
+    -fx-alignment: center;
+    -fx-pref-width: 1440px;
+    -fx-pref-height: 721px;
+    -fx-background-color: #FFFFFFF;
+    -fx-background-position: relative;
+}
