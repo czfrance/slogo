@@ -1,6 +1,4 @@
-package slogo.InstructionClasses.Arithmetic;
-
-import slogo.InstructionClasses.Arithmetic.MathTwoParam;
+package slogo.InstructionClasses.MathOperations;
 
 public class Power extends MathTwoParam {
 

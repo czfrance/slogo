@@ -1,4 +1,4 @@
-package slogo.InstructionClasses.Arithmetic;
+package slogo.InstructionClasses.MathOperations;
 
 public class Difference extends MathTwoParam {
 

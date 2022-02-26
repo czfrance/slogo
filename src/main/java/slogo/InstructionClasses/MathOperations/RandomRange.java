@@ -1,6 +1,4 @@
-package slogo.InstructionClasses.Arithmetic;
-
-import slogo.InstructionClasses.Arithmetic.MathTwoParam;
+package slogo.InstructionClasses.MathOperations;
 
 import java.util.Random;
 

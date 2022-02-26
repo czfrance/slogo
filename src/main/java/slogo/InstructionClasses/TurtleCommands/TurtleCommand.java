@@ -1,4 +1,4 @@
-package slogo.InstructionClasses;
+package slogo.InstructionClasses.TurtleCommands;
 
 import java.util.Stack;
 import slogo.InstructionClasses.Instruction;

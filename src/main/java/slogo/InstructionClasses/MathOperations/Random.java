@@ -1,6 +1,4 @@
-package slogo.InstructionClasses.Arithmetic;
-
-import slogo.InstructionClasses.Arithmetic.MathOneParam;
+package slogo.InstructionClasses.MathOperations;
 
 public class Random extends MathOneParam {
 

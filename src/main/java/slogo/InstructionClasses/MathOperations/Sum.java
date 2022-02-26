@@ -1,6 +1,4 @@
-package slogo.InstructionClasses.Arithmetic;
-
-import slogo.InstructionClasses.Arithmetic.MathTwoParam;
+package slogo.InstructionClasses.MathOperations;
 
 public class Sum extends MathTwoParam {
 
