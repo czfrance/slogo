@@ -18,8 +18,9 @@ public class Compiler {
   public static final String DELIMITER = "\\s+";
   public static final String INSTRUCTION_PACKAGE = "slogo.InstructionClasses.";
   public static final String ERROR_RESOURCE_PACKAGE = "testfx.Error.";
+  public static final ResourceBundle inputToMethodBundle = ResourceBundle.getBundle("slogo.languages.SyntaxMethods");
+  public static final ResourceBundle INSTRUCTION_TYPE_BUNDLE = ResourceBundle.getBundle("slogo.languages.InstructionType");
 
-  private static ResourceBundle inputToMethodBundle = ResourceBundle.getBundle("slogo.languages.SyntaxMethods");
   private PatternParser syntaxParser;
   private PatternParser languageParser;
   private Stack<Instruction> commandStack = new Stack<Instruction>();
@@ -66,7 +67,7 @@ public class Compiler {
       throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, CompilerException {
     String cmdString = userInputQueue.poll();
     String translatedCmd = languageParser.getSymbol(cmdString);
-    Class<?> currCmdClass = Class.forName(INSTRUCTION_PACKAGE + translatedCmd);
+    Class<?> currCmdClass = Class.forName(INSTRUCTION_PACKAGE + INSTRUCTION_TYPE_BUNDLE.getString(translatedCmd) + "." + translatedCmd);
     Constructor<?> cmdConstructor = currCmdClass.getConstructor();
     Instruction currCmd = (Instruction) cmdConstructor.newInstance();
 
