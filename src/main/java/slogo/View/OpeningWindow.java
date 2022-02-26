@@ -20,7 +20,6 @@ public class OpeningWindow {
     private String language;
     private Label myWelcome;
     private Label myDescription;
-    private Label goForward;
     private VBox myContainer;
 
     public OpeningWindow(ResourceBundle resources) {
