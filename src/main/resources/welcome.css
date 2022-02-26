@@ -4,6 +4,14 @@
     -fx-alignment: center;
     -fx-pref-width: 1440px;
     -fx-pref-height: 721px;
-    -fx-background-color: #FFFFFFF;
+    -fx-background-color: rgba(239, 246, 255, 1);
     -fx-background-position: relative;
+}
+
+#welcome-text {
+    -fx-font: Mulish;
+    -fx-font-size: 44;
+    -fx-font-weight: Bold;
+    -fx-alignment: center;
+    -fx-text-fill: rgba(55, 63, 65, 1);
 }
