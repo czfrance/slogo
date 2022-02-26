@@ -41,12 +41,10 @@ public class OpeningWindow {
         myContainer.getChildren().clear();
         myWelcome = new Label(myResources.getString("Welcome"));
         myDescription = new Label(myResources.getString("Description"));
-        goForward = new Label(myResources.getString("Go"));
         myWelcome.setId("welcome-text");
         myDescription.setId("body");
-        goForward.setId("move-on");
         myContainer.setId("opening-window");
-        myContainer.getChildren().addAll(myWelcome, myDescription, goForward);
+        myContainer.getChildren().addAll(myWelcome, myDescription);
     }
 
 
