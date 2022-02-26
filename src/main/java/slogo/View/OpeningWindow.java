@@ -1,10 +1,6 @@
 package slogo.View;
 
-// import static cellsociety.view.CellSocietyView.DEFAULT_RESOURCE_PACKAGE;
-
-import java.util.List;
 import java.util.ResourceBundle;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -14,7 +10,7 @@ import javafx.scene.layout.VBox;
  * Creates a splash screen that allows the user to select a language before displaying the full
  * application
  *
- * @author Robert Cranston
+ * @author Thivya Sivarajah
  */
 
 public class OpeningWindow {
@@ -23,8 +19,8 @@ public class OpeningWindow {
     ResourceBundle myResources;
     private String language;
     private Label myWelcome;
-    private Label selectLang;
-    private ChoiceBox myLangChoiceBox;
+    private Label myDescription;
+    private Label goForward;
     private VBox myContainer;
 
     public OpeningWindow(ResourceBundle resources) {
@@ -37,18 +33,21 @@ public class OpeningWindow {
 
     private void createScreen() {
         language = "English";
-        // createElements("English");
+        createElements(language);
         myPane.getChildren().add(myContainer);
     }
 
-//    private void createElements(String val) {
-//        myContainer.getChildren().clear();
-//        myWelcome = new Label(myResources.getString("Welcome"));
-//        selectLang = new Label(myResources.getString("SelectLanguage"));
-//        myWelcome.setId("welcomeText");
-//        myContainer.setId("welcomeScreen");
-//        myContainer.getChildren().addAll(myWelcome, selectLang, myLangChoiceBox);
-//    }
+    private void createElements(String val) {
+        myContainer.getChildren().clear();
+        myWelcome = new Label(myResources.getString("Welcome"));
+        myDescription = new Label(myResources.getString("Description"));
+        goForward = new Label(myResources.getString("Go"));
+        myWelcome.setId("welcome-text");
+        myDescription.setId("body");
+        goForward.setId("move-on");
+        myContainer.setId("opening-window");
+        myContainer.getChildren().addAll(myWelcome, myDescription, goForward);
+    }
 
 
     public Pane getPane() {
