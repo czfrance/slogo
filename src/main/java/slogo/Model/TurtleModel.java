@@ -74,18 +74,20 @@ public class TurtleModel {
     myY = myY - calcYchange(pixels);
     return pixels;
   }
-//  todo: implement the rest of the functions
+
   private int right(int[] params) {
+    heading = checkHeading(heading);
     System.out.println("right");
     int degrees = params[0];
-    heading = checkHeading(heading - degrees);
+    heading = heading - degrees;
     return degrees;
   }
 
   private int left(int[] params) {
+    heading = checkHeading(heading);
     System.out.println("left");
     int degrees = params[0];
-    heading = checkHeading(heading + degrees);
+    heading = heading + degrees;
     return -1*degrees;
   }
 
@@ -188,7 +190,7 @@ public class TurtleModel {
       return 360 + tempHeading;
     }
     else if (tempHeading > 360) {
-      return 360 - tempHeading;
+      return tempHeading - 360;
     }
     return tempHeading;
   }

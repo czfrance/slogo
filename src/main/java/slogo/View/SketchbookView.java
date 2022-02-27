@@ -106,8 +106,7 @@ public class SketchbookView {
     return Optional.empty();
   }
 
-  private RotateTransition getRotateTransition(Optional<Object> o,
-      TurtleModel oldModel) {
+  private RotateTransition getRotateTransition(Optional<Object> o, TurtleModel oldModel) {
     RotateTransition rt = new RotateTransition();
     rt.setNode(turtle);
     if (o.isPresent() && !(oldModel.getHeading() == myModel.getHeading())) {

@@ -101,8 +101,8 @@ public class Main extends Application {
 //        Console input = new Console("", new Compiler(""));
       model.addInsn("forward 100");
       model.addInsn("back 200");
-      model.addInsn("right 45");
-      model.addInsn("left 90");
+      model.addInsn("right 360");
+      model.addInsn("left 360");
       model.addInsn("setHeading 270");
       model.addInsn("towards -100 0");
       model.addInsn("setXY -100 0");
