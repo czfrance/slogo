@@ -12,6 +12,7 @@ import java.util.Stack;
 import slogo.CompilerExceptions.CompilerException;
 import slogo.CompilerExceptions.NotAValueException;
 import slogo.InstructionClasses.Instruction;
+import slogo.Model.TurtleModel;
 
 public class Compiler {
 
@@ -29,14 +30,15 @@ public class Compiler {
   private Queue<Instruction> finalInstructionQueue = new LinkedList<Instruction>();
   private Map<String, Instruction> variablesMap = new HashMap<String, Instruction>(); //change out command for variable instead
   private ResourceBundle myErrorBundle;
+  private TurtleModel myModel;
 
-
-  public Compiler(String language) {
+  public Compiler(String language, TurtleModel turtleModel) {
     myErrorBundle = ResourceBundle.getBundle(ERROR_RESOURCE_PACKAGE+"English");
     syntaxParser = new PatternParser();
     languageParser = new PatternParser();
     syntaxParser.addPatterns("Syntax");
     languageParser.addPatterns(language);
+    myModel = turtleModel;
   }
 
   public Queue<Instruction> getCommands(String userInput)
@@ -68,8 +70,8 @@ public class Compiler {
     String cmdString = userInputQueue.poll();
     String translatedCmd = languageParser.getSymbol(cmdString);
     Class<?> currCmdClass = Class.forName(INSTRUCTION_PACKAGE + INSTRUCTION_TYPE_BUNDLE.getString(translatedCmd) + "." + translatedCmd);
-    Constructor<?> cmdConstructor = currCmdClass.getConstructor();
-    Instruction currCmd = (Instruction) cmdConstructor.newInstance();
+    Constructor<?> cmdConstructor = currCmdClass.getConstructor(new Class[]{TurtleModel.class});
+    Instruction currCmd = (Instruction) cmdConstructor.newInstance(myModel);
 
     finalInstructionQueue.offer(currCmd);
     for(int i = 0; i<currCmd.getNumParameters(); i++) {
@@ -103,10 +105,6 @@ public class Compiler {
     valueStack.push(currVal);
   }
 
-  private void commentMethod() {
-    userInputQueue.poll();
-  }
-
   private void finishCmdStack() {
     while(!commandStack.isEmpty()) {
       Instruction currCmd = commandStack.pop();
@@ -115,7 +113,9 @@ public class Compiler {
   }
 
   private void makeUserInputStack(String userInput) {
+    userInput.trim();
     for(String line : userInput.split("\n")) {
+      line.trim();
       if(!syntaxParser.getSymbol(line).equals("Comment")) { // can't have space after newline after comment
         for (String token : line.split(DELIMITER)) {
           userInputQueue.offer(token);
