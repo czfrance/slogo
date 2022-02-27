@@ -1,0 +1,48 @@
+package slogo.InstructionClasses.TurtleCommands;
+
+import java.util.function.BiFunction;
+import slogo.InstructionClasses.Instruction;
+import slogo.Model.TurtleModel;
+import slogo.Model.TurtleRecord;
+
+public class Right extends Instruction {
+  public static final int RIGHT_PARAM_NUM = 1;
+
+  public Right(TurtleModel turtleModel) {
+    super(RIGHT_PARAM_NUM, turtleModel);
+  }
+
+  @Override
+  public double returnValue() {
+    double myDegrees = getMyParameters()[0].returnValue();
+    return myDegrees;
+  }
+
+  @Override
+  public BiFunction<Instruction[], TurtleRecord, TurtleRecord> getLambda() {
+    return (Instruction[] params, TurtleRecord myRecord) -> {
+      System.out.println("right");
+      double heading = myRecord.myHeading();
+      double degrees = params[0].returnValue();
+      heading = checkHeading(heading - degrees);
+
+      return new TurtleRecord(myRecord.myX(), myRecord.myY(), heading, myRecord.isPenDown(), myRecord.isShowing());
+    };
+  }
+
+  private double checkHeading(double tempHeading) {
+    if (tempHeading < 0) {
+      return 360 + tempHeading;
+    }
+    else if (tempHeading > 360) {
+      return 360 - tempHeading;
+    }
+    return tempHeading;
+  }
+
+  @Override
+  public String toString() {
+    double myDegrees = getMyParameters()[0].returnValue();
+    return String.format("right %f\n", myDegrees);
+  }
+}

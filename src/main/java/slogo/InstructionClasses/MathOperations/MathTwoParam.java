@@ -1,16 +1,17 @@
-package slogo.InstructionClasses;
+package slogo.InstructionClasses.MathOperations;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 import slogo.InstructionClasses.Instruction;
+import slogo.Model.TurtleModel;
 
 public abstract class MathTwoParam extends Instruction {
   public static final int MATHTWOPARAM_NUM_PARAM = 2;
   private List<Instruction> myExpressions = new ArrayList<Instruction>();
 
-  public MathTwoParam() {
-    super(MATHTWOPARAM_NUM_PARAM);
+  public MathTwoParam(TurtleModel turtleModel) {
+    super(MATHTWOPARAM_NUM_PARAM, turtleModel);
   }
 
   @Override

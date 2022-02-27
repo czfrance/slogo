@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiFunction;
+import slogo.InstructionClasses.Instruction;
 
 public class TurtleModel {
   public static final int PEN_DOWN = 1;
@@ -14,6 +16,7 @@ public class TurtleModel {
   public static final int HIDDEN = 0;
 
   InstructionModel insnModel;
+  TurtleRecord myRecord;
   double myX;
   double myY;
   //assumption: facing right = 0 degrees, increases clockwise
@@ -21,11 +24,16 @@ public class TurtleModel {
   boolean penIsDown;
   boolean isShowing;
 
-  public TurtleModel(double startX, double startY, int startHeading) {
+  public TurtleModel(double startX, double startY, double startHeading) {
     insnModel = new InstructionModel();
     myX = startX;
     myY = startY;
     heading = startHeading;
+    myRecord = new TurtleRecord(startX, startY, startHeading, true, true);
+  }
+
+  public void runInsn(Instruction[] insnParameters, BiFunction<Instruction[], TurtleRecord, TurtleRecord> function) {
+    myRecord = function.apply(insnParameters, myRecord);
   }
 
   public Optional<Object> runNextInsn()
@@ -66,41 +74,44 @@ public class TurtleModel {
     myY = myY - calcYchange(pixels);
     return pixels;
   }
-//  todo: implement the rest of the functions
+
   private int right(int[] params) {
+    heading = checkHeading(heading);
     System.out.println("right");
     int degrees = params[0];
-    heading = checkHeading(heading - degrees);
-    return -1*degrees;
+    heading = heading - degrees;
+    return degrees;
   }
 
   private int left(int[] params) {
+    heading = checkHeading(heading);
     System.out.println("left");
     int degrees = params[0];
-    heading = checkHeading(heading + degrees);
-    return degrees;
+    heading = heading + degrees;
+    return -1*degrees;
   }
 
   private int setHeading(int[] params) {
     System.out.println("setHeading");
+
     double oldHeading = heading;
-    double newHeading = calcAbsHeading(params[0], params[1]);
-    heading = checkHeading(newHeading);
-    return (int)Math.abs(oldHeading - heading);
+    heading = checkHeading(params[0]);
+    return (int)(oldHeading - heading);
   }
 
   private int towards(int[] params) {
     System.out.println("towards");
     double oldHeading = heading;
-    heading = checkHeading(params[0]);
+    double newHeading = calcAbsHeading(params[0], params[1]);
+    heading = checkHeading(newHeading);
     return (int)Math.abs(oldHeading - heading);
   }
-
   private int setXY(int[] params) {
     System.out.println("setXY");
+    int distance = calcDistanceToXY(params[0], params[1]);
     myX = params[0];
     myY = params[1];
-    return calcDistanceToXY(params[0], params[1]);
+    return distance;
   }
 
   private int penDown(int[] params) {
@@ -128,6 +139,10 @@ public class TurtleModel {
   }
 
   private double calcAbsHeading(int x, int y) {
+    if (x == myX && y == myY) {
+      return heading;
+    }
+
     double angleToX = calcAngleToX(x, y);
     int quadrant = findQuadrant(x, y);
 
@@ -170,16 +185,12 @@ public class TurtleModel {
     return (int)Math.sqrt(xDist*xDist + yDist*yDist);
   }
 
-//  private double calcDegreestoXY(int x, int y) {
-//
-//  }
-
   private double checkHeading(double tempHeading) {
     if (tempHeading < 0) {
       return 360 + tempHeading;
     }
     else if (tempHeading > 360) {
-      return 360 - tempHeading;
+      return tempHeading - 360;
     }
     return tempHeading;
   }

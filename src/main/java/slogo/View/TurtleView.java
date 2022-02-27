@@ -15,21 +15,7 @@ import javafx.scene.paint.Color;
  */
 
 
-
-//public interface TurtleView {
-//
-//    /**
-//     * updates turtleView with the new coordinates, heading, and other turtle queries from turtle model
-//     * @author Thivya Sivarajah
-//     */
-//    public void updateTurtleView();
-//
-//    void updateTurtle(double x, double y, double heading, Color color);
-//}
-
-
-
-public class TurtleView extends ImageView {
+public abstract class TurtleView extends ImageView {
 
   public static final String RESOURCE_PATH = "/";
   public static final String IMAGE_EXTENSION = ".png";
@@ -84,6 +70,8 @@ public class TurtleView extends ImageView {
     setFitWidth(TURTLE_DEFAULT_SIZE.width);
     setFitHeight(TURTLE_DEFAULT_SIZE.height);
   }
+
+  public abstract void updateTurtleView();
 
 
   //TODO need to use PathTransitions to do stuff (see spike)
