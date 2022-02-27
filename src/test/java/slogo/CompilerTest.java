@@ -8,16 +8,19 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.CompilerExceptions.CompilerException;
 import slogo.CompilerExceptions.NotAValueException;
+import slogo.Model.TurtleModel;
 
 class CompilerTest {
 
   public static final String DEFAULT_LANGUAGE = "English";
   private ResourceBundle myErrorBundle;
+  private TurtleModel myModel;
 
   Compiler myCompiler;
   @BeforeEach
   void setup() {
-    myCompiler = new Compiler(DEFAULT_LANGUAGE);
+    myModel = new TurtleModel(0,0,0);
+    myCompiler = new Compiler(DEFAULT_LANGUAGE, myModel);
     myErrorBundle = ResourceBundle.getBundle(Compiler.ERROR_RESOURCE_PACKAGE+DEFAULT_LANGUAGE);
   }
 
@@ -81,7 +84,7 @@ class CompilerTest {
   @Test
   public void differentLanguageInstructionWithCommentTest()
       throws CompilerException, ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-    myCompiler = new Compiler("Chinese");
+    myCompiler = new Compiler("Chinese", myModel);
     String chineseInsn = "# this is a chinese instruction\nht 50";
     myCompiler.getCommands(chineseInsn);
     assertEquals(String.format("back %f\n", 50.0), myCompiler.toString());
@@ -93,5 +96,13 @@ class CompilerTest {
     String expectedMessage = String.format(myErrorBundle.getString("numParamError"), "fd", 1);
     Exception expectedException = assertThrows(InvocationTargetException.class, ()->myCompiler.getCommands(wrongParamNumInsn));
     assertTrue(expectedException.getCause().getMessage().contains(expectedMessage));
+  }
+
+  @Test
+  public void forwardWithVariableParameter()
+      throws ClassNotFoundException, InvocationTargetException, NotAValueException, NoSuchMethodException, InstantiationException, IllegalAccessException, CompilerException {
+    String variableInsn = "make :test 70 fd :test";
+    myCompiler.getCommands(variableInsn);
+    assertEquals(String.format("make %s %f\nforward %f\n", ":test", 70.0, 70.0), myCompiler.toString());
   }
 }

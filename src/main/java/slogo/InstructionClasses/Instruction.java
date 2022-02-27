@@ -1,6 +1,9 @@
 package slogo.InstructionClasses;
 
 import java.util.Stack;
+import java.util.function.BiFunction;
+import slogo.Model.TurtleModel;
+import slogo.Model.TurtleRecord;
 import slogo.PatternParser;
 
 public abstract class Instruction {
@@ -11,15 +14,18 @@ public abstract class Instruction {
 
   private Instruction[] myParameters;
 
+  private TurtleModel myTurtleModel;
+
   public Instruction() {
     valueParser.addPatterns("Syntax");
     myNumParameters = 0;
   }
 
-  public Instruction(int numParameters) {
+  public Instruction(int numParameters, TurtleModel turtleModel) {
     valueParser.addPatterns("Syntax");
     myNumParameters = numParameters;
     myParameters = new Instruction[numParameters];
+    myTurtleModel = turtleModel;
   }
 
   public void setParameters(Stack<Instruction> valueStack) {
@@ -37,7 +43,11 @@ public abstract class Instruction {
 
   public abstract double returnValue();
 
-  public abstract void run();
+  public abstract BiFunction<Instruction[], TurtleRecord, TurtleRecord> getLambda();
+
+  public void run() {
+    myTurtleModel.runInsn(myParameters, getLambda());
+  }
 
   protected Instruction[] getMyParameters() {
     return myParameters;

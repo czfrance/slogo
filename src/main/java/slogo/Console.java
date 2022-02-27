@@ -18,6 +18,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import slogo.Model.TurtleModel;
+
 public class Console {
 
 
@@ -38,8 +40,8 @@ public class Console {
     generatePopup();
   }
 
-  public Console(String language){
-    this(language, new Compiler(language));
+  public Console(String language, TurtleModel turtleModel){
+    this(language, new Compiler(language, turtleModel));
   }
 
   private void generatePopup(){

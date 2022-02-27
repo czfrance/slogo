@@ -1,12 +1,13 @@
 package slogo.InstructionClasses.MathOperations;
 
 import slogo.InstructionClasses.Instruction;
+import slogo.Model.TurtleModel;
 
-public class Random extends Instruction {
+public class Random extends MathOperation {
   public static final int RANDOM_PARAM_NUM = 1;
 
-  public Random() {
-    super(RANDOM_PARAM_NUM);
+  public Random(TurtleModel turtleModel) {
+    super(RANDOM_PARAM_NUM, turtleModel);
   }
 
   @Override
@@ -14,11 +15,6 @@ public class Random extends Instruction {
     double param1 = getMyParameters()[0].returnValue();
     double max = param1;
     return max*Math.random();
-  }
-
-  @Override
-  public void run() {
-    // do nothing as this command does not affect the turtle
   }
 
   @Override

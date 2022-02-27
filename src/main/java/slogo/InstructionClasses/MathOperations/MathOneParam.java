@@ -2,13 +2,14 @@ package slogo.InstructionClasses.MathOperations;
 
 import java.util.Stack;
 import slogo.InstructionClasses.Instruction;
+import slogo.Model.TurtleModel;
 
 public abstract class MathOneParam extends Instruction {
   public static final int MATHONEPARAM_NUM_PARAM = 1;
   private double myParam = 0;
 
-  public MathOneParam() {
-    super(MATHONEPARAM_NUM_PARAM);
+  public MathOneParam(TurtleModel turtleModel) {
+    super(MATHONEPARAM_NUM_PARAM, turtleModel);
   }
 
   @Override
