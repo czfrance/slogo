@@ -18,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.CompilerExceptions.CompilerException;
 import slogo.CompilerExceptions.NotAValueException;
+import slogo.Model.TurtleModel;
 
 class ConsoleTest {
 
@@ -25,10 +26,12 @@ class ConsoleTest {
     private ResourceBundle myErrorBundle;
     private Compiler myCompiler;
     Stage myStage;
+    TurtleModel myModel;
 
     @BeforeEach
     void setup() {
-        myCompiler = new Compiler(DEFAULT_LANGUAGE);
+        myModel = new TurtleModel(0,0,0);
+        myCompiler = new Compiler(DEFAULT_LANGUAGE, myModel);
         myErrorBundle = ResourceBundle.getBundle(Compiler.ERROR_RESOURCE_PACKAGE+DEFAULT_LANGUAGE);
         // myStage = new Stage ();
     }

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiFunction;
+import slogo.InstructionClasses.Instruction;
 
 public class TurtleModel {
   public static final int PEN_DOWN = 1;
@@ -14,6 +16,7 @@ public class TurtleModel {
   public static final int HIDDEN = 0;
 
   InstructionModel insnModel;
+  TurtleRecord myRecord;
   double myX;
   double myY;
   //assumption: facing right = 0 degrees, increases clockwise
@@ -26,6 +29,11 @@ public class TurtleModel {
     myX = startX;
     myY = startY;
     heading = startHeading;
+    myRecord = new TurtleRecord(startX, startY, startHeading, true, true);
+  }
+
+  public void runInsn(Instruction[] insnParameters, BiFunction<Instruction[], TurtleRecord, TurtleRecord> function) {
+    myRecord = function.apply(insnParameters, myRecord);
   }
 
   public Optional<Object> runNextInsn()
