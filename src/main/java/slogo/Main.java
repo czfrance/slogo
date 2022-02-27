@@ -46,6 +46,8 @@ public class Main extends Application {
     private static final String EXAMPLE_PROGRAMS_PATH = "/examples";
     public static final int FRAMES_PER_SECOND = 60;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+  public static final int[] INITIAL_XY = new int[]{0, 0};
+  public static final int INITIAL_HEADING = 90;
 
     // the next three methods should be used somewhere else if we are to make an efficient use of design
     /**
@@ -95,12 +97,13 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
 
-      TurtleModel model = new TurtleModel(0, 0, 90);
-//        Console input = new Console("", new Compiler(""));
+      TurtleModel model = new TurtleModel(INITIAL_XY[0], INITIAL_XY[1], INITIAL_HEADING);
+//    Console input = new Console("", new Compiler(""));
       model.addInsn("forward 100");
       model.addInsn("back 200");
       model.addInsn("right 45");
-      model.addInsn("left 90");
+      //TODO: BUGGGGGGGG TURNING ISNT CORRECT:(:(:(
+      model.addInsn("left 360");
       model.addInsn("setHeading 270");
       model.addInsn("towards -100 0");
       model.addInsn("setXY -100 0");
@@ -114,13 +117,13 @@ public class Main extends Application {
       model.addInsn("setXY 0 0");
       model.addInsn("towards 0 0");
 
-//        // let's make someting called dashboard view as a class
-//        SlogoView view = new SlogoView(LANGUAGE);
-//        // give the window a title
-//        stage.setTitle(TITLE);
-//        // add our user interface components to Frame and show it
-//        stage.setScene(view.makeScene(DEFAULT_SIZE.width, DEFAULT_SIZE.height));
-//        stage.show();
+//      // let's make someting called dashboard view as a class
+//      SlogoView view = new SlogoView(LANGUAGE);
+//      // give the window a title
+//      stage.setTitle(TITLE);
+//      // add our user interface components to Frame and show it
+//      stage.setScene(view.makeScene(DEFAULT_SIZE.width, DEFAULT_SIZE.height));
+//      stage.show();
 
     }
 

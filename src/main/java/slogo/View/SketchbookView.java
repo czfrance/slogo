@@ -44,10 +44,6 @@ public class SketchbookView {
   public TurtleView makeTurtle() {
     return new TurtleView(convertX(myModel.getNextPos()[0]), convertY(myModel.getNextPos()[1]),
             myModel.getHeading(), "turtle", Color.RED) {
-//      @Override
-//      public void updateTurtleView() {
-//
-//      }
 
       @Override
       public void updateTurtle(double x, double y, double heading, Color color) {
