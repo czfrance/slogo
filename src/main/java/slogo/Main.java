@@ -2,7 +2,6 @@ package slogo;
 
 import java.awt.*;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -10,17 +9,10 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.List;
 
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.beans.value.ObservableDoubleValue;
-import javafx.scene.control.Button;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import slogo.Model.TurtleModel;
-import slogo.View.SketchbookView;
+import slogo.Console.Console;
 
 
 /**
@@ -96,25 +88,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-
-        TurtleModel model = new TurtleModel(0, 0, 90);
-//        Console input = new Console("", new Compiler(""));
-      model.addInsn("forward 100");
-      model.addInsn("back 200");
-      model.addInsn("right 360");
-      model.addInsn("left 360");
-      model.addInsn("setHeading 270");
-      model.addInsn("towards -100 0");
-      model.addInsn("setXY -100 0");
-
-      SketchbookView view = new SketchbookView(model);
-      stage.setScene(view.makeScene());
-      stage.show();
-
-      view.play();
-      model.addInsn("towards 0 0");
-      model.addInsn("setXY 0 0");
-      model.addInsn("towards 0 0");
+    Console console = new Console("English",new TurtleModel(0, 0, 90));
 
 //        // let's make someting called dashboard view as a class
 //        SlogoView view = new SlogoView(LANGUAGE);

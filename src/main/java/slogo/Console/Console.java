@@ -1,23 +1,20 @@
-package slogo;
+package slogo.Console;
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import slogo.Compiler;
 import slogo.Model.TurtleModel;
 
 public class Console {
@@ -27,16 +24,16 @@ public class Console {
   private Stage myStage;
   private ResourceBundle myResourceBundle;
   private static final String LANGUAGE_RESOURCE_PATH = "/slogo/languages/";
-  private final static FileChooser FILE_CHOOSER = makeChooser(".txt");
   private Button uploadButton;
   private Scene popup;
   private TextArea myConsole;
-
+  private FileHandler myFileHandler = new FileHandler();
 
   public Console(String language, Compiler compiler){
     myStage = new Stage();
     ResourceBundle resources = ResourceBundle.getBundle(LANGUAGE_RESOURCE_PATH + language);
     myCompiler = compiler;
+    myFileHandler = new FileHandler();
     generatePopup();
   }
 
@@ -58,8 +55,11 @@ public class Console {
 
     chooseScript.setOnAction(e->{
       try {
-        File script = fileChoice(myStage);
-        myCompiler.getCommands(fileToString(script));
+        File script =myFileHandler.fileChoice(myStage);
+        myCompiler.getCommands(myFileHandler.fileToString(script));
+      }
+      catch(NullPointerException nullPointerException){
+        generateAlert("Error: No File Chosen");
       }
       catch(Exception err){
         generateAlert("File Error");
@@ -85,32 +85,6 @@ public class Console {
     popup = new Scene(layout,400,400);
     myStage.setScene(popup);
     myStage.show();
-  }
-
-  private File fileChoice(Stage stage) {
-    File dataFile = FILE_CHOOSER.showOpenDialog(stage);
-    return dataFile;
-  }
-
-  private static FileChooser makeChooser (String extensionAccepted) {
-    FileChooser result = new FileChooser();
-    result.setTitle("Open Data File");
-    // pick a reasonable place to start searching for files
-    result.setInitialDirectory(new File(System.getProperty("user.dir")));
-    result.getExtensionFilters().setAll(new ExtensionFilter("Text Files", extensionAccepted));
-    return result;
-  }
-
-  private String fileToString(File file){
-    String content = null;
-    try {
-      // default StandardCharsets.UTF_8
-      content = Files.readString(Paths.get(file.getPath()));
-      System.out.println(content);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return content;
   }
 
   private void generateAlert(String str){
