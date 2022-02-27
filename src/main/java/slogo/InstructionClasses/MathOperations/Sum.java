@@ -1,23 +1,20 @@
 package slogo.InstructionClasses.MathOperations;
 
 import slogo.InstructionClasses.Instruction;
+import slogo.Model.TurtleModel;
 
-public class Sum extends Instruction {
+public class Sum extends MathOperation {
   public static final int SUM_PARAM_NUM = 2;
 
-  public Sum() {
-    super(SUM_PARAM_NUM);
+  public Sum(TurtleModel turtleModel) {
+    super(SUM_PARAM_NUM, turtleModel);
   }
+
   @Override
   public double returnValue() {
     double param1 = getMyParameters()[0].returnValue();
     double param2 = getMyParameters()[1].returnValue();
     return param1 + param2;
-  }
-
-  @Override
-  public void run() {
-    // do nothing as this command does not affect the turtle
   }
 
   @Override

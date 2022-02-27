@@ -1,12 +1,13 @@
 package slogo.InstructionClasses.MathOperations;
 
 import slogo.InstructionClasses.Instruction;
+import slogo.Model.TurtleModel;
 
-public class Power extends Instruction {
+public class Power extends MathOperation {
   public static final int POWER_PARAM_NUM = 2;
 
-  public Power() {
-    super(POWER_PARAM_NUM);
+  public Power(TurtleModel turtleModel) {
+    super(POWER_PARAM_NUM, turtleModel);
   }
 
   @Override
@@ -14,11 +15,6 @@ public class Power extends Instruction {
     double param1 = getMyParameters()[0].returnValue();
     double param2 = getMyParameters()[1].returnValue();
     return Math.pow(param1, param2);
-  }
-
-  @Override
-  public void run() {
-    // do nothing as this command does not affect the turtle
   }
 
   @Override

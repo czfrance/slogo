@@ -1,12 +1,15 @@
 package slogo.InstructionClasses.TurtleCommands;
 
+import java.util.function.BiFunction;
 import slogo.InstructionClasses.Instruction;
+import slogo.Model.TurtleModel;
+import slogo.Model.TurtleRecord;
 
 public class Forward extends Instruction {
   public static final int FORWARD_PARAM_NUM = 1;
 
-  public Forward() {
-    super(FORWARD_PARAM_NUM);
+  public Forward(TurtleModel turtleModel) {
+    super(FORWARD_PARAM_NUM, turtleModel);
   }
 
   /*
@@ -30,8 +33,25 @@ public class Forward extends Instruction {
   }
 
   @Override
-  public void run() {
-      //consumer = (List<Double> params, ) -> {currX = currX+myPixels}
+  public BiFunction<Instruction[], TurtleRecord, TurtleRecord> getLambda() {
+    return (Instruction[] params, TurtleRecord myRecord) -> {
+      System.out.println("forward");
+      double currX = myRecord.myX();
+      double currY = myRecord.myY();
+      double currHeading = myRecord.myHeading();
+      double pixels = params[0].returnValue();
+      currX = currX + calcXchange(pixels, currHeading);
+      currY = currY + calcYchange(pixels, currHeading);
+      return new TurtleRecord(currX, currY, currHeading, myRecord.isPenDown(), myRecord.isShowing());
+    };
+  }
+
+  private double calcXchange(double pixels, double heading) {
+    return pixels * Math.cos(Math.toRadians(heading));
+  }
+
+  private double calcYchange(double pixels, double heading) {
+    return pixels * Math.sin(Math.toRadians(heading));
   }
 
   @Override

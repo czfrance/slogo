@@ -3,12 +3,13 @@ package slogo.InstructionClasses.MathOperations;
 import java.util.Random;
 import slogo.CompilerExceptions.CompilerException;
 import slogo.InstructionClasses.Instruction;
+import slogo.Model.TurtleModel;
 
-public class RandomRange extends Instruction {
+public class RandomRange extends MathOperation {
   public static final int RANDOM_RANGE_PARAM_NUM = 2;
 
-  public RandomRange() {
-    super(RANDOM_RANGE_PARAM_NUM);
+  public RandomRange(TurtleModel turtleModel) {
+    super(RANDOM_RANGE_PARAM_NUM, turtleModel);
   }
 
   @Override
@@ -23,11 +24,6 @@ public class RandomRange extends Instruction {
     double rangeMin = param1;
     double rangeMax = param2;
     return rangeMin + (r.nextDouble() * (rangeMax - rangeMin));
-  }
-
-  @Override
-  public void run() {
-
   }
 
   @Override
