@@ -3,6 +3,8 @@ package slogo.View;
 import java.awt.Dimension;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import javafx.animation.Animation;
 import javafx.animation.PathTransition;
@@ -26,28 +28,40 @@ public class SketchbookView {
   public static final int TURTLE_TURN_SPEED = 45; //degrees per second
   public static final double NO_MOVEMENT = 0.01; //pixels per second
 
+
+  List<TurtleModel> myModels;
+  List<TurtleView> myTurtles;
   TurtleModel myModel;
   TurtleView turtle;
 
   public SketchbookView(TurtleModel model) {
     myModel = model;
-    turtle = makeTurtle();
+    turtle = makeTurtle(myModel);
+  }
+
+  public SketchbookView(List<TurtleModel> models) {
+    myModels = new ArrayList<>(models);
+    myTurtles = makeTurtles();
   }
 
   public Scene makeScene() {
     Group root = new Group();
-    root.getChildren().add((Node) turtle);
+    root.getChildren().add(turtle);
     return new Scene(root, DEFAULT_SIZE.width, DEFAULT_SIZE.height);
 
   }
 
-  public TurtleView makeTurtle() {
-    return new TurtleView(convertX(myModel.getNextPos()[0]), convertY(myModel.getNextPos()[1]),
-            myModel.getHeading(), "turtle", Color.RED) {
-//      @Override
-//      public void updateTurtleView() {
-//
-//      }
+  private List<TurtleView> makeTurtles() {
+    List<TurtleView> turtles = new ArrayList<>();
+    for (TurtleModel m : myModels) {
+      turtles.add(makeTurtle(m));
+    }
+    return turtles;
+  }
+
+  private TurtleView makeTurtle(TurtleModel m) {
+    return new TurtleView(convertX(m.getNextPos()[0]), convertY(m.getNextPos()[1]),
+            m.getHeading(), "turtle", Color.RED) {
 
       @Override
       public void updateTurtle(double x, double y, double heading, Color color) {
@@ -110,8 +124,7 @@ public class SketchbookView {
     return Optional.empty();
   }
 
-  private RotateTransition getRotateTransition(Optional<Object> o,
-      TurtleModel oldModel) {
+  private RotateTransition getRotateTransition(Optional<Object> o, TurtleModel oldModel) {
     RotateTransition rt = new RotateTransition();
     rt.setNode(turtle);
     if (o.isPresent() && !(oldModel.getHeading() == myModel.getHeading())) {
@@ -162,23 +175,6 @@ public class SketchbookView {
   private boolean moved(double[] nextPos) {
     return (nextPos[0] != myModel.getNextPos()[0] || nextPos[1] != myModel.getNextPos()[1]);
   }
-
-//  private PathTransition getPathTransition(Optional<Object> o, TurtleModel oldModel)
-//      throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-//    MoveTo move = new MoveTo(convertX(oldModel.getNextPos()[0]), convertY(oldModel.getNextPos()[1]));
-//    Path path = new Path();
-//    Duration pathAnimDuration;
-//    if (o.isPresent()) {
-//      path.getElements().addAll(move,
-//          new LineTo(convertX(myModel.getNextPos()[0]), convertY(myModel.getNextPos()[1])));
-//      // create an animation where the shape follows a path
-//      pathAnimDuration = Duration.seconds((int) o.get() / TURTLE_SPEED);
-//    } else {
-//      pathAnimDuration = Duration.seconds(NO_MOVEMENT);
-//
-//    }
-//    return new PathTransition(pathAnimDuration, path, turtle);
-//  }
 
   private double convertX(double modelX) {
     return modelX + (DEFAULT_SIZE.width / 2);

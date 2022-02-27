@@ -1,6 +1,8 @@
 package slogo.InstructionClasses;
 
 import java.util.Stack;
+import java.util.function.BiFunction;
+import slogo.Model.TurtleRecord;
 
 public class Constant extends Instruction {
 
@@ -20,6 +22,11 @@ public class Constant extends Instruction {
   @Override
   public double returnValue() {
     return myConstantValue;
+  }
+
+  @Override
+  public BiFunction<Instruction[], TurtleRecord, TurtleRecord> getLambda() {
+    return null;
   }
 
   @Override
