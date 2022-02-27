@@ -97,4 +97,12 @@ class CompilerTest {
     Exception expectedException = assertThrows(InvocationTargetException.class, ()->myCompiler.getCommands(wrongParamNumInsn));
     assertTrue(expectedException.getCause().getMessage().contains(expectedMessage));
   }
+
+  @Test
+  public void forwardWithVariableParameter()
+      throws ClassNotFoundException, InvocationTargetException, NotAValueException, NoSuchMethodException, InstantiationException, IllegalAccessException, CompilerException {
+    String variableInsn = "make :test 70 fd :test";
+    myCompiler.getCommands(variableInsn);
+    assertEquals(String.format("make %s %f\nforward %f\n", ":test", 70.0, 70.0), myCompiler.toString());
+  }
 }
