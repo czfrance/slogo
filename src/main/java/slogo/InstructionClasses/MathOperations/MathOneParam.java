@@ -1,7 +1,5 @@
 package slogo.InstructionClasses.MathOperations;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 import slogo.InstructionClasses.Instruction;
 

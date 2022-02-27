@@ -24,6 +24,7 @@ public class Constant extends Instruction {
 
   @Override
   public void run() {
-
+    //functionlainterface = forward STuff;
+    //turtle.doStuff(functionalInterface);
   }
 }

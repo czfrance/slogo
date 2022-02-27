@@ -1,10 +1,8 @@
 package slogo.InstructionClasses.TurtleCommands;
 
-import java.util.Stack;
 import slogo.InstructionClasses.Instruction;
 
 public class Right extends Instruction {
-  private double myDegrees = 0;
   public static final int RIGHT_PARAM_NUM = 1;
 
   public Right() {
@@ -12,19 +10,8 @@ public class Right extends Instruction {
   }
 
   @Override
-  public void setParameters(Stack<Instruction> valueStack) {
-    Instruction currParam = valueStack.pop();
-    /*
-    if(!isValueType("Constant", currParam)) {
-      throw BadArgumentException;
-    }
-    */
-    myDegrees = currParam.returnValue();
-    valueStack.push(this);
-  }
-
-  @Override
   public double returnValue() {
+    double myDegrees = getMyParameters()[0].returnValue();
     return myDegrees;
   }
 
@@ -35,6 +22,7 @@ public class Right extends Instruction {
 
   @Override
   public String toString() {
+    double myDegrees = getMyParameters()[0].returnValue();
     return String.format("right %f\n", myDegrees);
   }
 }
