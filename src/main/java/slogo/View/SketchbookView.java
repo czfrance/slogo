@@ -191,7 +191,9 @@ public class SketchbookView {
         }
 
         // draw line
-        root.getChildren().add(pen.draw(oldLocation[0], oldLocation[1], x, y));
+        if (myModel.penIsDown()) {
+          root.getChildren().add(pen.draw(oldLocation[0], oldLocation[1], x, y));
+        }
 
         // update old location with current one
         oldLocation[0] = x;
