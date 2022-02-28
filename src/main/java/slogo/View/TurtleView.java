@@ -22,12 +22,14 @@ public abstract class TurtleView extends ImageView {
   public static final Dimension TURTLE_DEFAULT_SIZE = new Dimension(25, 25);
   public static final double ColorZlocation = 1000;
 
-  Lighting lighting = new Lighting();
-  Light.Point turtleColor = new Light.Point();
+  private Lighting lighting = new Lighting();
+  private Light.Point turtleColor = new Light.Point();
+  private Color myColor;
 
 
   public TurtleView(double x, double y, double heading, String imageName, Color color) {
     super(new Image(RESOURCE_PATH + imageName + IMAGE_EXTENSION));
+    myColor = color;
     prepColor(x, y, color);
     setSize();
     setLocation(x, y);
@@ -73,8 +75,9 @@ public abstract class TurtleView extends ImageView {
 
   public abstract void updateTurtleView();
 
-
-  //TODO need to use PathTransitions to do stuff (see spike)
+  public Color getColor() {
+    return myColor;
+  }
 
 }
 
