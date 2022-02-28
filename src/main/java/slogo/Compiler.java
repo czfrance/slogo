@@ -162,6 +162,9 @@ public class Compiler {
       }
     }
   }
+  public Map getVariableMap(){
+    return variablesMap;
+  }
 
   @Override
   public String toString() {

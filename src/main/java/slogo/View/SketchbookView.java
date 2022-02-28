@@ -43,7 +43,6 @@ public class SketchbookView {
   public SketchbookView(TurtleModel model) {
     myModel = model;
     turtle = makeTurtle(myModel);
-    System.out.println(turtle.getColor());
     pen = new LinePen(turtle.getColor());
   }
 
