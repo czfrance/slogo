@@ -1,4 +1,7 @@
 /* Opening Window */
+.root {
+    -fx-alignment: center;
+}
 
 #OpeningWindow{
     -fx-alignment: center;
@@ -16,4 +19,11 @@
     -fx-text-fill: rgba(55, 63, 65, 1);
 }
 
+.button {
+    -fx-text-fill: white;
+    -fx-font: Mulish;
+    -fx-font-weight: normal;
+    -fx-alignment: center;
+    -fx-background-color: rgba(60, 100, 177, 1);
+}
 
