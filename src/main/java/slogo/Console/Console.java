@@ -30,7 +30,7 @@ public class Console {
   private TextArea myConsole;
   private FileHandler myFileHandler;
 
-  public Console(String language, Compiler compiler){
+  public Console(String language, Compiler compiler) {
     myStage = new Stage();
     ResourceBundle resources = ResourceBundle.getBundle(LANGUAGE_RESOURCE_PATH + language);
     myCompiler = compiler;
@@ -39,13 +39,13 @@ public class Console {
     generatePopup();
   }
 
-  public Console(String language, TurtleModel turtleModel){
+  public Console(String language, TurtleModel turtleModel) {
     this(language, new Compiler(language, turtleModel));
   }
 
-  private void generatePopup(){
+  private void generatePopup() {
     BorderPane layout = new BorderPane();
-    layout.setPadding(new Insets(10,10,10,10));
+    layout.setPadding(new Insets(10, 10, 10, 10));
     myConsole = new TextArea();
 
     myConsole.setWrapText(true);
@@ -54,48 +54,52 @@ public class Console {
     layout.setCenter(myConsole);
     Button chooseScript = new Button("Load Script");
     Button enter = new Button("Enter Code");
-
-    chooseScript.setOnAction(e->{
+    Button history = new Button("Command History");
+    chooseScript.setOnAction(e -> {
       try {
-        File script =myFileHandler.fileChoice(myStage);
-        myCompiler.getCommands(myFileHandler.fileToString(script));
-      }
-      catch(NullPointerException nullPointerException){
-        generateAlert("Error: No File Chosen");
-      }
-      catch(Exception err){
-        generateAlert("File Error");
+        File script = myFileHandler.fileChoice(myStage);
+      } catch (NullPointerException nullPointerException) {
+        ConsoleAlerts alert = new ConsoleAlerts("Error: No File Chosen");
+      } catch (Exception err) {
+        ConsoleAlerts alert = new ConsoleAlerts("File Error");
       }
     });
-    enter.setOnAction(e->{
-      if(!myConsole.getText().isEmpty()){
-        try{
-          myCompiler.getCommands(myConsole.getText());
-          myConsole.clear();
-        }catch(Exception err){
-          generateAlert(err.getStackTrace().toString());
-        }
+    enter.setOnAction(e -> {
+      if (!myConsole.getText().isEmpty()) {
+        handleInput(myConsole.getText());
+        myConsole.getText();
       }
+    });
+    history.setOnAction(e -> {
+      myCmdHistory.showHistory();
     });
 
     GridPane buttons = new GridPane();
-    buttons.setHgap(230);
-    buttons.add(chooseScript, 0,1);
-    buttons.add(enter, 1,1);
+    buttons.setHgap(100);
+    buttons.add(chooseScript, 0, 1);
+    buttons.add(enter, 1, 1);
+    buttons.add(history, 2, 1);
 
     layout.setBottom(buttons);
-    popup = new Scene(layout,400,400);
+    popup = new Scene(layout, 400, 400);
     myStage.setScene(popup);
     myStage.show();
   }
 
-  private void generateAlert(String str){
-    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-    alert.setTitle("Error");
-    alert.setHeaderText(null);
-    alert.setContentText(str);
-    alert.showAndWait();
+
+  public TextArea getConsole() {
+    return myConsole;
   }
-  public TextArea getConsole(){ return myConsole;}
+
+  private void handleInput(String in) {
+    try{
+      myCompiler.getCommands(in);
+      myCmdHistory.updateHistory(myConsole.getText());
+    }
+    catch(Exception e){
+      ConsoleAlerts myAlert = new ConsoleAlerts("Error in the Instruction");
+    }
+  }
+
 
 }
