@@ -110,8 +110,10 @@ public class TurtleModel {
     heading = checkHeading(heading);
     double oldHeading = heading;
     double newHeading = calcAbsHeading(params[0], params[1]);
-    heading = checkHeading(newHeading);
-    return (int)Math.abs(oldHeading - heading);
+    heading = newHeading;
+    //heading = checkHeading(newHeading);
+    System.out.println(Math.abs(oldHeading - heading));
+    return (int)(oldHeading - heading);
   }
   private int setXY(int[] params) {
     System.out.println("setXY");
