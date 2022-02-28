@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -74,13 +75,12 @@ public class Console {
       myCmdHistory.showHistory();
     });
 
-    GridPane buttons = new GridPane();
-    buttons.setHgap(100);
-    buttons.add(chooseScript, 0, 1);
-    buttons.add(enter, 1, 1);
-    buttons.add(history, 2, 1);
+    HBox buttons = new HBox();
+    buttons.setSpacing(50);
+    buttons.getChildren().addAll(chooseScript, enter, history);
 
     layout.setBottom(buttons);
+    BorderPane.setMargin(buttons, new Insets(10,10,0,0));
     popup = new Scene(layout, 400, 400);
     myStage.setScene(popup);
     myStage.show();
