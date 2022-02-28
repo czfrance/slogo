@@ -100,11 +100,13 @@ public class Main extends Application {
         TurtleModel model = new TurtleModel(0, 0, 90);
 //        Console input = new Console("", new Compiler(""));
       model.addInsn("forward 100");
+      model.addInsn("penUp");
       model.addInsn("back 200");
-      model.addInsn("right 360");
-      model.addInsn("left 360");
+//      model.addInsn("right 360");
+//      model.addInsn("left 360");
       model.addInsn("setHeading 270");
       model.addInsn("towards -100 0");
+      model.addInsn("penDown");
       model.addInsn("setXY -100 0");
 
       SketchbookView view = new SketchbookView(model);
