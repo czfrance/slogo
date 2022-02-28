@@ -1,19 +1,13 @@
 package slogo.Console;
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import slogo.Compiler;
 import slogo.Model.TurtleModel;
@@ -29,13 +23,13 @@ public class Console {
   private Scene popup;
   private CommandHistory myCmdHistory;
   private TextArea myConsole;
-  private FileHandler myFileHandler;
+  private FileOpener myFileOpener;
 
   public Console(String language, Compiler compiler) {
     myStage = new Stage();
     ResourceBundle resources = ResourceBundle.getBundle(LANGUAGE_RESOURCE_PATH + language);
     myCompiler = compiler;
-    myFileHandler = new FileHandler();
+    myFileOpener = new FileOpener();
     myCmdHistory = new CommandHistory();
     generatePopup();
   }
@@ -58,17 +52,19 @@ public class Console {
     Button history = new Button("Command History");
     chooseScript.setOnAction(e -> {
       try {
-        File script = myFileHandler.fileChoice(myStage);
+        File script = myFileOpener.fileChoice(myStage);
+        handleInput(myFileOpener.fileToString(script));
       } catch (NullPointerException nullPointerException) {
         ConsoleAlerts alert = new ConsoleAlerts("Error: No File Chosen");
       } catch (Exception err) {
         ConsoleAlerts alert = new ConsoleAlerts("File Error");
       }
     });
+
     enter.setOnAction(e -> {
       if (!myConsole.getText().isEmpty()) {
         handleInput(myConsole.getText());
-        myConsole.getText();
+        myConsole.clear();
       }
     });
     history.setOnAction(e -> {
@@ -92,14 +88,13 @@ public class Console {
   }
 
   private void handleInput(String in) {
+    System.out.println(in);
     try{
       myCompiler.getCommands(in);
-      myCmdHistory.updateHistory(myConsole.getText());
+      myCmdHistory.updateHistory(in);
     }
     catch(Exception e){
       ConsoleAlerts myAlert = new ConsoleAlerts("Error in the Instruction");
     }
   }
-
-
 }
