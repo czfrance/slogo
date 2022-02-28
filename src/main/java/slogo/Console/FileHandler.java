@@ -23,7 +23,6 @@ public class FileHandler {
 
   }
 
-
   public File fileChoice(Stage stage) {
     File dataFile = FILE_CHOOSER.showOpenDialog(stage);
     return dataFile;

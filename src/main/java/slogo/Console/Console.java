@@ -26,14 +26,16 @@ public class Console {
   private static final String LANGUAGE_RESOURCE_PATH = "/slogo/languages/";
   private Button uploadButton;
   private Scene popup;
+  private CommandHistory myCmdHistory;
   private TextArea myConsole;
-  private FileHandler myFileHandler = new FileHandler();
+  private FileHandler myFileHandler;
 
   public Console(String language, Compiler compiler){
     myStage = new Stage();
     ResourceBundle resources = ResourceBundle.getBundle(LANGUAGE_RESOURCE_PATH + language);
     myCompiler = compiler;
     myFileHandler = new FileHandler();
+    myCmdHistory = new CommandHistory();
     generatePopup();
   }
 
