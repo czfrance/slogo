@@ -13,6 +13,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import slogo.Model.TurtleModel;
 import slogo.Console.Console;
+import slogo.View.SketchbookView;
 
 
 /**
@@ -88,7 +89,27 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-    Console console = new Console("English",new TurtleModel(0, 0, 90));
+      TurtleModel model = new TurtleModel(0, 0, 90);
+      Console console = new Console("English",model);
+
+      model.addInsn("forward 100");
+      model.addInsn("penUp");
+      model.addInsn("back 200");
+      model.addInsn("right 360");
+      model.addInsn("left 360");
+      model.addInsn("setHeading 270");
+      model.addInsn("towards -100 0");
+      model.addInsn("penDown");
+      model.addInsn("setXY -100 0");
+
+      SketchbookView view = new SketchbookView(model);
+      stage.setScene(view.makeScene());
+      stage.show();
+      view.play();
+
+      model.addInsn("towards 0 0");
+      model.addInsn("setXY 0 0");
+      model.addInsn("towards 0 0");
 
 //        // let's make someting called dashboard view as a class
 //        SlogoView view = new SlogoView(LANGUAGE);

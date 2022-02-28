@@ -15,14 +15,14 @@ public class TurtleModel {
   public static final int SHOWING = 1;
   public static final int HIDDEN = 0;
 
-  InstructionModel insnModel;
-  TurtleRecord myRecord;
-  double myX;
-  double myY;
+  private InstructionModel insnModel;
+  private TurtleRecord myRecord;
+  private double myX;
+  private double myY;
   //assumption: facing right = 0 degrees, increases clockwise
-  double heading;
-  boolean penIsDown;
-  boolean isShowing;
+  private double heading;
+  private boolean penIsDown;
+  private boolean isShowing;
 
   public TurtleModel(double startX, double startY, double startHeading) {
     insnModel = new InstructionModel();
@@ -30,6 +30,8 @@ public class TurtleModel {
     myY = startY;
     heading = startHeading;
     myRecord = new TurtleRecord(startX, startY, startHeading, true, true);
+    penIsDown = true;
+    isShowing = true;
   }
 
   public void runInsn(Instruction[] insnParameters, BiFunction<Instruction[], TurtleRecord, TurtleRecord> function) {
@@ -49,6 +51,10 @@ public class TurtleModel {
 
   public void addInsn(String instruction) {
     insnModel.addInsn(instruction);
+  }
+
+  public boolean penIsDown() {
+    return penIsDown;
   }
 
   private int[] makeInts(String[] insn) {
@@ -93,7 +99,7 @@ public class TurtleModel {
 
   private int setHeading(int[] params) {
     System.out.println("setHeading");
-
+    heading = checkHeading(heading);
     double oldHeading = heading;
     heading = checkHeading(params[0]);
     return (int)(oldHeading - heading);
@@ -101,10 +107,12 @@ public class TurtleModel {
 
   private int towards(int[] params) {
     System.out.println("towards");
+    heading = checkHeading(heading);
     double oldHeading = heading;
     double newHeading = calcAbsHeading(params[0], params[1]);
-    heading = checkHeading(newHeading);
-    return (int)Math.abs(oldHeading - heading);
+    heading = newHeading;
+    //heading = checkHeading(newHeading);
+    return (int)(oldHeading - heading);
   }
   private int setXY(int[] params) {
     System.out.println("setXY");

@@ -11,8 +11,9 @@ import javafx.animation.PathTransition;
 import javafx.animation.RotateTransition;
 import javafx.animation.SequentialTransition;
 import javafx.animation.Transition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
@@ -20,6 +21,8 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
 import slogo.Model.TurtleModel;
+import slogo.View.Pen.LinePen;
+import slogo.View.Pen.Pen;
 
 public class SketchbookView {
 
@@ -29,23 +32,28 @@ public class SketchbookView {
   public static final double NO_MOVEMENT = 0.01; //pixels per second
 
 
-  List<TurtleModel> myModels;
-  List<TurtleView> myTurtles;
-  TurtleModel myModel;
-  TurtleView turtle;
+  private List<TurtleModel> myModels;
+  private List<TurtleView> myTurtles;
+  //todo: could probably phase this out
+  private TurtleModel myModel;
+  private TurtleView turtle;
+  private Pen pen;
+  private Group root;
 
   public SketchbookView(TurtleModel model) {
     myModel = model;
     turtle = makeTurtle(myModel);
+    pen = new LinePen(turtle.getColor());
   }
 
   public SketchbookView(List<TurtleModel> models) {
     myModels = new ArrayList<>(models);
     myTurtles = makeTurtles();
+    pen = new LinePen(turtle.getColor());
   }
 
   public Scene makeScene() {
-    Group root = new Group();
+    root = new Group();
     root.getChildren().add(turtle);
     return new Scene(root, DEFAULT_SIZE.width, DEFAULT_SIZE.height);
 
@@ -109,6 +117,7 @@ public class SketchbookView {
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     PathTransition pt = getPathTransition(o, oldModel);
     RotateTransition rt = getRotateTransition(o, oldModel);
+    //PathTransition linetran = getPathTransition(o, oldModel, line);
     return new SequentialTransition(turtle, pt, rt);
   }
 
@@ -147,10 +156,49 @@ public class SketchbookView {
     Duration pathAnimDuration;
     if (o.isPresent() && moved(oldModel.getNextPos())) {
       pathAnimDuration = Duration.seconds(Math.abs((int) o.get()) / TURTLE_SPEED);
-      return new PathTransition(pathAnimDuration, path, turtle);
+      PathTransition pathTrans = new PathTransition(pathAnimDuration, path, turtle);
+      setListener(pathTrans);
+      return pathTrans;
     } else {
       return doNothingPath(oldModel);
     }
+  }
+
+  private void setListener(PathTransition pathTrans) {
+    pathTrans.currentTimeProperty().addListener( new ChangeListener<Duration>() {
+
+      double[] oldLocation = null;
+
+      /**
+       * Draw a line from the old location to the new location
+       */
+      @Override
+      public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
+
+        // skip starting at 0/0
+        if(oldValue == Duration.ZERO)
+          return;
+
+        // get current location
+        double x = turtle.getBoundsInParent().getCenterX();
+        double y = turtle.getBoundsInParent().getCenterY();
+
+        // initialize the location
+        if(oldLocation == null) {
+          oldLocation = new double[]{x, y};
+          return;
+        }
+
+        // draw line
+        if (myModel.penIsDown()) {
+          root.getChildren().add(pen.draw(oldLocation[0], oldLocation[1], x, y));
+        }
+
+        // update old location with current one
+        oldLocation[0] = x;
+        oldLocation[1] = y;
+      }
+    });
   }
 
   private PathTransition doNothingPath(TurtleModel oldModel) {
