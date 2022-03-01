@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import slogo.Console.Console;
 import slogo.View.OpeningWindow;
 
 
@@ -40,12 +41,15 @@ public class SlogoView {
     public static final String DEFAULT_RESOURCE_PACKAGE = "/slogo.languages/";
     private static final String DARK_BACKGROUND = "-fx-background-color: BLACK";
     private static final String LIGHT_BACKGROUND = "-fx-background-color: BEIGE";
+    private static final String LANGUAGE = "English";
     private String STYLESHEET;
 
     private ResourceBundle myResources;
     private BorderPane myRoot;
 
     private OpeningWindow myWelcome;
+    private Console myConsole;
+    private Compiler myCompiler;
     private HBox TitleBox;
     private ScrollPane ScrollBox;
     private HBox ScreenConfigBox;
@@ -62,7 +66,6 @@ public class SlogoView {
      */
     public SlogoView(String language) {
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
-        // initialRecord = record;
         currentGridY = 0;
         currentGridX = 0;
         myRoot = new BorderPane();
@@ -90,7 +93,7 @@ public class SlogoView {
         myRoot.getChildren().clear();
         myWelcome = new OpeningWindow(myResources);
         myRoot.setCenter(myWelcome.getPane());
-        Button proceed = SlogoView.makeButton("Go", event -> displayWelcome(),
+        Button proceed = SlogoView.makeButton("Go", event -> displayConsole(),
                 myResources);
         myRoot.setBottom(proceed);
         currentGridY = 0;
@@ -106,5 +109,15 @@ public class SlogoView {
         result.setOnAction(handler);
         return result;
     }
+
+    // creates the display of the console
+    private void displayConsole() {
+        myRoot.getChildren().clear();
+        myConsole = new Console(LANGUAGE, myCompiler);
+        myRoot.setCenter(myWelcome.getPane());
+        currentGridY = 0;
+        currentGridX = 0;
+    }
+
 
 }
