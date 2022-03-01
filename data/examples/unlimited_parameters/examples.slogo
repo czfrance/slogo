@@ -1,0 +1,15 @@
+# set three variables
+( set :x 100 :y 200 :z 300 )
+# combines three moves
+( fd :x :y :z )
+
+# set multiple colors at once
+( setpalette 10 255 0 0 11 0 255 0 12 0 0 255 )
+# only last value given takes affect
+( set pc 10 11 12 )
+
+# legal, but really only the last one is relevant
+( towards 100 100 20 10 )
+
+# move turtle to three different points around the screen
+( setxy 10 20 300 400 0 100 )

@@ -1,0 +1,8 @@
+repeat 128
+[
+  set :value * 2 - :repcount 1
+  setpalette 8 0 :value :value
+  set pc 8
+  fd + :value 1
+  rt 89
+]
