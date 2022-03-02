@@ -12,9 +12,14 @@ public abstract class Instruction {
 
   private PatternParser valueParser = new PatternParser();
 
-  private Instruction[] myParameters;
+  private Instruction[] myParameters; //make this a list instead
+  // change so public getter with immutable view of myParameterList
+  // get an adder for the myParameters list
+  // parameters is essentially the instruction list's instruction.
 
   private TurtleModel myTurtleModel;
+
+  private boolean isDone = false;
 
   public Instruction() {
     valueParser.addPatterns("Syntax");
@@ -26,6 +31,14 @@ public abstract class Instruction {
     myNumParameters = numParameters;
     myParameters = new Instruction[numParameters];
     myTurtleModel = turtleModel;
+  }
+
+  protected void setIsDone(boolean bool) {
+    isDone = bool;
+  }
+
+  public boolean getDoneStatus() {
+    return isDone;
   }
 
   public void setParameters(Stack<Instruction> valueStack) {
@@ -51,6 +64,9 @@ public abstract class Instruction {
 
   protected Instruction[] getMyParameters() {
     return myParameters;
+  }
+  protected TurtleModel getMyTurtleModel() {
+    return myTurtleModel;
   }
 
   public boolean isValueType(String desiredValueType, String poppedValue) {
