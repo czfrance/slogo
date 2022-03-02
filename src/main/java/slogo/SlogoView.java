@@ -2,6 +2,7 @@ package slogo;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -95,7 +96,8 @@ public class SlogoView {
         myRoot.setCenter(myWelcome.getPane());
         Button proceed = SlogoView.makeButton("Go", event -> displayConsole(),
                 myResources);
-        myRoot.setBottom(proceed);
+        myWelcome.getContainer().getChildren().addAll(proceed);
+        myWelcome.getContainer().setAlignment(Pos.CENTER);
         currentGridY = 0;
         currentGridX = 0;
     }

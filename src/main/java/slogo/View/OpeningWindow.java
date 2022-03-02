@@ -1,10 +1,13 @@
 package slogo.View;
 
 import java.util.ResourceBundle;
+
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 
 /**
  * Creates a splash screen that allows the user to select a language before displaying the full
@@ -39,17 +42,18 @@ public class OpeningWindow {
     private void createElements(String val) {
         myContainer.getChildren().clear();
         myWelcome = new Label(myResources.getString("Welcome"));
-        myDescription = new Label(myResources.getString("Description"));
         myWelcome.setId("welcome-text");
-        myDescription.setId("body");
         myContainer.setId("opening-window");
-        myContainer.getChildren().addAll(myWelcome, myDescription);
+        myWelcome.setTextAlignment(TextAlignment.CENTER);
+        myContainer.getChildren().addAll(myWelcome);
     }
 
 
     public Pane getPane() {
         return myPane;
     }
+
+    public VBox getContainer() {return myContainer; }
 
     public ResourceBundle getMyResources() {
         return myResources;
