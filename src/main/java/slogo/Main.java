@@ -22,7 +22,6 @@ import slogo.View.SketchbookView;
  *
  * Assumptions: Wouldn't do much besides start up the simulation and display it
  *
- * Depends on SimulationInfo, extends Application, JavaFx stage and dimension to accomplish its task
  *
  * Example: When we run the program, it should start up the simulation viewer.
  *
