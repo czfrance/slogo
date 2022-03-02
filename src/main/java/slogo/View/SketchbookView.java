@@ -16,6 +16,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
@@ -32,7 +33,7 @@ public class SketchbookView extends Node {
   public static final int TURTLE_TURN_SPEED = 45; //degrees per second
   public static final double NO_MOVEMENT = 0.01; //pixels per second
 
-
+  Pane myPane;
   private List<TurtleModel> myModels;
   private List<TurtleView> myTurtles;
   //todo: could probably phase this out
@@ -260,4 +261,7 @@ public class SketchbookView extends Node {
     //updateGridPane();
   }
 
+  public Pane getPane() {
+    return myPane;
+  }
 }
