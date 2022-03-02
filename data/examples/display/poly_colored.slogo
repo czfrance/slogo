@@ -1,0 +1,18 @@
+make :distance 100
+make :angle 90
+make :thick 5
+
+setpalette 3 0 200 255
+setbg 3
+setps :thick
+
+dotimes [ :k quotient 360 :angle ]
+[
+  ifelse equal? quotient :k 2 0 [
+    setpc 1
+  ] [
+    setpc 2
+  ]
+  fd :distance
+  rt :angle
+]

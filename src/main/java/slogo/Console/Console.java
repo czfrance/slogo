@@ -11,6 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import slogo.Compiler;
 import slogo.Model.TurtleModel;
+import slogo.SlogoView;
 
 public class Console {
 

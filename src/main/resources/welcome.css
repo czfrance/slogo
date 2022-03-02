@@ -1,22 +1,24 @@
 /* Opening Window */
-.root {
-    -fx-alignment: center;
-}
+/*.root {*/
+/*    -fx-alignment: center;*/
+/*}*/
 
 #OpeningWindow{
+    /*-fx-alignment: center;*/
+    /*-fx-pref-width: infinity;*/
+    /*-fx-background-color: rgba(239, 246, 255, 1);*/
     -fx-alignment: center;
-    -fx-pref-width: 1440px;
-    -fx-pref-height: 721px;
-    -fx-background-color: rgba(239, 246, 255, 1);
-    -fx-background-position: relative;
+    -fx-pref-width: infinity;
 }
 
 #welcome-text {
-    -fx-font: Mulish;
     -fx-font-size: 44;
     -fx-font-weight: Bold;
-    -fx-alignment: center;
+    -fx-text-alignment: center;
     -fx-text-fill: rgba(55, 63, 65, 1);
+    -fx-wrap-text:true;
+    -fx-alignment: center;
+    -fx-font: Mulish;
 }
 
 .button {

@@ -1,0 +1,29 @@
+to square [ :distance :color ]
+[
+  setpensize 4
+  setpencolor :color
+  repeat 4 [
+    fd :distance
+    rt 90
+  ]
+]
+
+
+make :r random 256 
+make :g random 256 
+make :b random 256 
+repeat 18 [
+  make :r % + 20 :r 256
+  make :g % + 20 :r 256
+  make :b % + 20 :r 256
+  setpalette :repcount :r :g :b
+]
+
+
+cs
+home
+setshape 4
+repeat 18 [
+  rt 20
+  square 100 :repcount
+]

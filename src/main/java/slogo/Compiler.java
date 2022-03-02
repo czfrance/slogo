@@ -49,7 +49,6 @@ public class Compiler {
     syntaxParser.addPatterns("Syntax");
     languageParser.addPatterns(language);
     myModel = turtleModel;
-
   }
 
   public Compiler(Compiler parent) {
