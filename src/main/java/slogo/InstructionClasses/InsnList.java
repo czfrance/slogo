@@ -23,8 +23,10 @@ public class InsnList extends Instruction {
 
   private void queueToParam(Deque<Instruction> instructionQueue) {
     int counter = 0;
+
     while(!instructionQueue.isEmpty()) {
       getMyParameters()[counter] = instructionQueue.poll();
+      counter++;
     }
   }
 
@@ -46,7 +48,9 @@ public class InsnList extends Instruction {
   public String toString() {
     StringBuilder retString = new StringBuilder();
     for(int i = 0; i<getNumParameters(); i++) {
-      retString.append(getMyParameters()[i].toString());
+      if(getMyParameters()[i]!=null) {
+        retString.append(getMyParameters()[i].toString());
+      }
     }
     return retString.toString();
   }
