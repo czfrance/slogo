@@ -14,7 +14,9 @@ import javafx.animation.Transition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
@@ -24,14 +26,14 @@ import slogo.Model.TurtleModel;
 import slogo.View.Pen.LinePen;
 import slogo.View.Pen.Pen;
 
-public class SketchbookView {
+public class SketchbookView extends Node {
 
   public static final Dimension DEFAULT_SIZE = new Dimension(400, 400);
-  public static final int TURTLE_SPEED = 50; //pixels per second
+  public static int TURTLE_SPEED = 50; //pixels per second
   public static final int TURTLE_TURN_SPEED = 45; //degrees per second
   public static final double NO_MOVEMENT = 0.01; //pixels per second
 
-
+  Pane myPane;
   private List<TurtleModel> myModels;
   private List<TurtleView> myTurtles;
   //todo: could probably phase this out
@@ -39,6 +41,7 @@ public class SketchbookView {
   private TurtleView turtle;
   private Pen pen;
   private Group root;
+  private boolean isAnimated;
 
   public SketchbookView(TurtleModel model) {
     myModel = model;
@@ -46,11 +49,11 @@ public class SketchbookView {
     pen = new LinePen(turtle.getColor());
   }
 
-  public SketchbookView(List<TurtleModel> models) {
-    myModels = new ArrayList<>(models);
-    myTurtles = makeTurtles();
-    pen = new LinePen(turtle.getColor());
-  }
+//  public SketchbookView(List<TurtleModel> models) {
+//    myModels = new ArrayList<>(models);
+//    myTurtles = makeTurtles();
+//    pen = new LinePen(turtle.getColor());
+//  }
 
   public Scene makeScene() {
     root = new Group();
@@ -236,4 +239,29 @@ public class SketchbookView {
     turtle.updateTurtle(x, y, heading, color);
   }
 
+    @Override
+    public Node getStyleableNode() {
+        return super.getStyleableNode();
+    }
+
+  public void pause() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    if (!isAnimated) {
+      isAnimated = true;
+      makeAnimation();
+    }
+  }
+
+  public void setAnimationSpeed(Number newValue) {
+    TURTLE_SPEED = (int) newValue;
+  }
+
+  public void reset() {
+    makeScene();
+    isAnimated = false;
+    //updateGridPane();
+  }
+
+  public Pane getPane() {
+    return myPane;
+  }
 }

@@ -23,6 +23,8 @@ import slogo.View.OpeningWindow;
 
 
 import java.util.ResourceBundle;
+
+import slogo.View.SketchbookView;
 import slogo.View.TurtleView;
 
 public class SlogoView {
@@ -53,6 +55,7 @@ public class SlogoView {
     private OpeningWindow myWelcome;
     private Console myConsole;
     private Compiler myCompiler;
+    private SketchbookView mySketch;
     private HBox TitleBox;
     private ScrollPane ScrollBox;
     private HBox ScreenConfigBox;
@@ -103,7 +106,7 @@ public class SlogoView {
         myRoot.getChildren().clear();
         myWelcome = new OpeningWindow(myResources);
         myRoot.setCenter(myWelcome.getPane());
-        Button proceed = SlogoView.makeButton("Go", event -> displayConsole(),
+        Button proceed = SlogoView.makeButton("Go", event -> displaySketch(),
                 myResources);
         myWelcome.getContainer().getChildren().addAll(proceed);
         myWelcome.getContainer().setAlignment(Pos.CENTER);
@@ -111,6 +114,13 @@ public class SlogoView {
         currentGridX = 0;
     }
 
+    private void displaySketch() {
+        myRoot.getChildren().clear();
+        mySketch = new SketchbookView(myTurtleModel);
+        myRoot.setCenter(mySketch.getPane());
+        currentGridY = 0;
+        currentGridX = 0;
+    }
     //returns a button with the title provided linked to the event passed as a parameter
     public static Button makeButton(String property, EventHandler<ActionEvent> handler,
                                     ResourceBundle resources) {
