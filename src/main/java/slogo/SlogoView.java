@@ -17,10 +17,12 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import slogo.Console.Console;
+import slogo.Model.TurtleModel;
 import slogo.View.OpeningWindow;
 
 
 import java.util.ResourceBundle;
+import slogo.View.TurtleView;
 
 public class SlogoView {
 
@@ -59,6 +61,8 @@ public class SlogoView {
     private int currentGridX;
     private boolean inNightMode;
 
+    private TurtleModel myTurtleModel; // this is a temp solution
+
     /**
      * Initializes the starting properties need to create the initial simulation
      *
@@ -71,6 +75,11 @@ public class SlogoView {
         myRoot = new BorderPane();
         STYLESHEET = "welcome.css";
         inNightMode = false;
+
+        //temp solution delete later
+        myTurtleModel = new TurtleModel(0,0,0);
+        myCompiler = new  Compiler(language, myTurtleModel);
+
     }
 
         /**
