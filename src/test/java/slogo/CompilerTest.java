@@ -99,10 +99,26 @@ class CompilerTest {
   }
 
   @Test
-  public void forwardWithVariableParameter()
+  public void forwardWithVariableParameterTest()
       throws ClassNotFoundException, InvocationTargetException, NotAValueException, NoSuchMethodException, InstantiationException, IllegalAccessException, CompilerException {
     String variableInsn = "make :test 70 fd :test";
     myCompiler.getCommands(variableInsn);
     assertEquals(String.format("make %s %f\nforward %f\n", ":test", 70.0, 70.0), myCompiler.toString());
+  }
+
+  @Test
+  public void changeVarTest()
+      throws ClassNotFoundException, InvocationTargetException, NotAValueException, NoSuchMethodException, InstantiationException, IllegalAccessException, CompilerException {
+    String changeVariableInsn = "make :test 70 fd :test make :test 100 fd :test";
+    myCompiler.getCommands(changeVariableInsn);
+    assertEquals(String.format("make %s %f\nforward %f\nmake %s %f\nforward %f\n", ":test", 70.0, 70.0, ":test", 100.0, 100.0), myCompiler.toString());
+  }
+
+  @Test
+  public void userCmdTest()
+      throws ClassNotFoundException, InvocationTargetException, NotAValueException, NoSuchMethodException, InstantiationException, IllegalAccessException, CompilerException {
+    String userCmdInsn = "to line [ :distance ]\n[\nfd :distance\n]\nline 30";
+    myCompiler.getCommands(userCmdInsn);
+    assertEquals(String.format("make %s %f\nforward %f\nmake %s %f\nforward %f\n", ":test", 70.0, 70.0, ":test", 100.0, 100.0), myCompiler.toString());
   }
 }

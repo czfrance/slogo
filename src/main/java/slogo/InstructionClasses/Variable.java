@@ -12,8 +12,12 @@ public class Variable extends Instruction{
   public Variable(String name, TurtleModel turtleModel) {
     super(VARIABLE_PARAM_NUM, turtleModel);
     myName = name;
+    setVariable(0.0);
   }
 
+  public void setVariable(Double val) {
+    getMyParameters()[0] = new Constant(Double.toString(val));
+  }
 
   @Override
   public double returnValue() {
