@@ -14,10 +14,19 @@
   * There are many conditionals that are used to handle branch cases such as if the input is a variable, constant, method, etc...
   * We should instead use reflection to handle these conditionals more cleanly
 
-### Method or Class
-* Design issues
+### SketchbookView
+* Design issues: Single Responsibility Principle
+  * Similar to above, this class is responsible for essentially everything
+    related to creating turtle animations, creating turtle views, playing the animations, etc
+  * This class would benefit from refactoring in the form of splitting up responsibiltiies
+    into the categories I specified above. There are also opportunities for reflection
+    and other design features.
 
-* Design issue
+* Design issue: Redundant functions
+  * There are functions that do almost the same thing that can be consolidated into one
+  * Regarding path and rotate transitions, both are created no matter which will
+    be used (only one will ever be making a change), so this can be refactored to
+    create only the Transition object that will make the change.
 
 
 
