@@ -6,7 +6,7 @@ import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleModel;
 import slogo.Model.TurtleRecord;
 
-public class Right extends Instruction {
+public class Right extends TurtleCommand {
   public static final int RIGHT_PARAM_NUM = 1;
 
   public Right(TurtleCollection turtleModel) {
@@ -35,16 +35,6 @@ public class Right extends Instruction {
 
       return new TurtleRecord(myRecord.myX(), myRecord.myY(), heading, myRecord.isPenDown(), myRecord.isShowing());
     };
-  }
-
-  private double checkHeading(double tempHeading) {
-    if (tempHeading < 0) {
-      return 360 + tempHeading;
-    }
-    else if (tempHeading > 360) {
-      return 360 - tempHeading;
-    }
-    return tempHeading;
   }
 
   @Override

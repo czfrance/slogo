@@ -65,4 +65,20 @@ class TurtleInsnModelTest {
     updatedRecord = myModel.getTurtleRecord();
     assertEquals(90.0, updatedRecord.myY());
   }
+
+  @Test
+  public void UserInstructionTest()
+      throws ClassNotFoundException, InvocationTargetException, NotAValueException, NoSuchMethodException, InstantiationException, IllegalAccessException, CompilerException {
+    String userInsn = "to line [ :distance ]\n[\nfd :distance\nrt :distance\n]\nline 90";
+    TurtleRecord updatedRecord;
+    myInsnModel.addUserInput(userInsn);
+
+    myInsnModel.runNextInsn();
+    updatedRecord = myModel.getTurtleRecord();
+    assertEquals(90.0, updatedRecord.myY());
+
+    myInsnModel.runNextInsn();
+    updatedRecord = myModel.getTurtleRecord();
+    assertEquals(0.0, updatedRecord.myHeading());
+  }
 }

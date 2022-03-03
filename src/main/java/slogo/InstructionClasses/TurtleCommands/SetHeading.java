@@ -5,7 +5,7 @@ import slogo.InstructionClasses.Instruction;
 import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleRecord;
 
-public class SetHeading extends Instruction {
+public class SetHeading extends TurtleCommand {
   public static final int SET_HEADING_PARAM_NUM = 1;
 
   private double oldHeading;
@@ -41,15 +41,5 @@ public class SetHeading extends Instruction {
 
       return new TurtleRecord(myRecord.myX(), myRecord.myY(), heading, myRecord.isPenDown(), myRecord.isShowing());
     };
-  }
-
-  private double checkHeading(double tempHeading) {
-    if (tempHeading < 0) {
-      return 360 + tempHeading;
-    }
-    else if (tempHeading > 360) {
-      return 360 - tempHeading;
-    }
-    return tempHeading;
   }
 }

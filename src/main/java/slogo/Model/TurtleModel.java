@@ -4,9 +4,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.function.BiFunction;
+
+import javafx.scene.layout.Region;
 import slogo.InstructionClasses.Instruction;
 
-public class TurtleModel {
+public class TurtleModel extends Region {
   public static final int PEN_DOWN = 1;
   public static final int PEN_UP = 0;
   public static final int SHOWING = 1;

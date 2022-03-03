@@ -2,12 +2,8 @@ package slogo.View;
 
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import slogo.SlogoView;
 
 import java.lang.reflect.InvocationTargetException;
@@ -16,7 +12,7 @@ import java.util.ResourceBundle;
 
 
 
-public class SimulationDisplay implements DashboardView {
+public class SimulationDisplay extends Region implements DashboardView {
 
     public static final int SLIDER_MINIMUM = 1;
     public static final int SLIDER_MAXIMUM = 10;
@@ -25,25 +21,52 @@ public class SimulationDisplay implements DashboardView {
 
     Pane myPane;
     private BorderPane myRoot;
+    // private StackPane myRoot;
     private SketchbookView mySketch;
+    private SimulationDisplay mySimulation;
     private ResourceBundle myResources;
     private Button myPauseButton;
     private Button myPlayButton;
     private Button myResetButton;
     private VBox mySidePanel;
+    private Label mySim;
+    private String language;
 
-    public SimulationDisplay(SketchbookView sketch, String resources) {
+    public SimulationDisplay(SketchbookView sketch) {
         // super(sketch.getPane());
         myRoot = new BorderPane();
+//        myRoot = new StackPane();
         mySketch = sketch;
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+ "English");
-        myRoot.setCenter(mySketch);
-        myRoot.setLeft(makeSidePanel());
-        myRoot.setBottom(makeConfigButtons());
+        updateVariableDisplay(mySketch, myRoot);
     }
-    @Override
-    public void updateVariableDisplay() {
 
+
+    @Override
+    public BorderPane updateVariableDisplay(SketchbookView sketch, BorderPane root) {
+
+        // myRoot.setCenter(mySketch);
+//        myRoot.setLeft(makeSidePanel());
+//        myRoot.setBottom(makeConfigButtons());
+        root.setLeft(makeSidePanel());
+        root.setBottom(makeConfigButtons());
+        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+ "English");
+        return root;
+    }
+
+//    private void createScreen() {
+//        language = "English";
+//        createElements(language);
+//        myPane.getChildren().add(mySidePanel);
+//    }
+
+    private void createElements(String val) {
+        mySidePanel.getChildren().clear();
+        // mySim = new Label(myResources.getString("Welcome"));
+//        myWelcome.setId("welcome-text");
+//        myContainer.setId("opening-window");
+//        myWelcome.setTextAlignment(TextAlignment.CENTER);
+//        myContainer.getChildren().addAll(myWelcome);
     }
 
     private VBox makeSidePanel() {
@@ -154,5 +177,6 @@ public class SimulationDisplay implements DashboardView {
     public Pane getPane() {
         return myPane;
     }
+
 
 }
