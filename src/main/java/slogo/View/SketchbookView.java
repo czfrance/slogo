@@ -16,6 +16,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
@@ -35,6 +36,7 @@ public class SketchbookView extends Region {
   public static final double NO_MOVEMENT = 0.01; //pixels per second
 
   Pane myPane;
+  private BorderPane myRoot;
   private List<TurtleModel> myModels;
   private List<TurtleView> myTurtles;
   //todo: could probably phase this out
@@ -48,6 +50,7 @@ public class SketchbookView extends Region {
     myModel = model;
     turtle = makeTurtle(myModel);
     pen = new LinePen(turtle.getColor());
+
   }
 
 //  public SketchbookView(List<TurtleModel> models) {
@@ -265,6 +268,10 @@ public class SketchbookView extends Region {
 
   public Pane getPane() {
     return myPane;
+  }
+
+  public BorderPane getBorderPane() {
+    return myRoot;
   }
 
   @Override

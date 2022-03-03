@@ -1,11 +1,13 @@
 package slogo.View;
 
 import javafx.beans.value.ChangeListener;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.TextAlignment;
+import slogo.Model.TurtleModel;
 import slogo.SlogoView;
 
 import java.lang.reflect.InvocationTargetException;
@@ -40,14 +42,16 @@ public class SimulationDisplay extends Region implements DashboardView {
 //        myRoot = new StackPane();
         mySketch = sketch;
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+ "English");
-        updateVariableDisplay();
+        updateVariableDisplay(mySketch);
     }
     @Override
-    public void updateVariableDisplay() {
+    public void updateVariableDisplay(SketchbookView sketch) {
 
         myRoot.setCenter(mySketch);
         myRoot.setLeft(makeSidePanel());
         myRoot.setBottom(makeConfigButtons());
+        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+ "English");
+
     }
 
     private void createScreen() {
@@ -173,5 +177,6 @@ public class SimulationDisplay extends Region implements DashboardView {
     public Pane getPane() {
         return myPane;
     }
+
 
 }
