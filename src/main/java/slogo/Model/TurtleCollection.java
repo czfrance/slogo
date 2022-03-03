@@ -14,7 +14,7 @@ public class TurtleCollection {
 
   public TurtleCollection() {
     createdTurtleMap = new HashMap<Integer, TurtleModel>();
-    createdTurtleMap.put(0, new TurtleModel(0,0,0));
+    createdTurtleMap.put(0, new TurtleModel());
     activeTurtleID = 0;
     activeTurtleList = new ArrayList<Integer>();
     activeTurtleList.add(activeTurtleID);

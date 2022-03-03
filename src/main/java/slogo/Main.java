@@ -15,6 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleInsnModel;
 import slogo.Model.TurtleModel;
 import slogo.Console.Console;
@@ -96,7 +97,8 @@ public class Main extends Application {
     public void start(Stage stage)
         throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
       TurtleModel model = new TurtleModel(0, 0, 90);
-      TurtleInsnModel insnModel = new TurtleInsnModel(model, "English");
+      TurtleCollection collection = new TurtleCollection();
+      TurtleInsnModel insnModel = new TurtleInsnModel(collection, "English");
       //Console console = new Console("English",model);
 
       insnModel.addUserInput("forward 100");

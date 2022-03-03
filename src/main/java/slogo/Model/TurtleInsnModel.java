@@ -34,7 +34,7 @@ public class TurtleInsnModel {
   }
 
   public TurtleModel getCurrTurtle() {
-    return myTurtleModel;
+    return myTurtleModel.getActiveTurtle();
   }
 
 
