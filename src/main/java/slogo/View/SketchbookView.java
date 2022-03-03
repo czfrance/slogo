@@ -43,16 +43,16 @@ public class SketchbookView extends Node {
   //todo: could probably phase this out
   private TurtleModel myModel;
   private TurtleInsnModel myInsnModel;
-  private TurtleView turtle;
+  //private TurtleView turtle;
   private Pen pen;
   private Group root;
   private boolean isAnimated;
 
   public SketchbookView(TurtleModel model) {
     myModel = model;
-    turtle = makeTurtle(myModel);
+    //turtle = makeTurtle(myModel);
     //todo: put pen in turtleview
-    pen = new LinePen(turtle.getColor());
+    //pen = new LinePen(turtle.getColor());
   }
 
   public SketchbookView(TurtleInsnModel insnModel) {
@@ -60,7 +60,7 @@ public class SketchbookView extends Node {
     myModel = myInsnModel.getCurrTurtle();
     myTurtlesMap = createTurtleMap();
     //turtle = makeTurtle(myModel);
-    pen = new LinePen(turtle.getColor());
+    //pen = new LinePen(turtle.getColor());
   }
 
 //  public SketchbookView(List<TurtleModel> models) {
@@ -71,9 +71,9 @@ public class SketchbookView extends Node {
 
   public Scene makeScene() {
     root = new Group();
-    root.getChildren().add(turtle);
+    addTurtlesToRoot();
+    //root.getChildren().add(turtle);
     return new Scene(root, DEFAULT_SIZE.width, DEFAULT_SIZE.height);
-
   }
 
   private Map<TurtleModel, TurtleView> createTurtleMap() {
@@ -86,12 +86,20 @@ public class SketchbookView extends Node {
     return turtlesMap;
   }
 
+  private void addTurtlesToRoot() {
+    for (TurtleModel m : myTurtlesMap.keySet()) {
+      root.getChildren().add(myTurtlesMap.get(m));
+    }
+  }
+
   private void updateTurtleMap() {
     Map<Integer, TurtleModel> turtleModelsMap = myInsnModel.getCreatedTurtleMap();
     if (!myTurtlesMap.keySet().containsAll(turtleModelsMap.values())) {
       List<TurtleModel> newModels = getNewModels(turtleModelsMap);
       for (TurtleModel m : newModels) {
-        myTurtlesMap.put(m, makeTurtle(m));
+        TurtleView turtle = makeTurtle(m);
+        myTurtlesMap.put(m, turtle);
+        root.getChildren().add(turtle);
       }
     }
   }
@@ -103,7 +111,6 @@ public class SketchbookView extends Node {
         newModels.add(m);
       }
     }
-
     return newModels;
   }
 
@@ -134,6 +141,7 @@ public class SketchbookView extends Node {
         myModel.getHeading());
 //    Optional<Object> o = myModel.runNextInsn();
     Optional<Object> o = myInsnModel.runNextInsn();
+    myModel = myInsnModel.getCurrTurtle();
     if (o.isPresent()) {
       return getTransition(o, oldModelState);
     } else {
@@ -150,7 +158,7 @@ public class SketchbookView extends Node {
     PathTransition pt = getPathTransition(o, oldModel);
     RotateTransition rt = getRotateTransition(o, oldModel);
     //PathTransition linetran = getPathTransition(o, oldModel, line);
-    return new SequentialTransition(turtle, pt, rt);
+    return new SequentialTransition(myTurtlesMap.get(myModel), pt, rt);
   }
 
   private Optional<Method> getChangeFunction(TurtleModel oldModel)
@@ -167,7 +175,7 @@ public class SketchbookView extends Node {
 
   private RotateTransition getRotateTransition(Optional<Object> o, TurtleModel oldModel) {
     RotateTransition rt = new RotateTransition();
-    rt.setNode(turtle);
+    rt.setNode(myTurtlesMap.get(myModel));
     if (o.isPresent() && !(oldModel.getHeading() == myModel.getHeading())) {
       double angle = (double) o.get();
       rt.setDuration(Duration.seconds(Math.abs(angle) / TURTLE_TURN_SPEED));
@@ -188,7 +196,7 @@ public class SketchbookView extends Node {
     Duration pathAnimDuration;
     if (o.isPresent() && moved(oldModel.getNextPos())) {
       pathAnimDuration = Duration.seconds(Math.abs((double) o.get()) / TURTLE_SPEED);
-      PathTransition pathTrans = new PathTransition(pathAnimDuration, path, turtle);
+      PathTransition pathTrans = new PathTransition(pathAnimDuration, path, myTurtlesMap.get(myModel));
       setListener(pathTrans);
       return pathTrans;
     } else {
@@ -212,8 +220,8 @@ public class SketchbookView extends Node {
           return;
 
         // get current location
-        double x = turtle.getBoundsInParent().getCenterX();
-        double y = turtle.getBoundsInParent().getCenterY();
+        double x = myTurtlesMap.get(myModel).getBoundsInParent().getCenterX();
+        double y = myTurtlesMap.get(myModel).getBoundsInParent().getCenterY();
 
         // initialize the location
         if(oldLocation == null) {
@@ -223,7 +231,7 @@ public class SketchbookView extends Node {
 
         // draw line
         if (myModel.penIsDown()) {
-          root.getChildren().add(pen.draw(oldLocation[0], oldLocation[1], x, y));
+          root.getChildren().add(myTurtlesMap.get(myModel).getPen().draw(oldLocation[0], oldLocation[1], x, y));
         }
 
         // update old location with current one
@@ -241,12 +249,12 @@ public class SketchbookView extends Node {
         new LineTo(convertX(myModel.getNextPos()[0]), convertY(myModel.getNextPos()[1] - 1)),
         new LineTo(convertX(oldModel.getNextPos()[0]), convertY(oldModel.getNextPos()[1])));
 
-    return new PathTransition(Duration.seconds(NO_MOVEMENT), path, turtle);
+    return new PathTransition(Duration.seconds(NO_MOVEMENT), path, myTurtlesMap.get(myModel));
   }
 
   private RotateTransition doNothingRotate() {
     RotateTransition rt = new RotateTransition();
-    rt.setNode(turtle);
+    rt.setNode(myTurtlesMap.get(myModel));
     rt.setDuration(Duration.seconds(NO_MOVEMENT));
     rt.setByAngle(0);
     return rt;
@@ -265,7 +273,7 @@ public class SketchbookView extends Node {
   }
 
   public void updateTurtle(double x, double y, double heading, Color color) {
-    turtle.updateTurtle(x, y, heading, color);
+    myTurtlesMap.get(myModel).updateTurtle(x, y, heading, color);
   }
 
 //    @Override
