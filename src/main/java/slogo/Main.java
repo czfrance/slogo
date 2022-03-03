@@ -102,10 +102,11 @@ public class Main extends Application {
       //Console console = new Console("English",model);
 
       insnModel.addUserInput("forward 100");
+      insnModel.addUserInput("setHeading 180");
       //model.addInsn("penUp");
-      insnModel.addUserInput("back 200");
-      insnModel.addUserInput("right 45");
-      insnModel.addUserInput("left 78");
+    //  insnModel.addUserInput("back 200");
+    //  insnModel.addUserInput("right 45");
+    //  insnModel.addUserInput("left 78");
       //model.addInsn("setHeading 270");
       //model.addInsn("towards -100 0");
       //model.addInsn("penDown");
@@ -117,7 +118,7 @@ public class Main extends Application {
       stage.show();
       view.play();
 
-      insnModel.addUserInput("forward 100");
+    //  insnModel.addUserInput("forward 100");
 //      model.addInsn("towards 0 0");
 //      model.addInsn("setXY 0 0");
 //      model.addInsn("towards 0 0");

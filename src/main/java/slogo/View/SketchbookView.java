@@ -59,8 +59,6 @@ public class SketchbookView extends Node {
     myInsnModel = insnModel;
     myModel = myInsnModel.getCurrTurtle();
     myTurtlesMap = createTurtleMap();
-    //turtle = makeTurtle(myModel);
-    //pen = new LinePen(turtle.getColor());
   }
 
 //  public SketchbookView(List<TurtleModel> models) {
@@ -124,7 +122,7 @@ public class SketchbookView extends Node {
       updateTurtleMap();
       Animation animation = makeAnimation();
       animation.play();
-      updateCurrTurtle();
+      //updateCurrTurtle();
       animation.setOnFinished(e -> play());
     } catch (InvocationTargetException e) {
       e.printStackTrace();
