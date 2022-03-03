@@ -4,13 +4,14 @@ import java.util.Deque;
 import java.util.Map;
 import java.util.Stack;
 import java.util.function.BiFunction;
+import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleModel;
 import slogo.Model.TurtleRecord;
 
 public class InsnList extends Instruction {
 
   Map<String, Variable> myVarMap;
-  public InsnList(Deque<Instruction> instructionQueue, Map<String, Variable> varMap, TurtleModel model) {
+  public InsnList(Deque<Instruction> instructionQueue, Map<String, Variable> varMap, TurtleCollection model) {
     super(instructionQueue.size(), model);
     queueToParam(instructionQueue);
     myVarMap = varMap;

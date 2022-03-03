@@ -38,6 +38,10 @@ public class TurtleModel {
     myRecord = function.apply(insnParameters, myRecord);
   }
 
+  public TurtleRecord getTurtleRecord() {
+    return myRecord;
+  }
+
   public Optional<Object> runNextInsn()
       throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
     if (insnModel.hasNextInsn()) {

@@ -2,13 +2,14 @@ package slogo.InstructionClasses.TurtleCommands;
 
 import java.util.function.BiFunction;
 import slogo.InstructionClasses.Instruction;
+import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleModel;
 import slogo.Model.TurtleRecord;
 
 public class Forward extends Instruction {
   public static final int FORWARD_PARAM_NUM = 1;
 
-  public Forward(TurtleModel turtleModel) {
+  public Forward(TurtleCollection turtleModel) {
     super(FORWARD_PARAM_NUM, turtleModel);
   }
 

@@ -1,12 +1,13 @@
 package slogo.InstructionClasses.MathOperations;
 
 import slogo.InstructionClasses.Instruction;
+import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleModel;
 
 public class Random extends MathOperation {
   public static final int RANDOM_PARAM_NUM = 1;
 
-  public Random(TurtleModel turtleModel) {
+  public Random(TurtleCollection turtleModel) {
     super(RANDOM_PARAM_NUM, turtleModel);
   }
 

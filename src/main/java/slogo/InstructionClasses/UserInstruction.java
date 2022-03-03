@@ -1,12 +1,11 @@
 package slogo.InstructionClasses;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 import java.util.function.BiFunction;
 import slogo.CompilerExceptions.CompilerException;
+import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleModel;
 import slogo.Model.TurtleRecord;
 import slogo.PatternParser;
@@ -20,7 +19,7 @@ public class UserInstruction extends Instruction{
   private InsnList myInstructions;
 
   public UserInstruction(UserInstruction parent) {
-    super(parent.getNumParameters(), parent.getMyTurtleModel());
+    super(parent.getNumParameters(), parent.getMyTurtles());
     myName = parent.myName;
     syntaxParser = parent.syntaxParser;
     varMap = new HashMap<String, Variable>(parent.varMap);
@@ -28,7 +27,7 @@ public class UserInstruction extends Instruction{
     myInstructions = parent.myInstructions;
   }
 
-  public UserInstruction(String name, TurtleModel model, InsnList variables, InsnList instructions, Map<String, Variable> vars) {
+  public UserInstruction(String name, TurtleCollection model, InsnList variables, InsnList instructions, Map<String, Variable> vars) {
     super(variables.getNumParameters(), model);
     myName = name;
     syntaxParser.addPatterns("Syntax");

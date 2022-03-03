@@ -1,12 +1,13 @@
 package slogo.InstructionClasses.MathOperations;
 
 import slogo.InstructionClasses.Instruction;
+import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleModel;
 
 public class Product extends MathOperation {
   public static final int PRODUCT_PARAM_NUM = 2;
 
-  public Product(TurtleModel turtleModel) {
+  public Product(TurtleCollection turtleModel) {
     super(PRODUCT_PARAM_NUM, turtleModel);
   }
 

@@ -1,12 +1,13 @@
 package slogo.InstructionClasses.MathOperations;
 
 import slogo.InstructionClasses.Instruction;
+import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleModel;
 
 public class Difference extends MathOperation {
   public static final int DIFF_PARAM_NUM = 2;
 
-  public Difference(TurtleModel turtleModel) {
+  public Difference(TurtleCollection turtleModel) {
     super(DIFF_PARAM_NUM, turtleModel);
   }
   @Override

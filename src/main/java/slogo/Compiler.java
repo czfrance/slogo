@@ -3,11 +3,9 @@ package slogo;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.ResourceBundle;
@@ -18,7 +16,7 @@ import slogo.InstructionClasses.Instruction;
 import slogo.InstructionClasses.InsnList;
 import slogo.InstructionClasses.UserInstruction;
 import slogo.InstructionClasses.Variable;
-import slogo.Model.TurtleModel;
+import slogo.Model.TurtleCollection;
 
 public class Compiler {
 
@@ -37,10 +35,10 @@ public class Compiler {
   private Map<String, Variable> variablesMap = new HashMap<String, Variable>(); //change out command for variable instead
   private Map<String, UserInstruction> userInstructionMap = new HashMap<String, UserInstruction>();
   private ResourceBundle myErrorBundle;
-  private TurtleModel myModel;
+  private TurtleCollection myTurtles;
   private String myLanguage;
 
-  public Compiler(String language, TurtleModel turtleModel) {
+  public Compiler(String language, TurtleCollection turtleModel) {
     myLanguage = language;
 
     myErrorBundle = ResourceBundle.getBundle(ERROR_RESOURCE_PACKAGE+"English");
@@ -48,7 +46,7 @@ public class Compiler {
     languageParser = new PatternParser();
     syntaxParser.addPatterns("Syntax");
     languageParser.addPatterns(language);
-    myModel = turtleModel;
+    myTurtles = turtleModel;
   }
 
   public Compiler(Compiler parent) {
@@ -58,7 +56,7 @@ public class Compiler {
     myErrorBundle = parent.myErrorBundle;
     syntaxParser = parent.syntaxParser;
     languageParser = parent.languageParser;
-    myModel = parent.myModel;
+    myTurtles = parent.myTurtles;
   }
 
   public Deque<Instruction> getCommands(String userInput)
@@ -110,8 +108,8 @@ public class Compiler {
     }
     else {
       Class<?> currCmdClass = Class.forName(INSTRUCTION_PACKAGE + INSTRUCTION_TYPE_BUNDLE.getString(translatedCmd) + "." + translatedCmd);
-      Constructor<?> cmdConstructor = currCmdClass.getConstructor(new Class[]{TurtleModel.class});
-      currCmd = (Instruction) cmdConstructor.newInstance(myModel);
+      Constructor<?> cmdConstructor = currCmdClass.getConstructor(new Class[]{TurtleCollection.class});
+      currCmd = (Instruction) cmdConstructor.newInstance(myTurtles);
     }
 
     //finalInstructionQueue.offer(currCmd);
@@ -180,7 +178,7 @@ public class Compiler {
     }
     userInputQueue.poll(); //get rid of ending bracket
     Deque<Instruction> listQueue = listCompiler.getCommands(listString.toString());
-    InsnList listParam = new InsnList(listQueue, listCompiler.getVariableMap(), myModel);
+    InsnList listParam = new InsnList(listQueue, listCompiler.getVariableMap(), myTurtles);
     variablesMap.putAll(listCompiler.getVariableMap());
     userInstructionMap.putAll(listCompiler.getUserInstructionMap());
     return listParam;
@@ -191,7 +189,7 @@ public class Compiler {
     userInputQueue.poll(); //remove makeVar method call
     String name = userInputQueue.poll();
 
-    Variable newVar = new Variable(name, myModel);
+    Variable newVar = new Variable(name, myTurtles);
     variablesMap.put(name, newVar);
     finalInstructionQueue.offer(newVar);
     try{
@@ -206,7 +204,7 @@ public class Compiler {
 
   private void makeEmptyVariable() {
     String name = userInputQueue.poll();
-    Variable newVar = new Variable(name, myModel);
+    Variable newVar = new Variable(name, myTurtles);
     variablesMap.put(name, newVar);
     finalInstructionQueue.offer(newVar);
   }
@@ -217,7 +215,7 @@ public class Compiler {
     String name = userInputQueue.poll();
     InsnList variables = createList();
     InsnList insn = createList();
-    UserInstruction newUserInsn = new UserInstruction(name, myModel, variables,insn, insn.getVarMap());
+    UserInstruction newUserInsn = new UserInstruction(name, myTurtles, variables,insn, insn.getVarMap());
     userInstructionMap.put(name, newUserInsn);
   }
 

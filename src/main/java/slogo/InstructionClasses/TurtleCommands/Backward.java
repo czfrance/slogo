@@ -2,13 +2,14 @@ package slogo.InstructionClasses.TurtleCommands;
 
 import java.util.function.BiFunction;
 import slogo.InstructionClasses.Instruction;
+import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleModel;
 import slogo.Model.TurtleRecord;
 
 public class Backward extends Instruction {
   public static final int BACKWARD_NUM_PARAM = 1;
 
-  public Backward(TurtleModel turtleModel) {
+  public Backward(TurtleCollection turtleModel) {
     super(BACKWARD_NUM_PARAM, turtleModel);
   }
 
