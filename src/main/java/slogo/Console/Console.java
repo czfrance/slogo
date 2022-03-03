@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import slogo.Compiler;
 import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleInsnModel;
+import slogo.SlogoView;
 
 public class Console {
 
@@ -91,9 +92,11 @@ public class Console {
     try{
       myInstructionModel.addUserInput(in);
       myCmdHistory.updateHistory(in);
+      // SlogoView.displaySketch();
     }
     catch(Exception e){
       ConsoleAlerts myAlert = new ConsoleAlerts("Error in the Instruction");
+      // SlogoView.displaySketch();
     }
   }
 }
