@@ -1,5 +1,6 @@
 package slogo.InstructionClasses;
 
+import java.util.Deque;
 import java.util.Stack;
 import java.util.function.BiFunction;
 import slogo.Model.TurtleModel;
@@ -37,7 +38,7 @@ public abstract class Instruction {
     isDone = bool;
   }
 
-  public boolean getDoneStatus() {
+  public boolean getIsDone() {
     return isDone;
   }
 
@@ -50,6 +51,7 @@ public abstract class Instruction {
     valueStack.push(this);
   }
 
+
   public int getNumParameters() {
     return myNumParameters;
   }
@@ -59,6 +61,7 @@ public abstract class Instruction {
   public abstract BiFunction<Instruction[], TurtleRecord, TurtleRecord> getLambda();
 
   public void run() {
+    isDone = true;
     myTurtleModel.runInsn(myParameters, getLambda());
   }
 
