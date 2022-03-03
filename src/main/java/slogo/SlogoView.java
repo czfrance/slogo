@@ -2,6 +2,7 @@ package slogo;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -16,10 +17,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import slogo.Console.Console;
+import slogo.Model.TurtleModel;
 import slogo.View.OpeningWindow;
 
 
 import java.util.ResourceBundle;
+
+import slogo.View.SimulationDisplay;
+import slogo.View.SketchbookView;
+import slogo.View.TurtleView;
 
 public class SlogoView {
 
@@ -40,20 +47,27 @@ public class SlogoView {
     public static final String DEFAULT_RESOURCE_PACKAGE = "/slogo.languages/";
     private static final String DARK_BACKGROUND = "-fx-background-color: BLACK";
     private static final String LIGHT_BACKGROUND = "-fx-background-color: BEIGE";
+    private static final String LANGUAGE = "English";
     private String STYLESHEET;
 
     private ResourceBundle myResources;
     private BorderPane myRoot;
 
     private OpeningWindow myWelcome;
+    private Console myConsole;
+    private Compiler myCompiler;
+    private SketchbookView mySketch;
     private HBox TitleBox;
     private ScrollPane ScrollBox;
     private HBox ScreenConfigBox;
     private Label titleText;
+    private SimulationDisplay mySimulation;
 
     private int currentGridY;
     private int currentGridX;
     private boolean inNightMode;
+
+    private TurtleModel myTurtleModel; // this is a temp solution
 
     /**
      * Initializes the starting properties need to create the initial simulation
@@ -62,12 +76,16 @@ public class SlogoView {
      */
     public SlogoView(String language) {
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
-        // initialRecord = record;
         currentGridY = 0;
         currentGridX = 0;
         myRoot = new BorderPane();
         STYLESHEET = "welcome.css";
         inNightMode = false;
+
+        //temp solution delete later
+        myTurtleModel = new TurtleModel(0,0,0);
+        myCompiler = new  Compiler(language, myTurtleModel);
+
     }
 
         /**
@@ -90,11 +108,32 @@ public class SlogoView {
         myRoot.getChildren().clear();
         myWelcome = new OpeningWindow(myResources);
         myRoot.setCenter(myWelcome.getPane());
-        Button proceed = SlogoView.makeButton("Go", event -> displayWelcome(),
+        Button proceed = SlogoView.makeButton("Go", event -> displayConsole(),
                 myResources);
-        myRoot.setBottom(proceed);
+        myWelcome.getContainer().getChildren().addAll(proceed);
+        myWelcome.getContainer().setAlignment(Pos.CENTER);
         currentGridY = 0;
         currentGridX = 0;
+    }
+
+    private void displaySketch() {
+        myTurtleModel = new TurtleModel(0, 0, 90);
+        myTurtleModel.addInsn("forward 100");
+        myTurtleModel.addInsn("penUp");
+        myTurtleModel.addInsn("back 200");
+        myTurtleModel.addInsn("right 360");
+        myRoot.getChildren().clear();
+        setupSketch();
+        myRoot.setCenter(mySimulation.getPane());
+        currentGridY = 0;
+        currentGridX = 0;
+    }
+
+    private void setupSketch() {
+        mySketch = new SketchbookView(myTurtleModel);
+        mySimulation = new SimulationDisplay(mySketch, DEFAULT_RESOURCE_PACKAGE);
+//        mySketch.prefWidthProperty().bind(myRoot.widthProperty());
+//        mySketch.prefHeightProperty().bind(myRoot.heightProperty());
     }
 
     //returns a button with the title provided linked to the event passed as a parameter
@@ -106,5 +145,15 @@ public class SlogoView {
         result.setOnAction(handler);
         return result;
     }
+
+    // creates the display of the console
+    private void displayConsole() {
+        myRoot.getChildren().clear();
+        myConsole = new Console(LANGUAGE, myCompiler);
+        myRoot.setCenter(myWelcome.getPane());
+        currentGridY = 0;
+        currentGridX = 0;
+    }
+
 
 }

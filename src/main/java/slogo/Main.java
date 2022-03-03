@@ -10,9 +10,13 @@ import java.util.*;
 import java.util.List;
 
 import javafx.application.Application;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import slogo.Model.TurtleModel;
 import slogo.Console.Console;
+import slogo.View.SimulationDisplay;
 import slogo.View.SketchbookView;
 
 
@@ -22,7 +26,6 @@ import slogo.View.SketchbookView;
  *
  * Assumptions: Wouldn't do much besides start up the simulation and display it
  *
- * Depends on SimulationInfo, extends Application, JavaFx stage and dimension to accomplish its task
  *
  * Example: When we run the program, it should start up the simulation viewer.
  *
@@ -89,35 +92,42 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-      TurtleModel model = new TurtleModel(0, 0, 90);
-      Console console = new Console("English",model);
+//      TurtleModel model = new TurtleModel(0, 0, 90);
+//      Console console = new Console("English",model);
+//
+//      model.addInsn("forward 100");
+//      model.addInsn("penUp");
+//      model.addInsn("back 200");
+//      model.addInsn("right 360");
+//      model.addInsn("left 360");
+//      model.addInsn("setHeading 270");
+//      model.addInsn("towards -100 0");
+//      model.addInsn("penDown");
+//      model.addInsn("setXY -100 0");
+//
+//      SketchbookView view = new SketchbookView(model);
+//      stage.setScene(view.makeScene());
+//      stage.show();
+//      view.play();
+//
+//      model.addInsn("towards 0 0");
+//      model.addInsn("setXY 0 0");
+//      model.addInsn("towards 0 0");
 
-      model.addInsn("forward 100");
-      model.addInsn("penUp");
-      model.addInsn("back 200");
-      model.addInsn("right 360");
-      model.addInsn("left 360");
-      model.addInsn("setHeading 270");
-      model.addInsn("towards -100 0");
-      model.addInsn("penDown");
-      model.addInsn("setXY -100 0");
-
-      SketchbookView view = new SketchbookView(model);
-      stage.setScene(view.makeScene());
-      stage.show();
-      view.play();
-
-      model.addInsn("towards 0 0");
-      model.addInsn("setXY 0 0");
-      model.addInsn("towards 0 0");
-
-//        // let's make someting called dashboard view as a class
-//        SlogoView view = new SlogoView(LANGUAGE);
-//        // give the window a title
-//        stage.setTitle(TITLE);
-//        // add our user interface components to Frame and show it
-//        stage.setScene(view.makeScene(DEFAULT_SIZE.width, DEFAULT_SIZE.height));
-//        stage.show();
+        // let's make someting called dashboard view as a class
+         SlogoView view = new SlogoView(LANGUAGE);
+        TurtleModel turtleModel = new TurtleModel(0, 0, 90);
+        SketchbookView mySketch = new SketchbookView(turtleModel);
+        SimulationDisplay view = new SimulationDisplay(mySketch, LANGUAGE_RESOURCE_PATH);
+        // give the window a title
+        BorderPane myRoot = new BorderPane();
+        Scene scene = new Scene(myRoot, 800, 800);
+        myRoot.getChildren().addAll((Collection<? extends Node>) view);
+        stage.setTitle(TITLE);
+        // add our user interface components to Frame and show it
+        // stage.setScene(scene);
+//      stage.setScene(view.makeScene(DEFAULT_SIZE.width, DEFAULT_SIZE.height));
+        stage.show();
 
     }
 

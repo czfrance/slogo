@@ -46,7 +46,7 @@ class CompilerTest {
       throws ClassNotFoundException, InvocationTargetException, NotAValueException, NoSuchMethodException, InstantiationException, IllegalAccessException, CompilerException {
     String doubleInsn = "fd sum 10 sum 10 sum 10 sum 20 20";
     myCompiler.getCommands(doubleInsn);
-    assertEquals(String.format("forward %f\nsum %f %f\nsum %f %f\nsum %f %f\nsum %f %f\n", 70.0, 10.0, 60.0, 10.0, 50.0, 10.0, 40.0, 20.0, 20.0), myCompiler.toString());
+    assertEquals(String.format("sum %f %f\nsum %f %f\nsum %f %f\nsum %f %f\nforward %f\n", 20.0, 20.0, 10.0, 40.0, 10.0, 50.0, 10.0, 60.0, 70.0), myCompiler.toString());
   }
 
   @Test
@@ -54,7 +54,7 @@ class CompilerTest {
       throws ClassNotFoundException, InvocationTargetException, NotAValueException, NoSuchMethodException, InstantiationException, IllegalAccessException, CompilerException {
     String doubleInsn = "fd difference 100 30";
     myCompiler.getCommands(doubleInsn);
-    assertEquals(String.format("forward %f\ndifference %f %f\n", 70.0, 100.0, 30.0), myCompiler.toString());
+    assertEquals(String.format("difference %f %f\nforward %f\n", 100.0, 30.0, 70.0), myCompiler.toString());
   }
 
   @Test
@@ -62,7 +62,7 @@ class CompilerTest {
       throws ClassNotFoundException, InvocationTargetException, NotAValueException, NoSuchMethodException, InstantiationException, IllegalAccessException, CompilerException {
     String doubleInsn = "fd power 5 2";
     myCompiler.getCommands(doubleInsn);
-    assertEquals(String.format("forward %f\npower %f %f\n", 25.0, 5.0, 2.0), myCompiler.toString());
+    assertEquals(String.format("power %f %f\nforward %f\n", 5.0, 2.0, 25.0), myCompiler.toString());
   }
 
   @Test
@@ -70,7 +70,7 @@ class CompilerTest {
       throws ClassNotFoundException, InvocationTargetException, NotAValueException, NoSuchMethodException, InstantiationException, IllegalAccessException, CompilerException {
     String doubleInsn = "bk product 2 25";
     myCompiler.getCommands(doubleInsn);
-    assertEquals(String.format("back %f\nproduct %f %f\n", 50.0, 2.0, 25.0), myCompiler.toString());
+    assertEquals(String.format("product %f %f\nback %f\n", 2.0, 25.0, 50.0), myCompiler.toString());
   }
 
   @Test
@@ -78,7 +78,7 @@ class CompilerTest {
       throws ClassNotFoundException, InvocationTargetException, NotAValueException, NoSuchMethodException, InstantiationException, IllegalAccessException, CompilerException {
     String doubleInsn = "fd rt 100";
     myCompiler.getCommands(doubleInsn);
-    assertEquals(String.format("forward %f\nright %f\n", 100.0, 100.0), myCompiler.toString());
+    assertEquals(String.format("right %f\nforward %f\n", 100.0, 100.0), myCompiler.toString());
   }
 
   @Test
@@ -99,10 +99,26 @@ class CompilerTest {
   }
 
   @Test
-  public void forwardWithVariableParameter()
+  public void forwardWithVariableParameterTest()
       throws ClassNotFoundException, InvocationTargetException, NotAValueException, NoSuchMethodException, InstantiationException, IllegalAccessException, CompilerException {
     String variableInsn = "make :test 70 fd :test";
     myCompiler.getCommands(variableInsn);
     assertEquals(String.format("make %s %f\nforward %f\n", ":test", 70.0, 70.0), myCompiler.toString());
+  }
+
+  @Test
+  public void changeVarTest()
+      throws ClassNotFoundException, InvocationTargetException, NotAValueException, NoSuchMethodException, InstantiationException, IllegalAccessException, CompilerException {
+    String changeVariableInsn = "make :test 70 fd :test make :test 100 fd :test";
+    myCompiler.getCommands(changeVariableInsn);
+    assertEquals(String.format("make %s %f\nforward %f\nmake %s %f\nforward %f\n", ":test", 70.0, 70.0, ":test", 100.0, 100.0), myCompiler.toString());
+  }
+
+  @Test
+  public void userCmdTest()
+      throws ClassNotFoundException, InvocationTargetException, NotAValueException, NoSuchMethodException, InstantiationException, IllegalAccessException, CompilerException {
+    String userCmdInsn = "to line [ :distance ]\n[\nfd :distance\n]\nline 30";
+    myCompiler.getCommands(userCmdInsn);
+    assertEquals(String.format("make %s %f\nforward %f\nmake %s %f\nforward %f\n", ":test", 70.0, 70.0, ":test", 100.0, 100.0), myCompiler.toString());
   }
 }

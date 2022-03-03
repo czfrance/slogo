@@ -26,12 +26,6 @@ public class Constant extends Instruction {
 
   @Override
   public BiFunction<Instruction[], TurtleRecord, TurtleRecord> getLambda() {
-    return null;
-  }
-
-  @Override
-  public void run() {
-    //functionlainterface = forward STuff;
-    //turtle.doStuff(functionalInterface);
+    return (Instruction[] params, TurtleRecord myRecord) -> myRecord;
   }
 }
