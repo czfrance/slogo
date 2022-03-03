@@ -14,13 +14,15 @@ class TurtleInsnModelTest {
 
   public static final String DEFAULT_LANGUAGE = "English";
   private ResourceBundle myErrorBundle;
+  private TurtleCollection myCollection;
   private TurtleModel myModel;
   private TurtleInsnModel myInsnModel;
 
   @BeforeEach
   void setup() {
-    myModel = new TurtleModel(0, 0, 0);
-    myInsnModel = new TurtleInsnModel(myModel, DEFAULT_LANGUAGE);
+    myCollection = new TurtleCollection();
+    myModel = myCollection.getActiveTurtle();
+    myInsnModel = new TurtleInsnModel(myCollection, DEFAULT_LANGUAGE);
   }
 
   @Test

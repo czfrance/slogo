@@ -1,12 +1,13 @@
 package slogo.InstructionClasses.MathOperations;
 
 import slogo.InstructionClasses.Instruction;
+import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleModel;
 
 public class Quotient extends MathOperation {
   public static final int QUOTIENT_PARAM_NUM = 2;
 
-  public Quotient(TurtleModel turtleModel) {
+  public Quotient(TurtleCollection turtleModel) {
     super(QUOTIENT_PARAM_NUM, turtleModel);
   }
 

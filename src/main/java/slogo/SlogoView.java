@@ -18,6 +18,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import slogo.Console.Console;
+import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleModel;
 import slogo.View.OpeningWindow;
 
@@ -67,6 +68,7 @@ public class SlogoView {
     private int currentGridX;
     private boolean inNightMode;
 
+    private TurtleCollection myTurtleCollection;
     private TurtleModel myTurtleModel; // this is a temp solution
 
     /**
@@ -83,8 +85,10 @@ public class SlogoView {
         inNightMode = false;
 
         //temp solution delete later
-        myTurtleModel = new TurtleModel(0,0,0);
-        myCompiler = new  Compiler(language, myTurtleModel);
+        myTurtleCollection = new TurtleCollection();
+        //myTurtleModel = new TurtleModel(0,0,0);
+        myTurtleModel = myTurtleCollection.getActiveTurtle();
+        myCompiler = new  Compiler(language, myTurtleCollection);
 
     }
 

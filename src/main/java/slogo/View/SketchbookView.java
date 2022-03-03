@@ -102,6 +102,7 @@ public class SketchbookView extends Node {
 
   public Animation makeAnimation()
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+
     TurtleModel oldModelState = new TurtleModel(myModel.getNextPos()[0], myModel.getNextPos()[1],
         myModel.getHeading());
     Optional<Object> o = myModel.runNextInsn();

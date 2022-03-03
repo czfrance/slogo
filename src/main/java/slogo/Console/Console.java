@@ -1,6 +1,5 @@
 package slogo.Console;
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -10,8 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import slogo.Compiler;
-import slogo.Model.TurtleModel;
-import slogo.SlogoView;
+import slogo.Model.TurtleCollection;
 
 public class Console {
 
@@ -35,7 +33,7 @@ public class Console {
     generatePopup();
   }
 
-  public Console(String language, TurtleModel turtleModel) {
+  public Console(String language, TurtleCollection turtleModel) {
     this(language, new Compiler(language, turtleModel));
   }
 
