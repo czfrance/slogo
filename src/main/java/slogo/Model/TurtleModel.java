@@ -2,9 +2,6 @@ package slogo.Model;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import slogo.InstructionClasses.Instruction;
