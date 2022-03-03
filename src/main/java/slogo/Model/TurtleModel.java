@@ -35,6 +35,22 @@ public class TurtleModel {
     myRecord = function.apply(insnParameters, myRecord);
   }
 
+  public double[] getNextPos() {
+    return new double[]{myRecord.myX(), myRecord.myY()};
+  }
+
+  public double getHeading() {
+    return myRecord.myHeading();
+  }
+
+//  public double[] getNextPos() {
+//    return new double[]{myX, myY};
+//  }
+//
+//  public double getHeading() {
+//    return heading;
+//  }
+
   public Optional<Object> runNextInsn()
       throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
     if (insnModel.hasNextInsn()) {
@@ -52,6 +68,10 @@ public class TurtleModel {
 
   public boolean penIsDown() {
     return penIsDown;
+  }
+
+  public TurtleRecord getTurtleRecord() {
+    return myRecord;
   }
 
   private int[] makeInts(String[] insn) {
@@ -208,11 +228,5 @@ public class TurtleModel {
     return pixels * Math.sin(Math.toRadians(heading));
   }
 
-  public double[] getNextPos() {
-    return new double[]{myX, myY};
-  }
 
-  public double getHeading() {
-    return heading;
-  }
 }
