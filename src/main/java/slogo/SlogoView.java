@@ -135,7 +135,7 @@ public class SlogoView {
 
     private void setupSketch() {
         mySketch = new SketchbookView(myTurtleModel);
-        mySimulation = new SimulationDisplay(mySketch, DEFAULT_RESOURCE_PACKAGE);
+        mySimulation = new SimulationDisplay(mySketch);
 //        mySketch.prefWidthProperty().bind(myRoot.widthProperty());
 //        mySketch.prefHeightProperty().bind(myRoot.heightProperty());
     }

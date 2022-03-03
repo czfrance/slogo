@@ -2,6 +2,7 @@ package slogo;
 
 import java.awt.*;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -12,7 +13,10 @@ import java.util.List;
 import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import slogo.Model.TurtleModel;
 import slogo.Console.Console;
@@ -42,8 +46,13 @@ public class Main extends Application {
     private static final String EXAMPLE_PROGRAMS_PATH = "/examples";
     public static final int FRAMES_PER_SECOND = 60;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-  public static final int[] INITIAL_XY = new int[]{0, 0};
-  public static final int INITIAL_HEADING = 90;
+    public static final int[] INITIAL_XY = new int[]{0, 0};
+    public static final int INITIAL_HEADING = 90;
+    private ResourceBundle myResources;
+    private javafx.scene.control.Button myPauseButton;
+    private javafx.scene.control.Button myPlayButton;
+    private Button myResetButton;
+    public static final String DEFAULT_RESOURCE_PACKAGE = "/slogo.languages/";
 
     // the next three methods should be used somewhere else if we are to make an efficient use of design
     /**
@@ -116,13 +125,14 @@ public class Main extends Application {
 
         // let's make someting called dashboard view as a class
 //         SlogoView view = new SlogoView(LANGUAGE);
+        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+ "English");
         TurtleModel turtleModel = new TurtleModel(0, 0, 90);
         SketchbookView mySketch = new SketchbookView(turtleModel);
-        SimulationDisplay view = new SimulationDisplay(mySketch, LANGUAGE_RESOURCE_PATH);
+        SimulationDisplay view = new SimulationDisplay(mySketch);
         // give the window a title
         BorderPane myRoot = new BorderPane();
         Scene scene = new Scene(myRoot, 800, 800);
-        myRoot.getChildren().addAll((Collection<? extends Node>) view);
+        myRoot.getChildren().add(view);
         stage.setTitle(TITLE);
         // add our user interface components to Frame and show it
         stage.setScene(scene);
