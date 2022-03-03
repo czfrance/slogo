@@ -3,6 +3,7 @@ package slogo.Model;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Optional;
 import slogo.Compiler;
 import slogo.InstructionClasses.Instruction;
@@ -37,5 +38,8 @@ public class TurtleInsnModel {
     return myTurtleModel.getActiveTurtle();
   }
 
+  public Map<Integer, TurtleModel> getCreatedTurtleMap() {
+    return myTurtleModel.getCreatedTurtleMap();
+  }
 
 }

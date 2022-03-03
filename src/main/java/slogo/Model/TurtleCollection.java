@@ -1,6 +1,7 @@
 package slogo.Model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,22 +21,27 @@ public class TurtleCollection {
     activeTurtleList.add(activeTurtleID);
   }
 
-  public void runInsn(Instruction[] insnParameters, BiFunction<Instruction[], TurtleRecord, TurtleRecord> function) {
-    for(int i: activeTurtleList) {
-      activeTurtleID = i;
+  public boolean runInsn(Instruction[] insnParameters, BiFunction<Instruction[], TurtleRecord, TurtleRecord> function) {
       TurtleModel currTurtleModel = createdTurtleMap.get(activeTurtleID);
       currTurtleModel.runInsn(insnParameters, function);
-    }
+      //activeTurtleID
+    return true;
   }
 
   public void setActiveTurtles(List<Integer> newActiveTurtles) {
+    activeTurtleList.clear();
     for(int i: newActiveTurtles) {
-
+      activeTurtleList.add(i);
     }
+    activeTurtleID = activeTurtleList.get(0);
   }
 
   public TurtleModel getActiveTurtle() {
     return createdTurtleMap.get(activeTurtleID);
+  }
+
+  public Map<Integer, TurtleModel> getCreatedTurtleMap() {
+    return Collections.unmodifiableMap(createdTurtleMap);
   }
 
 }
