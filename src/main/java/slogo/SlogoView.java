@@ -64,6 +64,7 @@ public class SlogoView {
     private HBox ScreenConfigBox;
     private Label titleText;
     private SimulationDisplay mySimulation;
+    private GridPane gridOfSimulations;
 
     private int currentGridY;
     private int currentGridX;
@@ -103,19 +104,19 @@ public class SlogoView {
          * @return scene holding all elements displayed
          */
     public Scene makeScene(int width, int height) {
-        displayWelcome();
         Scene scene = new Scene(myRoot, width, height);
-        scene.getStylesheets()
-                .add(getClass().getResource("/welcome.css").toExternalForm());
+        displayWelcome(scene);
         return scene;
     }
 
     //Creates the initial welcome screen for the user to select a language
-    private void displayWelcome() {
+    private void displayWelcome(Scene scene) {
+        scene.getStylesheets()
+                .add(getClass().getResource("/welcome.css").toExternalForm());
         myRoot.getChildren().clear();
         myWelcome = new OpeningWindow(myResources);
         myRoot.setCenter(myWelcome.getPane());
-        Button proceed = SlogoView.makeButton("Go", event -> displayConsole(),
+        Button proceed = SlogoView.makeButton("Go", event -> displaySketch(scene),
                 myResources);
         myWelcome.getContainer().getChildren().addAll(proceed);
         myWelcome.getContainer().setAlignment(Pos.CENTER);
@@ -123,7 +124,10 @@ public class SlogoView {
         currentGridX = 0;
     }
 
-    private void displaySketch() {
+    private void displaySketch(Scene scene) {
+        scene.getStylesheets()
+                .add(getClass().getResource("/simdisplay.css").toExternalForm());
+        setupTurtleViews();
         myTurtleModel = new TurtleModel(0, 0, 90);
         myTurtleModel.addInsn("forward 100");
         myTurtleModel.addInsn("penUp");
@@ -136,9 +140,50 @@ public class SlogoView {
         currentGridX = 0;
     }
 
+    private void setupTurtleViews() {
+        gridOfSimulations = new GridPane();
+        gridOfSimulations.prefWidthProperty().bind(myRoot.widthProperty());
+        gridOfSimulations.prefHeightProperty().bind(myRoot.heightProperty());
+    }
+
+    private Node makeSimulationConfigRow() {
+        ScreenConfigBox = new HBox();
+        Button addSim = makeButton("AddSimulation", event -> addSimulation(), myResources);
+        Button removeSim = makeButton("RemoveSimulation", event -> removeSimulation(), myResources);
+        ScreenConfigBox.setId("configBox");
+        ScreenConfigBox.getChildren().addAll(addSim, removeSim);
+        return ScreenConfigBox;
+
+    }
+
+    //removes the bottom-most right-most simulation that is currently being displayed
+    private void removeSimulation() {
+        if (!(currentGridY == 0 && currentGridX == 1)) {
+            if (currentGridX == 1) {
+                currentGridX--;
+            } else {
+                currentGridY--;
+                currentGridX++;
+            }
+            gridOfSimulations.getChildren().remove(currentGridY * 2 + currentGridX);
+        }
+    }
+
+    private void addSimulation() {
+        SketchbookView sketch = new SketchbookView(myTurtleModel);
+        gridOfSimulations.add(sketch.getBorderPane(), currentGridX, currentGridY);
+        if (currentGridX == 1) {
+            currentGridY++;
+            currentGridX = 0;
+        } else {
+            currentGridX++;
+        }
+    }
+
     private void setupSketch() {
         mySketch = new SketchbookView(myTurtleModel);
-        mySimulation = new SimulationDisplay(mySketch, DEFAULT_RESOURCE_PACKAGE);
+        // mySimulation = new SimulationDisplay(mySketch);
+        mySketch.play();
 //        mySketch.prefWidthProperty().bind(myRoot.widthProperty());
 //        mySketch.prefHeightProperty().bind(myRoot.heightProperty());
     }
@@ -161,4 +206,11 @@ public class SlogoView {
         currentGridY = 0;
         currentGridX = 0;
     }
+
+    //creates a popup message with the given passed message as a parameter
+    public static void showMessage(AlertType type, String message) {
+        (new Alert(type, message, new ButtonType[0])).showAndWait();
+    }
+
+
 }

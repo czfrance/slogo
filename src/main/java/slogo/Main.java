@@ -13,7 +13,11 @@ import java.util.List;
 import javafx.application.Application;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleInsnModel;
@@ -45,8 +49,14 @@ public class Main extends Application {
     private static final String EXAMPLE_PROGRAMS_PATH = "/examples";
     public static final int FRAMES_PER_SECOND = 60;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-  public static final int[] INITIAL_XY = new int[]{0, 0};
-  public static final int INITIAL_HEADING = 90;
+    public static final int[] INITIAL_XY = new int[]{0, 0};
+    public static final int INITIAL_HEADING = 90;
+    private ResourceBundle myResources;
+    private javafx.scene.control.Button myPauseButton;
+    private javafx.scene.control.Button myPlayButton;
+    private Button myResetButton;
+    private SketchbookView sketch;
+    public static final String DEFAULT_RESOURCE_PACKAGE = "/slogo.languages/";
 
     // the next three methods should be used somewhere else if we are to make an efficient use of design
     /**
@@ -122,20 +132,32 @@ public class Main extends Application {
 //      model.addInsn("setXY 0 0");
 //      model.addInsn("towards 0 0");
 
-//        // let's make someting called dashboard view as a class
-//         SlogoView view = new SlogoView(LANGUAGE);
+        // let's make someting called dashboard view as a class
+         SlogoView view = new SlogoView(LANGUAGE);
+//        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+ "English");
 //        TurtleModel turtleModel = new TurtleModel(0, 0, 90);
+//        turtleModel.addInsn("forward 100");
+//        turtleModel.addInsn("penUp");
+//        turtleModel.addInsn("back 200");
+//        turtleModel.addInsn("right 360");
+//        turtleModel.addInsn("left 360");
+//        turtleModel.addInsn("setHeading 270");
+//        turtleModel.addInsn("towards -100 0");
+//        turtleModel.addInsn("penDown");
+//        turtleModel.addInsn("setXY -100 0");
 //        SketchbookView mySketch = new SketchbookView(turtleModel);
-//        SimulationDisplay view = new SimulationDisplay(mySketch, LANGUAGE_RESOURCE_PATH);
+//        SimulationDisplay view = new SimulationDisplay(sketch);
 //        // give the window a title
-//        BorderPane myRoot = new BorderPane();
-//        Scene scene = new Scene(myRoot, 800, 800);
-//        myRoot.getChildren().addAll((Collection<? extends Node>) view);
-//        stage.setTitle(TITLE);
-//        // add our user interface components to Frame and show it
-//        // stage.setScene(scene);
-////      stage.setScene(view.makeScene(DEFAULT_SIZE.width, DEFAULT_SIZE.height));
-//        stage.show();
+         BorderPane myRoot = new BorderPane();
+         Scene scene = new Scene(myRoot, 800, 800);
+//         myRoot.getChildren().add(view);
+        stage.setTitle(TITLE);
+        // add our user interface components to Frame and show it
+        stage.setScene(scene);
+//        stage.setScene(mySketch.makeScene());
+        stage.setScene(view.makeScene(DEFAULT_SIZE.width, DEFAULT_SIZE.height));
+        stage.show();
+        // sketch.play();
 
     }
 

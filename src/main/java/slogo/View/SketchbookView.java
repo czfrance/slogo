@@ -16,7 +16,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
@@ -27,7 +29,7 @@ import slogo.Model.TurtleModel;
 import slogo.View.Pen.LinePen;
 import slogo.View.Pen.Pen;
 
-public class SketchbookView extends Node {
+public class SketchbookView extends Region {
 
   public static final Dimension DEFAULT_SIZE = new Dimension(400, 400);
   public static int TURTLE_SPEED = 50; //pixels per second
@@ -35,6 +37,7 @@ public class SketchbookView extends Node {
   public static final double NO_MOVEMENT = 0.01; //pixels per second
 
   Pane myPane;
+  private BorderPane myRoot;
   private List<TurtleModel> myModels;
   private List<TurtleView> myTurtles;
   //todo: could probably phase this out
@@ -49,6 +52,7 @@ public class SketchbookView extends Node {
     myModel = model;
     turtle = makeTurtle(myModel);
     pen = new LinePen(turtle.getColor());
+
   }
 
   public SketchbookView(TurtleInsnModel insnModel) {
@@ -273,6 +277,10 @@ public class SketchbookView extends Node {
 
   public Pane getPane() {
     return myPane;
+  }
+
+  public BorderPane getBorderPane() {
+    return myRoot;
   }
 
   @Override

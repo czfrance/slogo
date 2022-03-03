@@ -10,7 +10,7 @@ public interface DashboardView {
     /**
      * Updates the displayed variable in the dashboard
      */
-    public void updateVariableDisplay();
+    public void updateVariableDisplay(SketchbookView sketch);
 
 
 
