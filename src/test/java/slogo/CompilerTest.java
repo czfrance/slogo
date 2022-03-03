@@ -118,7 +118,7 @@ class CompilerTest {
   @Test
   public void userCmdTest()
       throws ClassNotFoundException, InvocationTargetException, NotAValueException, NoSuchMethodException, InstantiationException, IllegalAccessException, CompilerException {
-    String userCmdInsn = "to line [ :distance ]\n[\nfd :distance\n]\nline 30";
+    String userCmdInsn = "to line [ :distance ]\n[\nfd :distance\nrt :distance\n]\nline 30";
     myCompiler.getCommands(userCmdInsn);
     assertEquals(String.format("make %s %f\nforward %f\nmake %s %f\nforward %f\n", ":test", 70.0, 70.0, ":test", 100.0, 100.0), myCompiler.toString());
   }
