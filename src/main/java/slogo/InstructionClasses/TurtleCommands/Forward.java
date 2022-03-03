@@ -6,37 +6,18 @@ import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleModel;
 import slogo.Model.TurtleRecord;
 
-public class Forward extends Instruction {
+public class Forward extends TurtleCommand {
   public static final int FORWARD_PARAM_NUM = 1;
 
   public Forward(TurtleCollection turtleModel) {
     super(FORWARD_PARAM_NUM, turtleModel);
   }
 
-  /*
-  @Override
-  public void setParameters(Stack<Instruction> valueStack) {
-    Instruction currParam = valueStack.pop();
-    /*
-    if(!isValueType("Constant", currParam)) {
-      throw BadArgumentException;
-    }
-
-    getMyParameters()[0] = currParam;
-    valueStack.push(this);
-  }
-  */
-
   @Override
   public double returnValue() {
     double myPixels = getMyParameters()[0].returnValue();
     return myPixels;
   }
-
-//  @Override
-//  public double frontEndReturnValue() {
-//    return returnValue();
-//  }
 
   @Override
   public BiFunction<Instruction[], TurtleRecord, TurtleRecord> getLambda() {
@@ -51,14 +32,6 @@ public class Forward extends Instruction {
       System.out.printf("forward %s\n", pixels);
       return new TurtleRecord(currX, currY, currHeading, myRecord.isPenDown(), myRecord.isShowing());
     };
-  }
-
-  private double calcXchange(double pixels, double heading) {
-    return pixels * Math.cos(Math.toRadians(heading));
-  }
-
-  private double calcYchange(double pixels, double heading) {
-    return pixels * Math.sin(Math.toRadians(heading));
   }
 
   @Override

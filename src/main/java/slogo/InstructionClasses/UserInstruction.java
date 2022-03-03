@@ -73,6 +73,12 @@ public class UserInstruction extends Instruction{
   }
 
   @Override
+  public void run() {
+    myInstructions.run();
+    setIsDone(myInstructions.getIsDone());
+  }
+
+  @Override
   public double returnValue() {
     return 0;
   }
