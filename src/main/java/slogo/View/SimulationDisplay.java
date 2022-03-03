@@ -2,19 +2,14 @@ package slogo.View;
 
 import javafx.beans.value.ChangeListener;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import slogo.Model.TurtleModel;
 import slogo.SlogoView;
-import slogo.View.DashboardView;
-import slogo.View.Pen.LinePen;
 
-import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -26,7 +21,9 @@ public class SimulationDisplay implements DashboardView {
     public static final int SLIDER_MINIMUM = 1;
     public static final int SLIDER_MAXIMUM = 10;
     public static final double SLIDER_START = 5;
+    public static final String DEFAULT_RESOURCE_PACKAGE = "/slogo.languages/";
 
+    Pane myPane;
     private BorderPane myRoot;
     private SketchbookView mySketch;
     private ResourceBundle myResources;
@@ -35,10 +32,11 @@ public class SimulationDisplay implements DashboardView {
     private Button myResetButton;
     private VBox mySidePanel;
 
-    public SimulationDisplay(SketchbookView sketch, ResourceBundle resources) {
+    public SimulationDisplay(SketchbookView sketch, String resources) {
+        // super(sketch.getPane());
         myRoot = new BorderPane();
         mySketch = sketch;
-        myResources = resources;
+        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+ "English");
         myRoot.setCenter(mySketch);
         myRoot.setLeft(makeSidePanel());
         myRoot.setBottom(makeConfigButtons());
@@ -153,5 +151,8 @@ public class SimulationDisplay implements DashboardView {
         return control;
     }
 
+    public Pane getPane() {
+        return myPane;
+    }
 
 }

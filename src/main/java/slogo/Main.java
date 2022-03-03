@@ -10,9 +10,13 @@ import java.util.*;
 import java.util.List;
 
 import javafx.application.Application;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import slogo.Model.TurtleModel;
 import slogo.Console.Console;
+import slogo.View.SimulationDisplay;
 import slogo.View.SketchbookView;
 
 
@@ -111,11 +115,18 @@ public class Main extends Application {
 //      model.addInsn("towards 0 0");
 
         // let's make someting called dashboard view as a class
-        SlogoView view = new SlogoView(LANGUAGE);
+         SlogoView view = new SlogoView(LANGUAGE);
+        TurtleModel turtleModel = new TurtleModel(0, 0, 90);
+        SketchbookView mySketch = new SketchbookView(turtleModel);
+        SimulationDisplay view = new SimulationDisplay(mySketch, LANGUAGE_RESOURCE_PATH);
         // give the window a title
+        BorderPane myRoot = new BorderPane();
+        Scene scene = new Scene(myRoot, 800, 800);
+        myRoot.getChildren().addAll((Collection<? extends Node>) view);
         stage.setTitle(TITLE);
         // add our user interface components to Frame and show it
-        stage.setScene(view.makeScene(DEFAULT_SIZE.width, DEFAULT_SIZE.height));
+        // stage.setScene(scene);
+//      stage.setScene(view.makeScene(DEFAULT_SIZE.width, DEFAULT_SIZE.height));
         stage.show();
 
     }

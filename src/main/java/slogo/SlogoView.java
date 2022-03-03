@@ -24,6 +24,7 @@ import slogo.View.OpeningWindow;
 
 import java.util.ResourceBundle;
 
+import slogo.View.SimulationDisplay;
 import slogo.View.SketchbookView;
 import slogo.View.TurtleView;
 
@@ -60,6 +61,7 @@ public class SlogoView {
     private ScrollPane ScrollBox;
     private HBox ScreenConfigBox;
     private Label titleText;
+    private SimulationDisplay mySimulation;
 
     private int currentGridY;
     private int currentGridX;
@@ -106,7 +108,7 @@ public class SlogoView {
         myRoot.getChildren().clear();
         myWelcome = new OpeningWindow(myResources);
         myRoot.setCenter(myWelcome.getPane());
-        Button proceed = SlogoView.makeButton("Go", event -> displaySketch(),
+        Button proceed = SlogoView.makeButton("Go", event -> displayConsole(),
                 myResources);
         myWelcome.getContainer().getChildren().addAll(proceed);
         myWelcome.getContainer().setAlignment(Pos.CENTER);
@@ -115,12 +117,25 @@ public class SlogoView {
     }
 
     private void displaySketch() {
+        myTurtleModel = new TurtleModel(0, 0, 90);
+        myTurtleModel.addInsn("forward 100");
+        myTurtleModel.addInsn("penUp");
+        myTurtleModel.addInsn("back 200");
+        myTurtleModel.addInsn("right 360");
         myRoot.getChildren().clear();
-        mySketch = new SketchbookView(myTurtleModel);
-        myRoot.setCenter(mySketch.getPane());
+        setupSketch();
+        myRoot.setCenter(mySimulation.getPane());
         currentGridY = 0;
         currentGridX = 0;
     }
+
+    private void setupSketch() {
+        mySketch = new SketchbookView(myTurtleModel);
+        mySimulation = new SimulationDisplay(mySketch, DEFAULT_RESOURCE_PACKAGE);
+//        mySketch.prefWidthProperty().bind(myRoot.widthProperty());
+//        mySketch.prefHeightProperty().bind(myRoot.heightProperty());
+    }
+
     //returns a button with the title provided linked to the event passed as a parameter
     public static Button makeButton(String property, EventHandler<ActionEvent> handler,
                                     ResourceBundle resources) {
