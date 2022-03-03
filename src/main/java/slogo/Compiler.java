@@ -114,7 +114,7 @@ public class Compiler {
       currCmd = (Instruction) cmdConstructor.newInstance(myModel);
     }
 
-    finalInstructionQueue.offer(currCmd);
+    //finalInstructionQueue.offer(currCmd);
     for(int i = 0; i<currCmd.getNumParameters(); i++) {
       if(userInputQueue.size() == 0) {
         throw new CompilerException(myErrorBundle.getString("numParamError"), cmdString, currCmd.getNumParameters());
@@ -128,7 +128,9 @@ public class Compiler {
         return;
       }
     }
+    finalInstructionQueue.offer(currCmd);
     currCmd.setParameters(valueStack);
+    finishCmdStack();
   }
 
   private void constantMethod()
@@ -223,7 +225,7 @@ public class Compiler {
     System.out.format("Cmd Stack: %d  |  Val Stack: %d\n", commandStack.size(), valueStack.size());
     while(!commandStack.isEmpty()) {
       Instruction currCmd = commandStack.pop();
-
+      finalInstructionQueue.offer(currCmd);
       currCmd.setParameters(valueStack);
     }
   }
