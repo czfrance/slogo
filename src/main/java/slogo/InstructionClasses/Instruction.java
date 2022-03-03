@@ -37,7 +37,7 @@ public abstract class Instruction {
     isDone = bool;
   }
 
-  public boolean getDoneStatus() {
+  public boolean getIsDone() {
     return isDone;
   }
 
@@ -56,9 +56,14 @@ public abstract class Instruction {
 
   public abstract double returnValue();
 
+  public double frontEndReturnValue() {
+    return returnValue();
+  }
+
   public abstract BiFunction<Instruction[], TurtleRecord, TurtleRecord> getLambda();
 
   public void run() {
+    isDone = true;
     myTurtleModel.runInsn(myParameters, getLambda());
   }
 
