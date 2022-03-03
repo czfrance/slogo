@@ -37,6 +37,7 @@ public class SketchbookView extends Region {
   public static final double NO_MOVEMENT = 0.01; //pixels per second
 
   Pane myPane;
+  private SimulationDisplay mySimulation;
   private BorderPane myRoot;
   private List<TurtleModel> myModels;
   private List<TurtleView> myTurtles;
@@ -68,9 +69,9 @@ public class SketchbookView extends Region {
 //    pen = new LinePen(turtle.getColor());
 //  }
 
-  public Scene makeScene() {
+  public Scene makeScene(BorderPane myFeatures) {
     root = new Group();
-    root.getChildren().add(turtle);
+    root.getChildren().addAll(turtle, myFeatures);
     return new Scene(root, DEFAULT_SIZE.width, DEFAULT_SIZE.height);
 
   }
@@ -270,7 +271,7 @@ public class SketchbookView extends Region {
   }
 
   public void reset() {
-    makeScene();
+    makeScene(myRoot);
     isAnimated = false;
     //updateGridPane();
   }

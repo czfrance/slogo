@@ -1,13 +1,9 @@
 package slogo.View;
 
 import javafx.beans.value.ChangeListener;
-import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.text.TextAlignment;
-import slogo.Model.TurtleModel;
 import slogo.SlogoView;
 
 import java.lang.reflect.InvocationTargetException;
@@ -42,23 +38,27 @@ public class SimulationDisplay extends Region implements DashboardView {
 //        myRoot = new StackPane();
         mySketch = sketch;
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+ "English");
-        updateVariableDisplay(mySketch);
+        updateVariableDisplay(mySketch, myRoot);
     }
+
+
     @Override
-    public void updateVariableDisplay(SketchbookView sketch) {
+    public BorderPane updateVariableDisplay(SketchbookView sketch, BorderPane root) {
 
-        myRoot.setCenter(mySketch);
-        myRoot.setLeft(makeSidePanel());
-        myRoot.setBottom(makeConfigButtons());
+        // myRoot.setCenter(mySketch);
+//        myRoot.setLeft(makeSidePanel());
+//        myRoot.setBottom(makeConfigButtons());
+        root.setLeft(makeSidePanel());
+        root.setBottom(makeConfigButtons());
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+ "English");
-
+        return root;
     }
 
-    private void createScreen() {
-        language = "English";
-        createElements(language);
-        myPane.getChildren().add(mySidePanel);
-    }
+//    private void createScreen() {
+//        language = "English";
+//        createElements(language);
+//        myPane.getChildren().add(mySidePanel);
+//    }
 
     private void createElements(String val) {
         mySidePanel.getChildren().clear();
