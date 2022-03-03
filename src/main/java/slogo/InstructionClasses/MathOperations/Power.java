@@ -1,12 +1,13 @@
 package slogo.InstructionClasses.MathOperations;
 
 import slogo.InstructionClasses.Instruction;
+import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleModel;
 
 public class Power extends MathOperation {
   public static final int POWER_PARAM_NUM = 2;
 
-  public Power(TurtleModel turtleModel) {
+  public Power(TurtleCollection turtleModel) {
     super(POWER_PARAM_NUM, turtleModel);
   }
 

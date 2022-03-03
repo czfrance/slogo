@@ -7,10 +7,10 @@ import slogo.Compiler;
 import slogo.InstructionClasses.Instruction;
 
 public class TurtleInsnModel {
-  TurtleModel myTurtleModel;
+  TurtleCollection myTurtleModel;
   Compiler myCompiler;
   Deque<Instruction> myInsnDeque = new LinkedList<Instruction>();
-  public TurtleInsnModel(TurtleModel model, String language) {
+  public TurtleInsnModel(TurtleCollection model, String language) {
     myTurtleModel = model;
     myCompiler = new Compiler(language, myTurtleModel);
   }
@@ -30,4 +30,6 @@ public class TurtleInsnModel {
     }
 
   }
+
+
 }

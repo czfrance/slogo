@@ -3,12 +3,13 @@ package slogo.InstructionClasses.MathOperations;
 import java.util.Random;
 import slogo.CompilerExceptions.CompilerException;
 import slogo.InstructionClasses.Instruction;
+import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleModel;
 
 public class RandomRange extends MathOperation {
   public static final int RANDOM_RANGE_PARAM_NUM = 2;
 
-  public RandomRange(TurtleModel turtleModel) {
+  public RandomRange(TurtleCollection turtleModel) {
     super(RANDOM_RANGE_PARAM_NUM, turtleModel);
   }
 

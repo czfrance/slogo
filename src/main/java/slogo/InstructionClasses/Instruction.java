@@ -2,6 +2,7 @@ package slogo.InstructionClasses;
 
 import java.util.Stack;
 import java.util.function.BiFunction;
+import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleModel;
 import slogo.Model.TurtleRecord;
 import slogo.PatternParser;
@@ -17,7 +18,7 @@ public abstract class Instruction {
   // get an adder for the myParameters list
   // parameters is essentially the instruction list's instruction.
 
-  private TurtleModel myTurtleModel;
+  private TurtleCollection myTurtles;
 
   private boolean isDone = false;
 
@@ -26,18 +27,18 @@ public abstract class Instruction {
     myNumParameters = 0;
   }
 
-  public Instruction(int numParameters, TurtleModel turtleModel) {
+  public Instruction(int numParameters, TurtleCollection turtleModel) {
     valueParser.addPatterns("Syntax");
     myNumParameters = numParameters;
     myParameters = new Instruction[numParameters];
-    myTurtleModel = turtleModel;
+    myTurtles = turtleModel;
   }
 
   protected void setIsDone(boolean bool) {
     isDone = bool;
   }
 
-  public boolean getDoneStatus() {
+  public boolean getIsDone() {
     return isDone;
   }
 
@@ -50,6 +51,7 @@ public abstract class Instruction {
     valueStack.push(this);
   }
 
+
   public int getNumParameters() {
     return myNumParameters;
   }
@@ -59,14 +61,15 @@ public abstract class Instruction {
   public abstract BiFunction<Instruction[], TurtleRecord, TurtleRecord> getLambda();
 
   public void run() {
-    myTurtleModel.runInsn(myParameters, getLambda());
+    isDone = true;
+    myTurtles.runInsn(myParameters, getLambda());
   }
 
   protected Instruction[] getMyParameters() {
     return myParameters;
   }
-  protected TurtleModel getMyTurtleModel() {
-    return myTurtleModel;
+  protected TurtleCollection getMyTurtles() {
+    return myTurtles;
   }
 
   public boolean isValueType(String desiredValueType, String poppedValue) {
