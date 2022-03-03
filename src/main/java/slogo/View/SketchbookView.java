@@ -82,7 +82,6 @@ public class SketchbookView extends Node {
   private TurtleView makeTurtle(TurtleModel m) {
     return new TurtleView(convertX(m.getNextPos()[0]), convertY(m.getNextPos()[1]),
             m.getHeading(), "turtle", Color.RED) {
-
       @Override
       public void updateTurtle(double x, double y, double heading, Color color) {
 
