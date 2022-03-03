@@ -130,36 +130,18 @@ public class SlogoView {
         TurtleInsnModel insnModel = new TurtleInsnModel(collection, "English");
         //Console console = new Console("English",model);
 
-//      insnModel.addUserInput("forward 100");
-        myTurtleModel.addInsn("penUp");
-//      insnModel.addUserInput("back 200");
-//      insnModel.addUserInput("right 45");
-//      insnModel.addUserInput("left 78");
+        myTurtleModel.addInsn("penDown");
         myTurtleModel.addInsn("setHeading 270");
         myTurtleModel.addInsn("towards -100 0");
-        myTurtleModel.addInsn("penDown");
+        myTurtleModel.addInsn("penUp");
         myTurtleModel.addInsn("setXY -100 0");
 
         mySketch = new SketchbookView(myTurtleModel);
-        stage.setScene(mySketch.makeScene());
+        mySimulation = new SimulationDisplay(mySketch);
+        myRoot = mySimulation.updateVariableDisplay(mySketch, myRoot);
+        stage.setScene(mySketch.makeScene(myRoot));
         stage.show();
         mySketch.play();
-//      SketchbookView view = new SketchbookView(insnModel);
-
-//        setupTurtleViews();
-//        myTurtleModel = new TurtleModel(0, 0, 90);
-//        myTurtleModel.addInsn("forward 100");
-//        myTurtleModel.addInsn("penUp");
-//        myTurtleModel.addInsn("back 200");
-//        myTurtleModel.addInsn("right 360");
-//        myRoot.getChildren().clear();
-//        setupSketch(myTurtleModel);
-////        myRoot.setCenter(mySimulation.getPane());
-//        myRoot.getChildren().add(mySketch);
-//        // myRoot.setCenter(mySketch);
-//        currentGridY = 0;
-//        currentGridX = 0;
-//        mySketch.play();
     }
 
     private static void setupTurtleViews() {
@@ -202,13 +184,13 @@ public class SlogoView {
         }
     }
 
-    private static void setupSketch(TurtleModel turtle) {
-        mySketch = new SketchbookView(turtle);
-        // mySimulation = new SimulationDisplay(mySketch);
-//        mySketch.play();
-//        mySketch.prefWidthProperty().bind(myRoot.widthProperty());
-//        mySketch.prefHeightProperty().bind(myRoot.heightProperty());
-    }
+//    private static void setupSketch(TurtleModel turtle) {
+//        mySketch = new SketchbookView(turtle);
+//        // mySimulation = new SimulationDisplay(mySketch);
+////        mySketch.play();
+////        mySketch.prefWidthProperty().bind(myRoot.widthProperty());
+////        mySketch.prefHeightProperty().bind(myRoot.heightProperty());
+//    }
 
     //returns a button with the title provided linked to the event passed as a parameter
     public static Button makeButton(String property, EventHandler<ActionEvent> handler,
