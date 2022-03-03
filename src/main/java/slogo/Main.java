@@ -115,7 +115,7 @@ public class Main extends Application {
 //      model.addInsn("towards 0 0");
 
         // let's make someting called dashboard view as a class
-         SlogoView view = new SlogoView(LANGUAGE);
+//         SlogoView view = new SlogoView(LANGUAGE);
         TurtleModel turtleModel = new TurtleModel(0, 0, 90);
         SketchbookView mySketch = new SketchbookView(turtleModel);
         SimulationDisplay view = new SimulationDisplay(mySketch, LANGUAGE_RESOURCE_PATH);
@@ -125,7 +125,7 @@ public class Main extends Application {
         myRoot.getChildren().addAll((Collection<? extends Node>) view);
         stage.setTitle(TITLE);
         // add our user interface components to Frame and show it
-        // stage.setScene(scene);
+        stage.setScene(scene);
 //      stage.setScene(view.makeScene(DEFAULT_SIZE.width, DEFAULT_SIZE.height));
         stage.show();
 
