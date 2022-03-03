@@ -12,6 +12,9 @@ public class TurtleModel {
   public static final int SHOWING = 1;
   public static final int HIDDEN = 0;
 
+  public static final double[] DEFAULT_START = new double[]{0, 0};
+  public static final int DEFAULT_HEADING = 90;
+
   private InstructionModel insnModel;
   private TurtleRecord myRecord;
   private double myX;
@@ -20,6 +23,16 @@ public class TurtleModel {
   private double heading;
   private boolean penIsDown;
   private boolean isShowing;
+
+  public TurtleModel() {
+    insnModel = new InstructionModel();
+    myX = DEFAULT_START[0];
+    myY = DEFAULT_START[1];
+    heading = DEFAULT_HEADING;
+    myRecord = new TurtleRecord(myX, myY, heading, true, true);
+    penIsDown = true;
+    isShowing = true;
+  }
 
   public TurtleModel(double startX, double startY, double startHeading) {
     insnModel = new InstructionModel();
@@ -51,6 +64,9 @@ public class TurtleModel {
 //    return heading;
 //  }
 
+  public TurtleRecord getTurtleRecord() {
+    return myRecord;
+  }
   public Optional<Object> runNextInsn()
       throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
     if (insnModel.hasNextInsn()) {
@@ -68,10 +84,6 @@ public class TurtleModel {
 
   public boolean penIsDown() {
     return penIsDown;
-  }
-
-  public TurtleRecord getTurtleRecord() {
-    return myRecord;
   }
 
   private int[] makeInts(String[] insn) {

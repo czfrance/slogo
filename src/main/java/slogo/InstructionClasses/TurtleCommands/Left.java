@@ -2,13 +2,14 @@ package slogo.InstructionClasses.TurtleCommands;
 
 import java.util.function.BiFunction;
 import slogo.InstructionClasses.Instruction;
+import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleModel;
 import slogo.Model.TurtleRecord;
 
 public class Left extends Instruction {
   public static final int LEFT_PARAM_NUM = 1;
 
-  public Left(TurtleModel turtleModel) {
+  public Left(TurtleCollection turtleModel) {
     super(LEFT_PARAM_NUM, turtleModel);
   }
 

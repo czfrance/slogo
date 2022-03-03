@@ -1,12 +1,13 @@
 package slogo.InstructionClasses.MathOperations;
 
 import slogo.InstructionClasses.Instruction;
+import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleModel;
 
 public class Sum extends MathOperation {
   public static final int SUM_PARAM_NUM = 2;
 
-  public Sum(TurtleModel turtleModel) {
+  public Sum(TurtleCollection turtleModel) {
     super(SUM_PARAM_NUM, turtleModel);
   }
 
