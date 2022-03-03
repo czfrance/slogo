@@ -32,16 +32,22 @@ public class Forward extends Instruction {
     return myPixels;
   }
 
+//  @Override
+//  public double frontEndReturnValue() {
+//    return returnValue();
+//  }
+
   @Override
   public BiFunction<Instruction[], TurtleRecord, TurtleRecord> getLambda() {
     return (Instruction[] params, TurtleRecord myRecord) -> {
-      System.out.println("forward");
+
       double currX = myRecord.myX();
       double currY = myRecord.myY();
       double currHeading = myRecord.myHeading();
       double pixels = params[0].returnValue();
       currX = currX + calcXchange(pixels, currHeading);
       currY = currY + calcYchange(pixels, currHeading);
+      System.out.printf("forward %s\n", pixels);
       return new TurtleRecord(currX, currY, currHeading, myRecord.isPenDown(), myRecord.isShowing());
     };
   }

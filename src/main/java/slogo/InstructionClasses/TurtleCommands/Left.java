@@ -19,12 +19,18 @@ public class Left extends Instruction {
   }
 
   @Override
+  public double frontEndReturnValue() {
+    return -1*returnValue();
+  }
+
+  @Override
   public BiFunction<Instruction[], TurtleRecord, TurtleRecord> getLambda() {
     return (Instruction[] params, TurtleRecord myRecord) -> {
-      System.out.println("right");
+      System.out.println("left");
       double heading = myRecord.myHeading();
+      heading = checkHeading(heading);
       double degrees = params[0].returnValue();
-      heading = checkHeading(heading + degrees);
+      heading = heading + degrees;
 
       return new TurtleRecord(myRecord.myX(), myRecord.myY(), heading, myRecord.isPenDown(), myRecord.isShowing());
     };

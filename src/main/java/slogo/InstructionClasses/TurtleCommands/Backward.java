@@ -18,6 +18,11 @@ public class Backward extends Instruction {
     return myPixels;
   }
 
+//  @Override
+//  public double frontEndReturnValue() {
+//    return returnValue();
+//  }
+
   @Override
   public BiFunction<Instruction[], TurtleRecord, TurtleRecord> getLambda() {
     return (Instruction[] params, TurtleRecord myRecord) -> {
