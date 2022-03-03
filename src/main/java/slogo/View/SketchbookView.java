@@ -239,10 +239,10 @@ public class SketchbookView extends Node {
     turtle.updateTurtle(x, y, heading, color);
   }
 
-    @Override
-    public Node getStyleableNode() {
-        return super.getStyleableNode();
-    }
+//    @Override
+//    public Node getStyleableNode() {
+//        return super.getStyleableNode();
+//    }
 
   public void pause() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     if (!isAnimated) {
@@ -263,5 +263,10 @@ public class SketchbookView extends Node {
 
   public Pane getPane() {
     return myPane;
+  }
+
+  @Override
+  public Node getStyleableNode() {
+    return super.getStyleableNode();
   }
 }
