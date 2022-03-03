@@ -2,23 +2,33 @@ package slogo.InstructionClasses.TurtleCommands;
 
 import java.util.Stack;
 import slogo.InstructionClasses.Instruction;
+import slogo.Model.TurtleCollection;
 
 public abstract class TurtleCommand extends Instruction {
 
-
-  @Override
-  public void setParameters(Stack<Instruction> valueStack) {
-    int currParamIndex = getNumParameters()-1;
-    for(int i = currParamIndex; i>=0; i--) {
-      Instruction currParam = valueStack.pop();
-      getMyParameters()[i] = currParam;
-    }
-    valueStack.push(this);
+  public TurtleCommand(int paramNum, TurtleCollection turtleModel) {
+    super(paramNum, turtleModel);
   }
 
   @Override
-  public double returnValue() {
-    return 0;
+  public abstract double returnValue();
+
+  protected double checkHeading(double tempHeading) {
+    if (tempHeading < 0) {
+      return 360 + tempHeading;
+    }
+    else if (tempHeading > 360) {
+      return 360 - tempHeading;
+    }
+    return tempHeading;
+  }
+
+  protected double calcXchange(double pixels, double heading) {
+    return pixels * Math.cos(Math.toRadians(heading));
+  }
+
+  protected double calcYchange(double pixels, double heading) {
+    return pixels * Math.sin(Math.toRadians(heading));
   }
 
 }

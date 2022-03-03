@@ -10,7 +10,10 @@ import slogo.Model.TurtleRecord;
 
 public class InsnList extends Instruction {
 
-  Map<String, Variable> myVarMap;
+  private Map<String, Variable> myVarMap;
+
+  private int currNumInstruction = 0;
+
   public InsnList(Deque<Instruction> instructionQueue, Map<String, Variable> varMap, TurtleCollection model) {
     super(instructionQueue.size(), model);
     queueToParam(instructionQueue);
@@ -28,6 +31,20 @@ public class InsnList extends Instruction {
     while(!instructionQueue.isEmpty()) {
       getMyParameters()[counter] = instructionQueue.poll();
       counter++;
+    }
+  }
+
+  @Override
+  public void run() {
+    if(currNumInstruction<getNumParameters()) {
+      Instruction currInstruction = getMyParameters()[currNumInstruction];
+      currInstruction.run();
+      if(currInstruction.getIsDone()) {
+        currNumInstruction++;
+      }
+    }
+    if(currNumInstruction>=getNumParameters()) {
+      setIsDone(true);
     }
   }
 
