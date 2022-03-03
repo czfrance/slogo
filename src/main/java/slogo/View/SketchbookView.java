@@ -4,7 +4,9 @@ import java.awt.Dimension;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import javafx.animation.Animation;
 import javafx.animation.PathTransition;
@@ -35,6 +37,7 @@ public class SketchbookView extends Node {
   public static final double NO_MOVEMENT = 0.01; //pixels per second
 
   Pane myPane;
+  Map<TurtleModel, TurtleView> myTurtlesMap;
   private List<TurtleModel> myModels;
   private List<TurtleView> myTurtles;
   //todo: could probably phase this out
@@ -48,13 +51,15 @@ public class SketchbookView extends Node {
   public SketchbookView(TurtleModel model) {
     myModel = model;
     turtle = makeTurtle(myModel);
+    //todo: put pen in turtleview
     pen = new LinePen(turtle.getColor());
   }
 
   public SketchbookView(TurtleInsnModel insnModel) {
     myInsnModel = insnModel;
     myModel = myInsnModel.getCurrTurtle();
-    turtle = makeTurtle(myModel);
+    myTurtlesMap = createTurtleMap();
+    //turtle = makeTurtle(myModel);
     pen = new LinePen(turtle.getColor());
   }
 
@@ -71,31 +76,45 @@ public class SketchbookView extends Node {
 
   }
 
-  private List<TurtleView> makeTurtles() {
-    List<TurtleView> turtles = new ArrayList<>();
-    for (TurtleModel m : myModels) {
-      turtles.add(makeTurtle(m));
+  private Map<TurtleModel, TurtleView> createTurtleMap() {
+    Map<TurtleModel, TurtleView> turtlesMap = new HashMap<>();
+    Map<Integer, TurtleModel> turtleModelsMap = myInsnModel.getCreatedTurtleMap();
+    for (int i : turtleModelsMap.keySet()) {
+      TurtleView newTurtle = makeTurtle(turtleModelsMap.get(i));
+      turtlesMap.put(turtleModelsMap.get(i), newTurtle);
     }
-    return turtles;
+    return turtlesMap;
+  }
+
+  private void updateTurtleMap() {
+    Map<Integer, TurtleModel> turtleModelsMap = myInsnModel.getCreatedTurtleMap();
+    if (!myTurtlesMap.keySet().containsAll(turtleModelsMap.values())) {
+      List<TurtleModel> newModels = getNewModels(turtleModelsMap);
+      for (TurtleModel m : newModels) {
+        myTurtlesMap.put(m, makeTurtle(m));
+      }
+    }
+  }
+
+  private List<TurtleModel> getNewModels(Map<Integer, TurtleModel> turtleModelsMap) {
+    List<TurtleModel> newModels = new ArrayList<>();
+    for (TurtleModel m : turtleModelsMap.values()) {
+      if (!myTurtlesMap.containsKey(m)) {
+        newModels.add(m);
+      }
+    }
+
+    return newModels;
   }
 
   private TurtleView makeTurtle(TurtleModel m) {
-    return new TurtleView(convertX(m.getNextPos()[0]), convertY(m.getNextPos()[1]),
-            m.getHeading(), "turtle", Color.RED) {
-      @Override
-      public void updateTurtle(double x, double y, double heading, Color color) {
-
-      }
-
-      @Override
-      public void updateTurtleView() {
-
-      }
-    };
+    return new TurtleDisplay(convertX(m.getNextPos()[0]), convertY(m.getNextPos()[1]),
+            m.getHeading(), "turtle", Color.RED);
   }
 
   public void play() {
     try {
+      updateTurtleMap();
       Animation animation = makeAnimation();
       animation.play();
       animation.setOnFinished(e -> play());
