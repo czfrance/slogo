@@ -124,6 +124,7 @@ public class SketchbookView extends Node {
       updateTurtleMap();
       Animation animation = makeAnimation();
       animation.play();
+      updateCurrTurtle();
       animation.setOnFinished(e -> play());
     } catch (InvocationTargetException e) {
       e.printStackTrace();
@@ -272,7 +273,11 @@ public class SketchbookView extends Node {
     return (DEFAULT_SIZE.height / 2) - modelY;
   }
 
-  public void updateTurtle(double x, double y, double heading, Color color) {
+  public void updateCurrTurtle() {
+    double x = myTurtlesMap.get(myModel).getBoundsInParent().getCenterX();
+    double y = myTurtlesMap.get(myModel).getBoundsInParent().getCenterY();
+    double heading = myModel.getHeading();
+    Color color = myTurtlesMap.get(myModel).getColor();
     myTurtlesMap.get(myModel).updateTurtle(x, y, heading, color);
   }
 
