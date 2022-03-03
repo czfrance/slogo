@@ -24,6 +24,7 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
+import slogo.Model.TurtleInsnModel;
 import slogo.Model.TurtleModel;
 import slogo.View.Pen.LinePen;
 import slogo.View.Pen.Pen;
@@ -41,6 +42,7 @@ public class SketchbookView extends Region {
   private List<TurtleView> myTurtles;
   //todo: could probably phase this out
   private TurtleModel myModel;
+  private TurtleInsnModel myInsnModel;
   private TurtleView turtle;
   private Pen pen;
   private Group root;
@@ -51,6 +53,13 @@ public class SketchbookView extends Region {
     turtle = makeTurtle(myModel);
     pen = new LinePen(turtle.getColor());
 
+  }
+
+  public SketchbookView(TurtleInsnModel insnModel) {
+    myInsnModel = insnModel;
+    myModel = myInsnModel.getCurrTurtle();
+    turtle = makeTurtle(myModel);
+    pen = new LinePen(turtle.getColor());
   }
 
 //  public SketchbookView(List<TurtleModel> models) {
@@ -77,7 +86,6 @@ public class SketchbookView extends Region {
   private TurtleView makeTurtle(TurtleModel m) {
     return new TurtleView(convertX(m.getNextPos()[0]), convertY(m.getNextPos()[1]),
             m.getHeading(), "turtle", Color.RED) {
-
       @Override
       public void updateTurtle(double x, double y, double heading, Color color) {
 
@@ -109,7 +117,8 @@ public class SketchbookView extends Region {
 
     TurtleModel oldModelState = new TurtleModel(myModel.getNextPos()[0], myModel.getNextPos()[1],
         myModel.getHeading());
-    Optional<Object> o = myModel.runNextInsn();
+//    Optional<Object> o = myModel.runNextInsn();
+    Optional<Object> o = myInsnModel.runNextInsn();
     if (o.isPresent()) {
       return getTransition(o, oldModelState);
     } else {
@@ -145,7 +154,7 @@ public class SketchbookView extends Region {
     RotateTransition rt = new RotateTransition();
     rt.setNode(turtle);
     if (o.isPresent() && !(oldModel.getHeading() == myModel.getHeading())) {
-      int angle = (int) o.get();
+      double angle = (double) o.get();
       rt.setDuration(Duration.seconds(Math.abs(angle) / TURTLE_TURN_SPEED));
       rt.setByAngle(angle);
       return rt;
@@ -163,7 +172,7 @@ public class SketchbookView extends Region {
         new LineTo(convertX(myModel.getNextPos()[0]), convertY(myModel.getNextPos()[1])));
     Duration pathAnimDuration;
     if (o.isPresent() && moved(oldModel.getNextPos())) {
-      pathAnimDuration = Duration.seconds(Math.abs((int) o.get()) / TURTLE_SPEED);
+      pathAnimDuration = Duration.seconds(Math.abs((double) o.get()) / TURTLE_SPEED);
       PathTransition pathTrans = new PathTransition(pathAnimDuration, path, turtle);
       setListener(pathTrans);
       return pathTrans;

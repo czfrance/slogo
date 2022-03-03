@@ -10,11 +10,12 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import slogo.Compiler;
 import slogo.Model.TurtleCollection;
+import slogo.Model.TurtleInsnModel;
 
 public class Console {
 
 
-  private Compiler myCompiler;
+  private TurtleInsnModel myInstructionModel;
   private Stage myStage;
   private ResourceBundle myResourceBundle;
   private static final String LANGUAGE_RESOURCE_PATH = "/slogo/languages/";
@@ -23,19 +24,18 @@ public class Console {
   private CommandHistory myCmdHistory;
   private TextArea myConsole;
   private FileOpener myFileOpener;
+  private TurtleCollection myTurtleCollection;
 
-  public Console(String language, Compiler compiler) {
+  public Console(String language, TurtleCollection turtles, TurtleInsnModel model) {
     myStage = new Stage();
+    myTurtleCollection = turtles;
     ResourceBundle resources = ResourceBundle.getBundle(LANGUAGE_RESOURCE_PATH + language);
-    myCompiler = compiler;
+    myInstructionModel = model;
     myFileOpener = new FileOpener();
     myCmdHistory = new CommandHistory();
     generatePopup();
   }
 
-  public Console(String language, TurtleCollection turtleModel) {
-    this(language, new Compiler(language, turtleModel));
-  }
 
   private void generatePopup() {
     BorderPane layout = new BorderPane();
@@ -89,7 +89,7 @@ public class Console {
   private void handleInput(String in) {
     System.out.println(in);
     try{
-      myCompiler.getCommands(in);
+      myInstructionModel.addUserInput(in);
       myCmdHistory.updateHistory(in);
     }
     catch(Exception e){

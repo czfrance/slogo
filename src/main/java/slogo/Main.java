@@ -19,6 +19,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import slogo.Model.TurtleCollection;
+import slogo.Model.TurtleInsnModel;
 import slogo.Model.TurtleModel;
 import slogo.Console.Console;
 import slogo.View.SimulationDisplay;
@@ -102,25 +104,30 @@ public class Main extends Application {
      */
 
     @Override
-    public void start(Stage stage) {
-//      TurtleModel model = new TurtleModel(0, 0, 90);
-//      Console console = new Console("English",model);
-//
-//      model.addInsn("forward 100");
-//      model.addInsn("penUp");
-//      model.addInsn("back 200");
-//      model.addInsn("right 360");
-//      model.addInsn("left 360");
-//      model.addInsn("setHeading 270");
-//      model.addInsn("towards -100 0");
-//      model.addInsn("penDown");
-//      model.addInsn("setXY -100 0");
-//
+    public void start(Stage stage)
+        throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+      TurtleModel model = new TurtleModel(0, 0, 90);
+      TurtleCollection collection = new TurtleCollection();
+      TurtleInsnModel insnModel = new TurtleInsnModel(collection, "English");
+      //Console console = new Console("English",model);
+
+      insnModel.addUserInput("forward 100");
+      //model.addInsn("penUp");
+      insnModel.addUserInput("back 200");
+      insnModel.addUserInput("right 45");
+      insnModel.addUserInput("left 78");
+      //model.addInsn("setHeading 270");
+      //model.addInsn("towards -100 0");
+      //model.addInsn("penDown");
+      //model.addInsn("setXY -100 0");
+
 //      SketchbookView view = new SketchbookView(model);
-//      stage.setScene(view.makeScene());
-//      stage.show();
-//      view.play();
-//
+      SketchbookView view = new SketchbookView(insnModel);
+      stage.setScene(view.makeScene());
+      stage.show();
+      view.play();
+
+      insnModel.addUserInput("forward 100");
 //      model.addInsn("towards 0 0");
 //      model.addInsn("setXY 0 0");
 //      model.addInsn("towards 0 0");

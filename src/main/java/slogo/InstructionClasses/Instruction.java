@@ -58,6 +58,10 @@ public abstract class Instruction {
 
   public abstract double returnValue();
 
+  public double frontEndReturnValue() {
+    return returnValue();
+  }
+
   public abstract BiFunction<Instruction[], TurtleRecord, TurtleRecord> getLambda();
 
   public void run() {

@@ -19,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import slogo.Console.Console;
 import slogo.Model.TurtleCollection;
+import slogo.Model.TurtleInsnModel;
 import slogo.Model.TurtleModel;
 import slogo.View.OpeningWindow;
 
@@ -68,9 +69,11 @@ public class SlogoView {
     private int currentGridY;
     private int currentGridX;
     private boolean inNightMode;
+    private String myLanguage;
 
     private TurtleCollection myTurtleCollection;
     private TurtleModel myTurtleModel; // this is a temp solution
+    private TurtleInsnModel myModel;
 
     /**
      * Initializes the starting properties need to create the initial simulation
@@ -78,6 +81,7 @@ public class SlogoView {
      * @param language - chooses what language file to read from between: English
      */
     public SlogoView(String language) {
+        myLanguage = language;
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
         currentGridY = 0;
         currentGridX = 0;
@@ -89,8 +93,7 @@ public class SlogoView {
         myTurtleCollection = new TurtleCollection();
         //myTurtleModel = new TurtleModel(0,0,0);
         myTurtleModel = myTurtleCollection.getActiveTurtle();
-        myCompiler = new  Compiler(language, myTurtleCollection);
-
+        myModel = new TurtleInsnModel(myTurtleCollection, language);
     }
 
         /**
@@ -198,7 +201,7 @@ public class SlogoView {
     // creates the display of the console
     private void displayConsole() {
         myRoot.getChildren().clear();
-        myConsole = new Console(LANGUAGE, myCompiler);
+        myConsole = new Console(myLanguage, myTurtleCollection,  myModel);
         myRoot.setCenter(myWelcome.getPane());
         currentGridY = 0;
         currentGridX = 0;
