@@ -100,10 +100,11 @@ public class SlogoView {
          * @param height - height in pixels of initial window
          * @return scene holding all elements displayed
          */
+    // pass a border pane as an argument
     public Scene makeScene(int width, int height, Stage stage) {
         Scene scene = new Scene(myRoot, width, height);
-        // displayWelcome(scene, stage);
-        displaySketch(stage);
+        displayWelcome(scene, stage);
+        // displaySketch(stage, scene);
         return scene;
     }
 
@@ -114,17 +115,19 @@ public class SlogoView {
         myRoot.getChildren().clear();
         myWelcome = new OpeningWindow(myResources);
         myRoot.setCenter(myWelcome.getPane());
-        Button proceed = SlogoView.makeButton("Go", event -> displaySketch(myStage),
+        Button proceed = SlogoView.makeButton("Go", event -> displaySketch(myStage, scene),
                 myResources);
+//        Button console = SlogoView.makeButton("Next", event -> displayConsole(),
+//                myResources);
         myWelcome.getContainer().getChildren().addAll(proceed);
         myWelcome.getContainer().setAlignment(Pos.CENTER);
         currentGridY = 0;
         currentGridX = 0;
     }
 
-    public static void displaySketch(Stage stage) {
-//        scene.getStylesheets()
-//                .add(getClass().getResource("/simdisplay.css").toExternalForm());
+    public void displaySketch(Stage stage, Scene scene) {
+        scene.getStylesheets()
+                .add(getClass().getResource("/simdisplay.css").toExternalForm());
         myTurtleModel = new TurtleModel(0, 0, 90);
         TurtleCollection collection = new TurtleCollection();
         TurtleInsnModel insnModel = new TurtleInsnModel(collection, "English");

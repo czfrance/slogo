@@ -31,7 +31,7 @@ import slogo.View.Pen.Pen;
 
 public class SketchbookView extends Region {
 
-  public static final Dimension DEFAULT_SIZE = new Dimension(400, 400);
+  public static final Dimension DEFAULT_SIZE = new Dimension(800, 800);
   public static int TURTLE_SPEED = 50; //pixels per second
   public static final int TURTLE_TURN_SPEED = 45; //degrees per second
   public static final double NO_MOVEMENT = 0.01; //pixels per second
@@ -56,19 +56,6 @@ public class SketchbookView extends Region {
 
   }
 
-//  public SketchbookView(TurtleInsnModel insnModel) {
-//    myInsnModel = insnModel;
-//    myModel = myInsnModel.getCurrTurtle();
-//    turtle = makeTurtle(myModel);
-//    pen = new LinePen(turtle.getColor());
-//  }
-
-//  public SketchbookView(List<TurtleModel> models) {
-//    myModels = new ArrayList<>(models);
-//    myTurtles = makeTurtles();
-//    pen = new LinePen(turtle.getColor());
-//  }
-
   public Scene makeScene(BorderPane myFeatures) {
     root = new Group();
     root.getChildren().addAll(turtle, myFeatures);
@@ -84,6 +71,7 @@ public class SketchbookView extends Region {
     return turtles;
   }
 
+  // CHANGE TO TURTLEDISPLAY INSTEAD OF TURTLEVIEW
   private TurtleView makeTurtle(TurtleModel m) {
     return new TurtleView(convertX(m.getNextPos()[0]), convertY(m.getNextPos()[1]),
             m.getHeading(), "turtle", Color.RED) {

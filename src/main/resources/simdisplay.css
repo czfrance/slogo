@@ -1,4 +1,9 @@
-#SimulationDisplay{
+.root {
+    -fx-alignment: center;
+    -fx-background-color: rgba(255, 87, 51, 1);
+}
+
+#SketchbookView{
     /*-fx-alignment: center;*/
     /*-fx-pref-width: infinity;*/
     /*-fx-background-color: rgba(239, 246, 255, 1);*/
@@ -6,3 +11,4 @@
     -fx-alignment: center;
     -fx-pref-width: infinity;
 }
+

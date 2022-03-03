@@ -1,6 +1,7 @@
 package slogo.View;
 
 import javafx.beans.value.ChangeListener;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -49,7 +50,7 @@ public class SimulationDisplay extends Region implements DashboardView {
 //        myRoot.setLeft(makeSidePanel());
 //        myRoot.setBottom(makeConfigButtons());
         root.setLeft(makeSidePanel());
-        root.setBottom(makeConfigButtons());
+        root.setRight(makeConfigButtons());
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+ "English");
         return root;
     }

@@ -42,7 +42,7 @@ import slogo.View.SketchbookView;
  */
 public class Main extends Application {
     // useful names for constant values used, ADD TO RESOURCE FILE (note to self from Thivya)
-    public static final String TITLE = "Cell Society";
+    public static final String TITLE = "SLogo";
     public static final String LANGUAGE = "English";
     public static final Dimension DEFAULT_SIZE = new Dimension(800, 600);
     private static final String LANGUAGE_RESOURCE_PATH = "/slogo/languages/";
@@ -56,6 +56,7 @@ public class Main extends Application {
     private javafx.scene.control.Button myPlayButton;
     private Button myResetButton;
     private SketchbookView sketch;
+    private BorderPane theFeatures;
     public static final String DEFAULT_RESOURCE_PACKAGE = "/slogo.languages/";
 
     // the next three methods should be used somewhere else if we are to make an efficient use of design
@@ -113,66 +114,22 @@ public class Main extends Application {
 
 //      insnModel.addUserInput("forward 100");
       model.addInsn("penUp");
-//      insnModel.addUserInput("back 200");
-//      insnModel.addUserInput("right 45");
-//      insnModel.addUserInput("left 78");
       model.addInsn("setHeading 270");
       model.addInsn("towards -100 0");
       model.addInsn("penDown");
       model.addInsn("setXY -100 0");
 
       SketchbookView sketch = new SketchbookView(model);
-//      SketchbookView view = new SketchbookView(insnModel);
+      SimulationDisplay mySimulation = new SimulationDisplay(sketch);
+//        myRoot = mySimulation.updateVariableDisplay(mySketch, myRoot);
+//        stage.setScene(mySketch.makeScene(myRoot));
       SlogoView view = new SlogoView("English");
-      view.makeScene(800, 800, stage);
-//      stage.setScene(sketch.makeScene());
-//      stage.show();
-//      sketch.play();
-//
-//      insnModel.addUserInput("forward 100");
-//      model.addInsn("towards 0 0");
-//      model.addInsn("setXY 0 0");
-//      model.addInsn("towards 0 0");
-
-//        SketchbookView mySketch = new SketchbookView(turtleModel);
-//        SimulationDisplay view = new SimulationDisplay(sketch);
-//        // give the window a title
-//         BorderPane myRoot = new BorderPane();
-//         Scene scene = new Scene(myRoot, 800, 800);
-////         myRoot.getChildren().add(view);
-//        stage.setTitle(TITLE);
-//        // add our user interface components to Frame and show it
-//        stage.setScene(scene);
-////        stage.setScene(mySketch.makeScene());
-//        stage.setScene(view.makeScene(DEFAULT_SIZE.width, DEFAULT_SIZE.height));
-//        stage.show();
-        // sketch.play();
+      view.makeScene(DEFAULT_SIZE.width, DEFAULT_SIZE.height, stage);
+      theFeatures = mySimulation.updateVariableDisplay(sketch, theFeatures);
+      stage.setScene(sketch.makeScene(theFeatures));
+      stage.show();
+      sketch.play();
 
     }
 
-    /**
-     * Start of the program.
-     */
-//    public static void main (String[] args) {
-//        Main m = new Main();
-//        System.out.println(m.getVersion());
-//        System.out.println(m.getCommand("English", "Forward"));
-//        System.out.println(m.getExampleProgram("loops", "star"));
-//
-//        TurtleModel model = new TurtleModel(0, 0, 90);
-//        model.addInsn("forward 50");
-//        try {
-//            model.runNextInsn();
-//        } catch (NoSuchMethodException e) {
-//            e.printStackTrace();
-//        } catch (InvocationTargetException e) {
-//            e.printStackTrace();
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//        }
-//        System.out.printf("location: %f, %f\n", model.getNextPos()[0], model.getNextPos()[1]);
-//        SketchbookView view = new SketchbookView(model);
-//        view.makeScene();
-//
-//    }
 }
