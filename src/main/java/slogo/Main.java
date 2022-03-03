@@ -111,52 +111,41 @@ public class Main extends Application {
       TurtleInsnModel insnModel = new TurtleInsnModel(collection, "English");
       //Console console = new Console("English",model);
 
-      insnModel.addUserInput("forward 100");
-      //model.addInsn("penUp");
-      insnModel.addUserInput("back 200");
-      insnModel.addUserInput("right 45");
-      insnModel.addUserInput("left 78");
-      //model.addInsn("setHeading 270");
-      //model.addInsn("towards -100 0");
-      //model.addInsn("penDown");
-      //model.addInsn("setXY -100 0");
+//      insnModel.addUserInput("forward 100");
+      model.addInsn("penUp");
+//      insnModel.addUserInput("back 200");
+//      insnModel.addUserInput("right 45");
+//      insnModel.addUserInput("left 78");
+      model.addInsn("setHeading 270");
+      model.addInsn("towards -100 0");
+      model.addInsn("penDown");
+      model.addInsn("setXY -100 0");
 
-//      SketchbookView view = new SketchbookView(model);
-      SketchbookView view = new SketchbookView(insnModel);
-      stage.setScene(view.makeScene());
-      stage.show();
-      view.play();
-
-      insnModel.addUserInput("forward 100");
+      SketchbookView sketch = new SketchbookView(model);
+//      SketchbookView view = new SketchbookView(insnModel);
+      SlogoView view = new SlogoView("English");
+      view.makeScene(800, 800, stage);
+//      stage.setScene(sketch.makeScene());
+//      stage.show();
+//      sketch.play();
+//
+//      insnModel.addUserInput("forward 100");
 //      model.addInsn("towards 0 0");
 //      model.addInsn("setXY 0 0");
 //      model.addInsn("towards 0 0");
 
-        // let's make someting called dashboard view as a class
-         SlogoView view = new SlogoView(LANGUAGE);
-//        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+ "English");
-//        TurtleModel turtleModel = new TurtleModel(0, 0, 90);
-//        turtleModel.addInsn("forward 100");
-//        turtleModel.addInsn("penUp");
-//        turtleModel.addInsn("back 200");
-//        turtleModel.addInsn("right 360");
-//        turtleModel.addInsn("left 360");
-//        turtleModel.addInsn("setHeading 270");
-//        turtleModel.addInsn("towards -100 0");
-//        turtleModel.addInsn("penDown");
-//        turtleModel.addInsn("setXY -100 0");
 //        SketchbookView mySketch = new SketchbookView(turtleModel);
 //        SimulationDisplay view = new SimulationDisplay(sketch);
 //        // give the window a title
-         BorderPane myRoot = new BorderPane();
-         Scene scene = new Scene(myRoot, 800, 800);
-//         myRoot.getChildren().add(view);
-        stage.setTitle(TITLE);
-        // add our user interface components to Frame and show it
-        stage.setScene(scene);
-//        stage.setScene(mySketch.makeScene());
-        stage.setScene(view.makeScene(DEFAULT_SIZE.width, DEFAULT_SIZE.height));
-        stage.show();
+//         BorderPane myRoot = new BorderPane();
+//         Scene scene = new Scene(myRoot, 800, 800);
+////         myRoot.getChildren().add(view);
+//        stage.setTitle(TITLE);
+//        // add our user interface components to Frame and show it
+//        stage.setScene(scene);
+////        stage.setScene(mySketch.makeScene());
+//        stage.setScene(view.makeScene(DEFAULT_SIZE.width, DEFAULT_SIZE.height));
+//        stage.show();
         // sketch.play();
 
     }

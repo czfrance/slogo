@@ -5,11 +5,10 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
+
 import java.util.ResourceBundle;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -17,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.stage.Stage;
 import slogo.Console.Console;
 import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleInsnModel;
@@ -24,11 +24,8 @@ import slogo.Model.TurtleModel;
 import slogo.View.OpeningWindow;
 
 
-import java.util.ResourceBundle;
-
 import slogo.View.SimulationDisplay;
 import slogo.View.SketchbookView;
-import slogo.View.TurtleView;
 
 public class SlogoView {
 
@@ -53,26 +50,26 @@ public class SlogoView {
     private String STYLESHEET;
 
     private ResourceBundle myResources;
-    private BorderPane myRoot;
+    private static BorderPane myRoot;
 
     private OpeningWindow myWelcome;
     private Console myConsole;
     private Compiler myCompiler;
-    private SketchbookView mySketch;
+    private static SketchbookView mySketch;
     private HBox TitleBox;
     private ScrollPane ScrollBox;
     private HBox ScreenConfigBox;
     private Label titleText;
-    private SimulationDisplay mySimulation;
-    private GridPane gridOfSimulations;
+    private static SimulationDisplay mySimulation;
+    private static GridPane gridOfSimulations;
 
-    private int currentGridY;
-    private int currentGridX;
+    private static int currentGridY;
+    private static int currentGridX;
     private boolean inNightMode;
     private String myLanguage;
 
     private TurtleCollection myTurtleCollection;
-    private TurtleModel myTurtleModel; // this is a temp solution
+    private static TurtleModel myTurtleModel; // this is a temp solution
     private TurtleInsnModel myModel;
 
     /**
@@ -103,20 +100,21 @@ public class SlogoView {
          * @param height - height in pixels of initial window
          * @return scene holding all elements displayed
          */
-    public Scene makeScene(int width, int height) {
+    public Scene makeScene(int width, int height, Stage stage) {
         Scene scene = new Scene(myRoot, width, height);
-        displayWelcome(scene);
+        // displayWelcome(scene, stage);
+        displaySketch(stage);
         return scene;
     }
 
     //Creates the initial welcome screen for the user to select a language
-    private void displayWelcome(Scene scene) {
+    private void displayWelcome(Scene scene, Stage myStage) {
         scene.getStylesheets()
                 .add(getClass().getResource("/welcome.css").toExternalForm());
         myRoot.getChildren().clear();
         myWelcome = new OpeningWindow(myResources);
         myRoot.setCenter(myWelcome.getPane());
-        Button proceed = SlogoView.makeButton("Go", event -> displaySketch(scene),
+        Button proceed = SlogoView.makeButton("Go", event -> displaySketch(myStage),
                 myResources);
         myWelcome.getContainer().getChildren().addAll(proceed);
         myWelcome.getContainer().setAlignment(Pos.CENTER);
@@ -124,23 +122,47 @@ public class SlogoView {
         currentGridX = 0;
     }
 
-    private void displaySketch(Scene scene) {
-        scene.getStylesheets()
-                .add(getClass().getResource("/simdisplay.css").toExternalForm());
-        setupTurtleViews();
+    public static void displaySketch(Stage stage) {
+//        scene.getStylesheets()
+//                .add(getClass().getResource("/simdisplay.css").toExternalForm());
         myTurtleModel = new TurtleModel(0, 0, 90);
-        myTurtleModel.addInsn("forward 100");
+        TurtleCollection collection = new TurtleCollection();
+        TurtleInsnModel insnModel = new TurtleInsnModel(collection, "English");
+        //Console console = new Console("English",model);
+
+//      insnModel.addUserInput("forward 100");
         myTurtleModel.addInsn("penUp");
-        myTurtleModel.addInsn("back 200");
-        myTurtleModel.addInsn("right 360");
-        myRoot.getChildren().clear();
-        setupSketch();
-        myRoot.setCenter(mySimulation.getPane());
-        currentGridY = 0;
-        currentGridX = 0;
+//      insnModel.addUserInput("back 200");
+//      insnModel.addUserInput("right 45");
+//      insnModel.addUserInput("left 78");
+        myTurtleModel.addInsn("setHeading 270");
+        myTurtleModel.addInsn("towards -100 0");
+        myTurtleModel.addInsn("penDown");
+        myTurtleModel.addInsn("setXY -100 0");
+
+        mySketch = new SketchbookView(myTurtleModel);
+        stage.setScene(mySketch.makeScene());
+        stage.show();
+        mySketch.play();
+//      SketchbookView view = new SketchbookView(insnModel);
+
+//        setupTurtleViews();
+//        myTurtleModel = new TurtleModel(0, 0, 90);
+//        myTurtleModel.addInsn("forward 100");
+//        myTurtleModel.addInsn("penUp");
+//        myTurtleModel.addInsn("back 200");
+//        myTurtleModel.addInsn("right 360");
+//        myRoot.getChildren().clear();
+//        setupSketch(myTurtleModel);
+////        myRoot.setCenter(mySimulation.getPane());
+//        myRoot.getChildren().add(mySketch);
+//        // myRoot.setCenter(mySketch);
+//        currentGridY = 0;
+//        currentGridX = 0;
+//        mySketch.play();
     }
 
-    private void setupTurtleViews() {
+    private static void setupTurtleViews() {
         gridOfSimulations = new GridPane();
         gridOfSimulations.prefWidthProperty().bind(myRoot.widthProperty());
         gridOfSimulations.prefHeightProperty().bind(myRoot.heightProperty());
@@ -180,10 +202,10 @@ public class SlogoView {
         }
     }
 
-    private void setupSketch() {
-        mySketch = new SketchbookView(myTurtleModel);
+    private static void setupSketch(TurtleModel turtle) {
+        mySketch = new SketchbookView(turtle);
         // mySimulation = new SimulationDisplay(mySketch);
-        mySketch.play();
+//        mySketch.play();
 //        mySketch.prefWidthProperty().bind(myRoot.widthProperty());
 //        mySketch.prefHeightProperty().bind(myRoot.heightProperty());
     }

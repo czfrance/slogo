@@ -55,12 +55,12 @@ public class SketchbookView extends Region {
 
   }
 
-  public SketchbookView(TurtleInsnModel insnModel) {
-    myInsnModel = insnModel;
-    myModel = myInsnModel.getCurrTurtle();
-    turtle = makeTurtle(myModel);
-    pen = new LinePen(turtle.getColor());
-  }
+//  public SketchbookView(TurtleInsnModel insnModel) {
+//    myInsnModel = insnModel;
+//    myModel = myInsnModel.getCurrTurtle();
+//    turtle = makeTurtle(myModel);
+//    pen = new LinePen(turtle.getColor());
+//  }
 
 //  public SketchbookView(List<TurtleModel> models) {
 //    myModels = new ArrayList<>(models);
@@ -117,8 +117,8 @@ public class SketchbookView extends Region {
 
     TurtleModel oldModelState = new TurtleModel(myModel.getNextPos()[0], myModel.getNextPos()[1],
         myModel.getHeading());
-//    Optional<Object> o = myModel.runNextInsn();
-    Optional<Object> o = myInsnModel.runNextInsn();
+    Optional<Object> o = myModel.runNextInsn();
+//    Optional<Object> o = myInsnModel.runNextInsn();
     if (o.isPresent()) {
       return getTransition(o, oldModelState);
     } else {
