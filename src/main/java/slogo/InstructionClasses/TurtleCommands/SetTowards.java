@@ -32,7 +32,6 @@ public class SetTowards extends TurtleCommand{
       double currX = myRecord.myX();
       double currY = myRecord.myY();
       heading = checkHeading(heading);
-      double oldHeading = heading;
       double newHeading = calcAbsHeading(currX, currY, heading, params[0].returnValue(), params[1].returnValue());
 
       return new TurtleRecord(myRecord.myX(), myRecord.myY(), newHeading, myRecord.isPenDown(), myRecord.isShowing());
