@@ -26,6 +26,7 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
+import javax.crypto.spec.PSource;
 import slogo.Model.TurtleInsnModel;
 import slogo.Model.TurtleModel;
 import slogo.View.Pen.LinePen;
@@ -78,11 +79,17 @@ public class SketchbookView extends Region {
 //    pen = new LinePen(turtle.getColor());
 //  }
 
-  public Scene makeScene(BorderPane myFeatures) {
+  public Scene makeScene() {
     root = new Group();
-    root.getChildren().add(myFeatures);
+    addTurtlesToRoot();
     return new Scene(root, DEFAULT_SIZE.width, DEFAULT_SIZE.height);
   }
+
+//  public Scene makeScene(BorderPane myFeatures) {
+//    root = new Group();
+//    root.getChildren().add(myFeatures);
+//    return new Scene(root, DEFAULT_SIZE.width, DEFAULT_SIZE.height);
+//  }
 
   private Map<TurtleModel, TurtleView> createTurtleMap() {
     Map<TurtleModel, TurtleView> turtlesMap = new HashMap<>();
@@ -131,6 +138,7 @@ public class SketchbookView extends Region {
     try {
       updateTurtleMap();
       Animation animation = makeAnimation();
+      checkShowing();
       animation.play();
       //updateCurrTurtle();
       animation.setOnFinished(e -> play());
@@ -148,6 +156,7 @@ public class SketchbookView extends Region {
 
     TurtleModel oldModelState = new TurtleModel(myModel.getNextPos()[0], myModel.getNextPos()[1],
         myModel.getHeading());
+
     Optional<Object> o = myInsnModel.runNextInsn();
     myModel = myInsnModel.getCurrTurtle();
     if (o.isPresent()) {
@@ -238,7 +247,7 @@ public class SketchbookView extends Region {
         }
 
         // draw line
-        if (myModel.penIsDown()) {
+        if (myModel.getTurtleRecord().isPenDown()) {
           root.getChildren().add(myTurtlesMap.get(myModel).getPen().draw(oldLocation[0], oldLocation[1], x, y));
         }
 
@@ -247,6 +256,15 @@ public class SketchbookView extends Region {
         oldLocation[1] = y;
       }
     });
+  }
+
+  private void checkShowing() {
+    if (!myModel.getTurtleRecord().isShowing())  {
+      root.getChildren().remove(myTurtlesMap.get(myModel));
+    }
+    else if (!root.getChildren().contains(myTurtlesMap.get(myModel))){
+      root.getChildren().add(myTurtlesMap.get(myModel));
+    }
   }
 
   private PathTransition doNothingPath(TurtleModel oldModel) {
@@ -305,7 +323,8 @@ public class SketchbookView extends Region {
   }
 
   public void reset() {
-    makeScene(myRoot);
+    makeScene();
+    //makeScene(myRoot);
     isAnimated = false;
     //updateGridPane();
   }
