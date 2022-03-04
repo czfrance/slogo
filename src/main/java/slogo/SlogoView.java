@@ -66,7 +66,7 @@ public class SlogoView {
     private static int currentGridY;
     private static int currentGridX;
     private boolean inNightMode;
-    private String myLanguage;
+    private static String myLanguage;
 
     private TurtleCollection myTurtleCollection;
     private static TurtleModel myTurtleModel; // this is a temp solution
@@ -78,8 +78,8 @@ public class SlogoView {
      * @param language - chooses what language file to read from between: English
      */
     public SlogoView(String language) {
-        myLanguage = language;
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
+        myLanguage = language;
         currentGridY = 0;
         currentGridX = 0;
         myRoot = new BorderPane();
@@ -129,7 +129,7 @@ public class SlogoView {
                 .add(getClass().getResource("/simdisplay.css").toExternalForm());
         myTurtleModel = new TurtleModel(0, 0, 90);
         TurtleCollection collection = new TurtleCollection();
-        TurtleInsnModel insnModel = new TurtleInsnModel(collection, "English");
+        TurtleInsnModel insnModel = new TurtleInsnModel(collection, myLanguage);
         //Console console = new Console("English",model);
 
         myTurtleModel.addInsn("penDown");
@@ -209,7 +209,7 @@ public class SlogoView {
     // creates the display of the console
     private void displayConsole() {
         myRoot.getChildren().clear();
-        myConsole = new Console(myLanguage, myTurtleCollection,  myModel);
+        myConsole = new Console(myResources, myTurtleCollection,  myModel);
         myRoot.setCenter(myWelcome.getPane());
         currentGridY = 0;
         currentGridX = 0;

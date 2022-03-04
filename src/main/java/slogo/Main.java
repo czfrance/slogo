@@ -19,6 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import slogo.Console.LanguageMenu;
 import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleInsnModel;
 import slogo.Model.TurtleModel;
@@ -107,9 +108,10 @@ public class Main extends Application {
     @Override
     public void start(Stage stage)
         throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+      LanguageMenu menu = new LanguageMenu();
       //TurtleModel model = new TurtleModel(0, 0, 90);
       TurtleCollection collection = new TurtleCollection();
-      TurtleInsnModel insnModel = new TurtleInsnModel(collection, "English");
+      TurtleInsnModel insnModel = new TurtleInsnModel(collection, menu.getAppLanguage());
       //Console console = new Console("English",model);
 
       insnModel.addUserInput("tell [ 1 2 ]");

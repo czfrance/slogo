@@ -27,13 +27,13 @@ public class Console {
   private FileOpener myFileOpener;
   private TurtleCollection myTurtleCollection;
 
-  public Console(String language, TurtleCollection turtles, TurtleInsnModel model) {
+  public Console(ResourceBundle language, TurtleCollection turtles, TurtleInsnModel model) {
     myStage = new Stage();
     myTurtleCollection = turtles;
-    ResourceBundle resources = ResourceBundle.getBundle(LANGUAGE_RESOURCE_PATH + language);
+    ResourceBundle resources = language;
     myInstructionModel = model;
-    myFileOpener = new FileOpener();
-    myCmdHistory = new CommandHistory();
+    myFileOpener = new FileOpener(language);
+    myCmdHistory = new CommandHistory(resources);
     generatePopup();
   }
 
