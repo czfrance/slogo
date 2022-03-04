@@ -119,7 +119,7 @@ public class Main extends Application {
       model.addInsn("penDown");
       model.addInsn("setXY -100 0");
 
-      SketchbookView sketch = new SketchbookView(model);
+      SketchbookView sketch = new SketchbookView(insnModel);
       SimulationDisplay mySimulation = new SimulationDisplay(sketch);
 //        myRoot = mySimulation.updateVariableDisplay(mySketch, myRoot);
 //        stage.setScene(mySketch.makeScene(myRoot));
@@ -129,6 +129,62 @@ public class Main extends Application {
       stage.setScene(sketch.makeScene(theFeatures));
       stage.show();
       sketch.play();
+      insnModel.addUserInput("forward 100");
+      insnModel.addUserInput("setHeading 180");
+      //model.addInsn("penUp");
+    //  insnModel.addUserInput("back 200");
+    //  insnModel.addUserInput("right 45");
+    //  insnModel.addUserInput("left 78");
+      //model.addInsn("setHeading 270");
+      //model.addInsn("towards -100 0");
+      //model.addInsn("penDown");
+      //model.addInsn("setXY -100 0");
+
+//      SketchbookView view = new SketchbookView(model);
+//      SketchbookView sketch = new SketchbookView(insnModel);
+//      SimulationDisplay mySimulation = new SimulationDisplay(sketch);
+      theFeatures = mySimulation.updateVariableDisplay(sketch);
+
+      stage.setScene(sketch.makeScene(theFeatures));
+      stage.show();
+      sketch.play();
+
+    //  insnModel.addUserInput("forward 100");
+
+
+
+
+//      SketchbookView sketch = new SketchbookView(insnModel);
+//      SlogoView view = new SlogoView("English");
+//      view.makeScene(800, 800, stage);
+
+
+
+
+
+
+//      stage.setScene(sketch.makeScene());
+//      stage.show();
+//      sketch.play();
+//
+//      insnModel.addUserInput("forward 100");
+//      model.addInsn("towards 0 0");
+//      model.addInsn("setXY 0 0");
+//      model.addInsn("towards 0 0");
+
+//        SketchbookView mySketch = new SketchbookView(turtleModel);
+//        SimulationDisplay view = new SimulationDisplay(sketch);
+//        // give the window a title
+//         BorderPane myRoot = new BorderPane();
+//         Scene scene = new Scene(myRoot, 800, 800);
+////         myRoot.getChildren().add(view);
+//        stage.setTitle(TITLE);
+//        // add our user interface components to Frame and show it
+//        stage.setScene(scene);
+////        stage.setScene(mySketch.makeScene());
+//        stage.setScene(view.makeScene(DEFAULT_SIZE.width, DEFAULT_SIZE.height));
+//        stage.show();
+        // sketch.play();
 
     }
 
