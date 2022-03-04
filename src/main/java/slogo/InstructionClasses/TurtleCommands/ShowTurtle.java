@@ -9,6 +9,7 @@ public class ShowTurtle extends TurtleCommand{
   public static final int SHOW_TURTLE_PARAM_NUM = 0;
   public static final int SHOWING = 1;
 
+
   public ShowTurtle(TurtleCollection turtleModel) {
     super(SHOW_TURTLE_PARAM_NUM, turtleModel);
   }
