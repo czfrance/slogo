@@ -241,6 +241,4 @@ public class TurtleModel extends Region {
   private double calcYchange(int pixels) {
     return pixels * Math.sin(Math.toRadians(heading));
   }
-
-
 }

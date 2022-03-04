@@ -56,6 +56,7 @@ public class Main extends Application {
     private javafx.scene.control.Button myPlayButton;
     private Button myResetButton;
     private SketchbookView sketch;
+    private BorderPane theFeatures;
     public static final String DEFAULT_RESOURCE_PACKAGE = "/slogo.languages/";
 
     // the next three methods should be used somewhere else if we are to make an efficient use of design
@@ -111,20 +112,40 @@ public class Main extends Application {
       TurtleInsnModel insnModel = new TurtleInsnModel(collection, "English");
       //Console console = new Console("English",model);
 
-//      insnModel.addUserInput("forward 100");
-      model.addInsn("penUp");
-//      insnModel.addUserInput("back 200");
-//      insnModel.addUserInput("right 45");
-//      insnModel.addUserInput("left 78");
-      model.addInsn("setHeading 270");
-      model.addInsn("towards -100 0");
-      model.addInsn("penDown");
-      model.addInsn("setXY -100 0");
+      insnModel.addUserInput("forward 100");
+      insnModel.addUserInput("setHeading 180");
+      //model.addInsn("penUp");
+    //  insnModel.addUserInput("back 200");
+    //  insnModel.addUserInput("right 45");
+    //  insnModel.addUserInput("left 78");
+      //model.addInsn("setHeading 270");
+      //model.addInsn("towards -100 0");
+      //model.addInsn("penDown");
+      //model.addInsn("setXY -100 0");
 
-      SketchbookView sketch = new SketchbookView(model);
-//      SketchbookView view = new SketchbookView(insnModel);
-      SlogoView view = new SlogoView("English");
-      view.makeScene(800, 800, stage);
+//      SketchbookView view = new SketchbookView(model);
+      SketchbookView sketch = new SketchbookView(insnModel);
+      SimulationDisplay mySimulation = new SimulationDisplay(sketch);
+      theFeatures = mySimulation.updateVariableDisplay(sketch, theFeatures);
+
+      stage.setScene(sketch.makeScene(theFeatures));
+      stage.show();
+      sketch.play();
+
+    //  insnModel.addUserInput("forward 100");
+
+
+
+
+//      SketchbookView sketch = new SketchbookView(insnModel);
+//      SlogoView view = new SlogoView("English");
+//      view.makeScene(800, 800, stage);
+
+
+
+
+
+
 //      stage.setScene(sketch.makeScene());
 //      stage.show();
 //      sketch.play();
