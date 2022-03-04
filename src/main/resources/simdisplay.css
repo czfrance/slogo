@@ -6,3 +6,11 @@
     -fx-alignment: center;
     -fx-pref-width: infinity;
 }
+
+.button {
+    -fx-text-fill: white;
+    -fx-font: Mulish;
+    -fx-font-weight: normal;
+    -fx-alignment: center;
+    -fx-background-color: rgba(60, 100, 177, 1);
+}
