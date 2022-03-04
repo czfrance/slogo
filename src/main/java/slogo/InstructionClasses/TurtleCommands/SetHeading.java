@@ -6,29 +6,40 @@ import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleRecord;
 
 public class SetHeading extends TurtleCommand {
-
   public static final int SET_HEADING_PARAM_NUM = 1;
+
+  private double oldHeading;
+  private double heading;
 
   public SetHeading(TurtleCollection turtleModel) {
     super(SET_HEADING_PARAM_NUM, turtleModel);
   }
 
+  /*
+  private int setHeading(int[] params) {
+    System.out.println("setHeading");
+    heading = checkHeading(heading);
+    double oldHeading = heading;
+    heading = checkHeading(params[0]);
+    return (int)(oldHeading - heading);
+  }
+   */
+
+
   @Override
   public double returnValue() {
-    double myDegrees = getMyParameters()[0].returnValue();
-    return myDegrees;
+    return oldHeading - heading;
   }
 
   @Override
   public BiFunction<Instruction[], TurtleRecord, TurtleRecord> getLambda() {
     return (Instruction[] params, TurtleRecord myRecord) -> {
-      double heading = myRecord.myHeading();
-      heading = checkHeading(heading);
-      double oldHeading = heading;
+      System.out.println("setHeading");
+      heading = checkHeading(myRecord.myHeading());
+      oldHeading = heading;
       heading = checkHeading(params[0].returnValue());
-      double newHeading = oldHeading - heading;
 
-      return new TurtleRecord(myRecord.myX(), myRecord.myY(), newHeading, myRecord.isPenDown(), myRecord.isShowing());
+      return new TurtleRecord(myRecord.myX(), myRecord.myY(), heading, myRecord.isPenDown(), myRecord.isShowing());
     };
   }
 }

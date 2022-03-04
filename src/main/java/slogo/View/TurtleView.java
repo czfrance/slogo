@@ -8,6 +8,8 @@ import javafx.scene.effect.Lighting;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import slogo.View.Pen.LinePen;
+import slogo.View.Pen.Pen;
 
 /**
  * View part of turtle that handles UI elements of the turtle and what the user sees
@@ -25,6 +27,7 @@ public abstract class TurtleView extends ImageView {
   private Lighting lighting = new Lighting();
   private Light.Point turtleColor = new Light.Point();
   private Color myColor;
+  private Pen myPen;
 
 
   public TurtleView(double x, double y, double heading, String imageName, Color color) {
@@ -34,12 +37,17 @@ public abstract class TurtleView extends ImageView {
     setSize();
     setLocation(x, y);
     setRotate(360-heading);
+    myPen = new LinePen(myColor);
   }
 
   public void updateTurtle(double x, double y, double heading, Color color) {
     setColor(x, y, color);
     setLocation(x, y);
     setRotate(360-heading);
+  }
+
+  public Pen getPen() {
+    return myPen;
   }
 
   private void prepColor(double x, double y, Color color) {
