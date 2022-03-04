@@ -9,6 +9,7 @@ public class Tell extends MultipleTurtleCommand{
   public static final int TELL_NUM_PARAM = 1;
 
   private double lastID=0;
+  private Instruction turtleIDList;
 
   public Tell(TurtleCollection collection) {
     super(TELL_NUM_PARAM, collection);
@@ -16,9 +17,12 @@ public class Tell extends MultipleTurtleCommand{
 
   @Override
   public void setParameters(Stack<Instruction> valueStack) {
+    turtleIDList = valueStack.pop();
+  }
+
+  @Override
+  public void run() {
     TurtleCollection turtleCollection = getMyTurtles();
-    Instruction turtleIDList = valueStack.pop();
-    //ensure it is a list
     turtleCollection.clearTellTurtles();
     while(!turtleIDList.getIsDone()) {
       turtleIDList.run();

@@ -154,6 +154,7 @@ public class SketchbookView extends Region {
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     SequentialTransition transition = new SequentialTransition();
     for(int i = 0; i<oldModel.size(); i++) {
+      //System.out.printf("CurrTurtle Transition ID %s\n", myInsnModel.getActiveIDList().get(i));
       PathTransition pt = getPathTransition(o, oldModel.get(i), newModel.get(i));
       RotateTransition rt = getRotateTransition(o, oldModel.get(i), newModel.get(i));
       transition.getChildren().addAll(pt, rt);
