@@ -10,8 +10,7 @@ import slogo.PatternParser;
 public abstract class Instruction {
 
   private int myNumParameters;
-
-  private PatternParser valueParser = new PatternParser();
+  private int numParsedParameters = 0;
 
   private Instruction[] myParameters; //make this a list instead
   // change so public getter with immutable view of myParameterList
@@ -23,12 +22,16 @@ public abstract class Instruction {
   private boolean isDone = false;
 
   public Instruction() {
-    valueParser.addPatterns("Syntax");
     myNumParameters = 0;
   }
 
+  public Instruction(Instruction parent) {
+    myNumParameters = parent.myNumParameters;
+    myParameters = parent.myParameters;
+    myTurtles = parent.myTurtles;
+  }
+
   public Instruction(int numParameters, TurtleCollection turtleModel) {
-    valueParser.addPatterns("Syntax");
     myNumParameters = numParameters;
     myParameters = new Instruction[numParameters];
     myTurtles = turtleModel;
@@ -42,12 +45,21 @@ public abstract class Instruction {
     return isDone;
   }
 
+  public int getNumParsedParameters() {
+    return numParsedParameters;
+  }
+
+  public void addNumParsedParameters() {
+    numParsedParameters++;
+  }
+
   public void setParameters(Stack<Instruction> valueStack) {
     int currParamIndex = getNumParameters()-1;
     for(int i = currParamIndex; i>=0; i--) {
       Instruction currParam = valueStack.pop();
       getMyParameters()[i] = currParam;
     }
+    System.out.println(this.toString());
     valueStack.push(this);
   }
 
@@ -72,12 +84,12 @@ public abstract class Instruction {
   protected Instruction[] getMyParameters() {
     return myParameters;
   }
-  protected TurtleCollection getMyTurtles() {
-    return myTurtles;
+
+  public Instruction getParamNum(int i) {
+    return myParameters[i];
   }
 
-  public boolean isValueType(String desiredValueType, String poppedValue) {
-    String currType = valueParser.getSymbol(poppedValue);
-    return desiredValueType.equals(currType);
+  protected TurtleCollection getMyTurtles() {
+    return myTurtles;
   }
 }

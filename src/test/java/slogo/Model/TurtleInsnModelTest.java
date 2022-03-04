@@ -32,7 +32,7 @@ class TurtleInsnModelTest {
     myInsnModel.addUserInput(forwardInsn);
     myInsnModel.runNextInsn();
     TurtleRecord updatedRecord = myModel.getTurtleRecord();
-    assertEquals(50.0, updatedRecord.myX());
+    assertEquals(50.0, updatedRecord.myY());
   }
 
   @Test
@@ -59,11 +59,11 @@ class TurtleInsnModelTest {
 
     myInsnModel.runNextInsn();
     updatedRecord = myModel.getTurtleRecord();
-    assertEquals(90.0, updatedRecord.myHeading());
+    assertEquals(180, updatedRecord.myHeading());
 
     myInsnModel.runNextInsn();
     updatedRecord = myModel.getTurtleRecord();
-    assertEquals(90.0, updatedRecord.myY());
+    assertEquals(-90.0, updatedRecord.myX());
   }
 
   @Test
