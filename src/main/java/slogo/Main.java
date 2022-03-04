@@ -107,32 +107,41 @@ public class Main extends Application {
     @Override
     public void start(Stage stage)
         throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-      TurtleModel model = new TurtleModel(0, 0, 90);
+      //TurtleModel model = new TurtleModel(0, 0, 90);
       TurtleCollection collection = new TurtleCollection();
       TurtleInsnModel insnModel = new TurtleInsnModel(collection, "English");
       //Console console = new Console("English",model);
 
       insnModel.addUserInput("forward 100");
-      insnModel.addUserInput("setHeading 180");
-      //model.addInsn("penUp");
-    //  insnModel.addUserInput("back 200");
-    //  insnModel.addUserInput("right 45");
-    //  insnModel.addUserInput("left 78");
-      //model.addInsn("setHeading 270");
-      //model.addInsn("towards -100 0");
-      //model.addInsn("penDown");
-      //model.addInsn("setXY -100 0");
+      insnModel.addUserInput("setheading 180");
+      insnModel.addUserInput("penUp");
+      insnModel.addUserInput("back 150");
+      insnModel.addUserInput("right 45");
+      insnModel.addUserInput("left 78");
+      insnModel.addUserInput("setHeading 270");
+      //insnModel.addUserInput("towards -100 0");
+      insnModel.addUserInput("penDown");
+      insnModel.addUserInput("hideTurtle");
+      //insnModel.addUserInput("setXY -100 0");
 
 //      SketchbookView view = new SketchbookView(model);
-      SketchbookView sketch = new SketchbookView(insnModel);
-      SimulationDisplay mySimulation = new SimulationDisplay(sketch);
-      theFeatures = mySimulation.updateVariableDisplay(sketch, theFeatures);
 
-      stage.setScene(sketch.makeScene(theFeatures));
+      SketchbookView sketch = new SketchbookView(insnModel);
+      //SimulationDisplay mySimulation = new SimulationDisplay(sketch);
+      //theFeatures = mySimulation.updateVariableDisplay(sketch, theFeatures);
+
+      stage.setScene(sketch.makeScene());
+      //stage.setScene(sketch.makeScene(theFeatures));
       stage.show();
       sketch.play();
 
-    //  insnModel.addUserInput("forward 100");
+      insnModel.addUserInput("forward 100");
+      insnModel.addUserInput("showTurtle");
+      insnModel.addUserInput("right 164");
+      insnModel.addUserInput("forward 100");
+      //insnModel.addUserInput("towards 0 0");
+      //insnModel.addUserInput("setXY 0 0");
+      //insnModel.addUserInput("towards 0 0");
 
 
 
@@ -150,10 +159,7 @@ public class Main extends Application {
 //      stage.show();
 //      sketch.play();
 //
-//      insnModel.addUserInput("forward 100");
-//      model.addInsn("towards 0 0");
-//      model.addInsn("setXY 0 0");
-//      model.addInsn("towards 0 0");
+//
 
 //        SketchbookView mySketch = new SketchbookView(turtleModel);
 //        SimulationDisplay view = new SimulationDisplay(sketch);
