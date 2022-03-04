@@ -125,7 +125,7 @@ public class Main extends Application {
 //        stage.setScene(mySketch.makeScene(myRoot));
       SlogoView view = new SlogoView("English");
       view.makeScene(DEFAULT_SIZE.width, DEFAULT_SIZE.height, stage);
-      theFeatures = mySimulation.updateVariableDisplay(sketch, theFeatures);
+      theFeatures = mySimulation.updateVariableDisplay(sketch);
       stage.setScene(sketch.makeScene(theFeatures));
       stage.show();
       sketch.play();

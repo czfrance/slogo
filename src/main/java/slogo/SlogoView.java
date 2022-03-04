@@ -27,6 +27,8 @@ import slogo.View.OpeningWindow;
 import slogo.View.SimulationDisplay;
 import slogo.View.SketchbookView;
 
+import static slogo.Main.DEFAULT_SIZE;
+
 public class SlogoView {
 
 
@@ -115,7 +117,8 @@ public class SlogoView {
         myRoot.getChildren().clear();
         myWelcome = new OpeningWindow(myResources);
         myRoot.setCenter(myWelcome.getPane());
-        Button proceed = SlogoView.makeButton("Go", event -> displaySketch(myStage, scene),
+        Scene finalScene = scene;
+        Button proceed = SlogoView.makeButton("Go", event -> displaySketch(myStage, finalScene),
                 myResources);
 //        Button console = SlogoView.makeButton("Next", event -> displayConsole(),
 //                myResources);
@@ -123,6 +126,7 @@ public class SlogoView {
         myWelcome.getContainer().setAlignment(Pos.CENTER);
         currentGridY = 0;
         currentGridX = 0;
+
     }
 
     public void displaySketch(Stage stage, Scene scene) {
@@ -141,7 +145,7 @@ public class SlogoView {
 
         mySketch = new SketchbookView(myTurtleModel);
         mySimulation = new SimulationDisplay(mySketch);
-        myRoot = mySimulation.updateVariableDisplay(mySketch, myRoot);
+        myRoot = mySimulation.updateVariableDisplay(mySketch);
         stage.setScene(mySketch.makeScene(myRoot));
         stage.show();
         mySketch.play();

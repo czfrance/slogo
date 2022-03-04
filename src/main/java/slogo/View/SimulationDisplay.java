@@ -1,7 +1,6 @@
 package slogo.View;
 
 import javafx.beans.value.ChangeListener;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -21,7 +20,7 @@ public class SimulationDisplay extends Region implements DashboardView {
     public static final String DEFAULT_RESOURCE_PACKAGE = "/slogo.languages/";
 
     Pane myPane;
-    private BorderPane myRoot;
+     private BorderPane myRoot;
     // private StackPane myRoot;
     private SketchbookView mySketch;
     private SimulationDisplay mySimulation;
@@ -39,20 +38,20 @@ public class SimulationDisplay extends Region implements DashboardView {
 //        myRoot = new StackPane();
         mySketch = sketch;
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+ "English");
-        updateVariableDisplay(mySketch, myRoot);
+        updateVariableDisplay(mySketch);
     }
 
 
     @Override
-    public BorderPane updateVariableDisplay(SketchbookView sketch, BorderPane root) {
+    public BorderPane updateVariableDisplay(SketchbookView sketch) {
 
         // myRoot.setCenter(mySketch);
 //        myRoot.setLeft(makeSidePanel());
 //        myRoot.setBottom(makeConfigButtons());
-        root.setLeft(makeSidePanel());
-        root.setRight(makeConfigButtons());
+        myRoot.setLeft(makeSidePanel());
+        myRoot.setRight(makeConfigButtons());
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+ "English");
-        return root;
+        return myRoot;
     }
 
 //    private void createScreen() {
