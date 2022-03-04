@@ -3,9 +3,7 @@ package slogo.InstructionClasses;
 import java.util.Stack;
 import java.util.function.BiFunction;
 import slogo.Model.TurtleCollection;
-import slogo.Model.TurtleModel;
 import slogo.Model.TurtleRecord;
-import slogo.PatternParser;
 
 public abstract class Instruction {
 
@@ -78,8 +76,16 @@ public abstract class Instruction {
 
   public void run() {
     isDone = true;
-    myTurtles.runInsn(myParameters, getLambda());
+    System.out.printf("Turtle %d moving\n",myTurtles.getActiveTurtleID());
+    myTurtles.runInsnOnTurtles(myParameters, getLambda());
   }
+
+  /*
+  protected boolean getAllActiveTurtlesRan() {
+    return myTurtles.getNumActiveTurtlesRun()==myTurtles.getTotalActiveTurtles();
+  }
+
+   */
 
   protected Instruction[] getMyParameters() {
     return myParameters;
