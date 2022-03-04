@@ -27,13 +27,14 @@ import javafx.stage.Stage;
 public class LanguageMenu {
 
   private final String RESOURCE_PATH = "slogo/languages/";
-  private final String PYTHON_SCRIPT = "\\translator\\translateJavaClass.py";
+  private final String PYTHON_SCRIPT = "\\translator/translateJavaClass.py";
   ResourceBundle applicationBundle = null;
   ResourceBundle languages;
   private VBox pane = new VBox();
   private static final String TITLE = "Choose Your Language";
   private Stage myStage;
   private ComboBox chooseLanguage;
+  private String myLanguage;
 
   public LanguageMenu() {
     myStage = new Stage();
@@ -63,8 +64,10 @@ public class LanguageMenu {
         if (selectedLanguage != null) {
           if (selectedLanguage.equals("Choose Different Language"))
             newLanguagePrompt();
-          else
+          else{
             applicationBundle = ResourceBundle.getBundle( RESOURCE_PATH + selectedLanguage);
+            myLanguage = selectedLanguage;
+          }
           }
         if(applicationBundle != null)
           myStage.close();
@@ -77,6 +80,10 @@ public class LanguageMenu {
     return applicationBundle;
   }
 
+  public String getAppLanguage(){
+    return myLanguage;
+  }
+
   private void newLanguagePrompt() {
     Stage s = new Stage();
     s.setTitle("As");
@@ -86,7 +93,8 @@ public class LanguageMenu {
     Button d = new Button("click");
     d.setOnAction(e -> {
       if(makeResourcePack(td.getText()));
-        s.close();
+      myLanguage = td.getText();
+      s.close();
     });
     box.getChildren().addAll(td,d);
     Scene sc = new Scene(box, 500, 300);
@@ -108,6 +116,7 @@ public class LanguageMenu {
       try{
         ProcessBuilder builder = new ProcessBuilder("python " +finalPath +" " +str+" "+language);
         Process process = builder.start();
+        process.waitFor();
         try{
           ResourceBundle testbundle = ResourceBundle.getBundle(RESOURCE_PATH + language);
         }catch (Exception e){

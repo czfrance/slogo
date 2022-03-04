@@ -4,6 +4,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -23,9 +24,10 @@ public class FileSaver {
   private GridPane layout;
   public static final String FILE_PATH = "data" + File.separator;
   private ArrayList<String> dataToSave;
-
-  public FileSaver(ArrayList<String> history){
+  private ResourceBundle resources;
+  public FileSaver(ArrayList<String> history, ResourceBundle language){
     dataToSave = history;
+    resources = language;
     layout = new GridPane();
     layout.setPadding(new Insets(10, 10, 10, 10));
     layout.setVgap(5);
