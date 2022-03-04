@@ -15,17 +15,6 @@ public class SetHeading extends TurtleCommand {
     super(SET_HEADING_PARAM_NUM, turtleModel);
   }
 
-  /*
-  private int setHeading(int[] params) {
-    System.out.println("setHeading");
-    heading = checkHeading(heading);
-    double oldHeading = heading;
-    heading = checkHeading(params[0]);
-    return (int)(oldHeading - heading);
-  }
-   */
-
-
   @Override
   public double returnValue() {
     return oldHeading - heading;
