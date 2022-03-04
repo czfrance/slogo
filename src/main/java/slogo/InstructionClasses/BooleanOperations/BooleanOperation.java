@@ -1,13 +1,12 @@
-package slogo.InstructionClasses.MathOperations;
+package slogo.InstructionClasses.BooleanOperations;
 
 import java.util.function.BiFunction;
 import slogo.InstructionClasses.Instruction;
 import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleRecord;
 
-public abstract class MathOperation extends Instruction {
-
-  public MathOperation(int numParam, TurtleCollection model) {
+public abstract class BooleanOperation extends Instruction {
+  public BooleanOperation(int numParam, TurtleCollection model) {
     super(numParam, model);
   }
 
