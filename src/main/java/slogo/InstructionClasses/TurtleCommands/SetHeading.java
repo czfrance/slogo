@@ -15,6 +15,7 @@ public class SetHeading extends TurtleCommand {
     super(SET_HEADING_PARAM_NUM, turtleModel);
   }
 
+
   @Override
   public double returnValue() {
     return oldHeading - heading;
