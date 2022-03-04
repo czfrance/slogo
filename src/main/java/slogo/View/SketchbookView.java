@@ -109,6 +109,7 @@ public class SketchbookView extends Region {
   }
 
   public void play() {
+    // displayWindow();
     try {
       updateCurrTurtle();
       updateTurtleMap();

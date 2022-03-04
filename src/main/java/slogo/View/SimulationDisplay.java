@@ -4,8 +4,12 @@ import javafx.beans.value.ChangeListener;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 import slogo.SlogoView;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -48,6 +52,7 @@ public class SimulationDisplay extends Region implements DashboardView {
         // myRoot.setCenter(mySketch);
 //        myRoot.setLeft(makeSidePanel());
 //        myRoot.setBottom(makeConfigButtons());
+        // root.setCenter(mySketch);
         root.setLeft(makeSidePanel());
         root.setBottom(makeConfigButtons());
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+ "English");
@@ -69,7 +74,7 @@ public class SimulationDisplay extends Region implements DashboardView {
 //        myContainer.getChildren().addAll(myWelcome);
     }
 
-    private VBox makeSidePanel() {
+    public VBox makeSidePanel() {
         mySidePanel = new VBox();
         mySidePanel.setId("sidePanel");
 //        SideInfoPanel info = new SideInfoPanel(myRecord);
@@ -97,7 +102,7 @@ public class SimulationDisplay extends Region implements DashboardView {
         return speedBox;
     }
 
-    private Node makeConfigButtons() {
+    public Node makeConfigButtons() {
         HBox box = new HBox();
         box.setId("configBox");
         Button loadFile = SlogoView.makeButton("LoadFile", event -> {
@@ -173,6 +178,21 @@ public class SimulationDisplay extends Region implements DashboardView {
         control.getChildren().addAll(playPause, resetNext);
         return control;
     }
+
+//    private void selectNewFile() {
+//        try {
+//            myGridView.pause();
+//            File dataFile = FILE_CHOOSER.showOpenDialog(new Stage());
+//            if (dataFile != null) {
+//                FileReader initial = new FileReader(dataFile.getCanonicalPath());
+//                myRecord = initial.getRecord();
+//                myRoot.setCenter(chooseGrid(myRecord));
+//                myRoot.setLeft(makeSidePanel());
+//            }
+//        } catch (XMLException | IOException e) {
+//            SlogoView.showMessage(Alert.AlertType.ERROR, e.getMessage());
+//        }
+//    }
 
     public Pane getPane() {
         return myPane;
