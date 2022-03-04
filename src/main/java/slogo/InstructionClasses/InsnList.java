@@ -50,7 +50,9 @@ public class InsnList extends Instruction {
         currNumInstruction++;
       }
     }
+
     if(currNumInstruction>=getNumParameters()) {
+      currNumInstruction=0;
       setIsDone(true);
     }
   }

@@ -18,6 +18,11 @@ public class Constant extends Instruction {
     // Constants have no parameters so empty parameter
   }
 
+  @Override
+  public void run() {
+    setIsDone(true);
+    System.out.println("constant Ran");
+  }
 
   @Override
   public double returnValue() {
