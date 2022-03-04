@@ -28,8 +28,10 @@ public class TurtleCollection {
   }
 
   public boolean runInsnOnTurtles(Instruction[] insnParameters, BiFunction<Instruction[], TurtleRecord, TurtleRecord> function) {
+    System.out.println(activeTurtleList);
     for(int i: activeTurtleList) {
-      TurtleModel currTurtleModel = createdTurtleMap.get(activeTurtleID);
+
+      TurtleModel currTurtleModel = createdTurtleMap.get(i);
       currTurtleModel.runInsn(insnParameters, function);
     }
 
