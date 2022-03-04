@@ -102,8 +102,8 @@ public class SlogoView {
          */
     public Scene makeScene(int width, int height, Stage stage) {
         Scene scene = new Scene(myRoot, width, height);
-        // displayWelcome(scene, stage);
-        displaySketch(stage);
+        displayWelcome(scene, stage);
+        // displaySketch(stage);
         return scene;
     }
 
@@ -114,17 +114,19 @@ public class SlogoView {
         myRoot.getChildren().clear();
         myWelcome = new OpeningWindow(myResources);
         myRoot.setCenter(myWelcome.getPane());
-        Button proceed = SlogoView.makeButton("Go", event -> displaySketch(myStage),
+        Button proceed = SlogoView.makeButton("Go", event -> displaySketch(myStage, scene),
                 myResources);
         myWelcome.getContainer().getChildren().addAll(proceed);
         myWelcome.getContainer().setAlignment(Pos.CENTER);
         currentGridY = 0;
         currentGridX = 0;
+        myStage.setScene(scene);
+        myStage.show();
     }
 
-    public static void displaySketch(Stage stage) {
-//        scene.getStylesheets()
-//                .add(getClass().getResource("/simdisplay.css").toExternalForm());
+    public void displaySketch(Stage stage, Scene scene) {
+        scene.getStylesheets()
+                .add(getClass().getResource("/simdisplay.css").toExternalForm());
         myTurtleModel = new TurtleModel(0, 0, 90);
         TurtleCollection collection = new TurtleCollection();
         TurtleInsnModel insnModel = new TurtleInsnModel(collection, myLanguage);
@@ -136,7 +138,8 @@ public class SlogoView {
         myTurtleModel.addInsn("penUp");
         myTurtleModel.addInsn("setXY -100 0");
 
-        //mySketch = new SketchbookView(myTurtleModel);
+        // mySketch = new SketchbookView(myTurtleModel);
+        mySketch = new SketchbookView(insnModel);
         mySimulation = new SimulationDisplay(mySketch);
         myRoot = mySimulation.updateVariableDisplay(mySketch, myRoot);
         //stage.setScene(mySketch.makeScene(myRoot));
@@ -174,8 +177,9 @@ public class SlogoView {
     }
 
     private void addSimulation() {
-        //SketchbookView sketch = new SketchbookView(myTurtleModel);
-        //gridOfSimulations.add(sketch.getBorderPane(), currentGridX, currentGridY);
+//        SketchbookView sketch = new SketchbookView(myTurtleModel);
+        SketchbookView sketch = new SketchbookView(myModel);
+        gridOfSimulations.add(sketch.getBorderPane(), currentGridX, currentGridY);
         if (currentGridX == 1) {
             currentGridY++;
             currentGridX = 0;

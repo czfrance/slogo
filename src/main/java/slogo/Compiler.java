@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import java.util.Stack;
 import slogo.CompilerExceptions.CompilerException;
 import slogo.CompilerExceptions.NotAValueException;
+import slogo.InstructionClasses.Constant;
 import slogo.InstructionClasses.Instruction;
 import slogo.InstructionClasses.InsnList;
 import slogo.InstructionClasses.UserInstruction;
@@ -61,8 +62,10 @@ public class Compiler {
 
   public Deque<Instruction> getCommands(String userInput)
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, CompilerException {
-
+    //clear stacks method
     finalInstructionQueue.clear();
+    commandStack.clear();
+    valueStack.clear();
     makeUserInputStack(userInput);
 
     while(!userInputQueue.isEmpty()) {
@@ -84,7 +87,7 @@ public class Compiler {
       }
       */
       else {
-
+        System.out.println(currStringType);
         String methodName = inputToMethodBundle.getString(currStringType);
         Method inputMethod = this.getClass().getDeclaredMethod(methodName, null);
         inputMethod.setAccessible(true);
@@ -101,7 +104,7 @@ public class Compiler {
     String translatedCmd = languageParser.getSymbol(cmdString);
     Instruction currCmd;
     if(translatedCmd.equals(PatternParser.NO_MATCH)) {
-      System.out.println("made it to user cmd");
+      System.out.printf("bad cmd: %s", cmdString);
       currCmd = userInstructionMap.get(cmdString);
       if(currCmd == null) throw new CompilerException(myErrorBundle.getString("noSuchInstructionError")); //haven't made this error bundle yet
       currCmd = new UserInstruction(userInstructionMap.get(cmdString));
@@ -111,27 +114,64 @@ public class Compiler {
       Constructor<?> cmdConstructor = currCmdClass.getConstructor(new Class[]{TurtleCollection.class});
       currCmd = (Instruction) cmdConstructor.newInstance(myTurtles);
     }
+    if(getCmdParam(currCmd)){
+      //finalInstructionQueue.offer(currCmd);
+      currCmd.setParameters(valueStack);
+      finishCmdStack();
+    }
+  }
 
-    //finalInstructionQueue.offer(currCmd);
-    for(int i = 0; i<currCmd.getNumParameters(); i++) {
+  private boolean getCmdParam(Instruction currCmd)
+      throws CompilerException {
+    int currNumParsedParameters = currCmd.getNumParsedParameters();
+    for(int i = 0; i<currCmd.getNumParameters()-currNumParsedParameters; i++) {
+      //System.out.println(currCmd.getNumParsedParameters());
+      /*
       if(userInputQueue.size() == 0) {
-        throw new CompilerException(myErrorBundle.getString("numParamError"), cmdString, currCmd.getNumParameters());
+        throw new CompilerException(myErrorBundle.getString("numParamError"), currCmd.getClass().toString(), currCmd.getNumParameters());
       }
 
+       */
+
       try{
-        constantMethod();
+        paramMethod();
       }
       catch (NotAValueException notVal) {
         commandStack.push(currCmd);
-        return;
+        return false;
       }
+      catch (Exception e) {
+        e.printStackTrace();
+      }
+      currCmd.addNumParsedParameters();
     }
     finalInstructionQueue.offer(currCmd);
-    currCmd.setParameters(valueStack);
-    finishCmdStack();
+    //currCmd.setParameters(valueStack);
+    return true;
   }
 
-  private void constantMethod()
+  private void finishCmdStack() {
+    System.out.format("Cmd Stack: %d  |  Val Stack: %d\n", commandStack.size(), valueStack.size());
+    while(!commandStack.isEmpty()) {
+      Instruction currCmd = commandStack.pop();
+      for(int i = 0; i<valueStack.size(); i++) currCmd.addNumParsedParameters();
+      if(!getCmdParam(currCmd)) {
+        break;
+      }
+      currCmd.setParameters(valueStack);
+      System.out.println("we're here");
+    }
+
+  }
+
+  private void constantMethod() {
+    System.out.println("constantmethod hit");
+    String constantString = userInputQueue.poll();
+    Constant loneConstant = new Constant(constantString);
+    finalInstructionQueue.offer(loneConstant);
+  }
+
+  private void paramMethod()
       throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, NotAValueException {
     String valString = userInputQueue.peek();
     String valType = syntaxParser.getSymbol(valString);
@@ -141,7 +181,6 @@ public class Compiler {
       userInputQueue.poll();
       Variable varValue = variablesMap.get(valString);
       if(varValue == null) {
-        System.out.println("bruh");
         throw new CompilerException("Variable %d never initialized", valString);
       }
       valueStack.push(varValue);
@@ -168,13 +207,22 @@ public class Compiler {
     Compiler listCompiler = new Compiler(this);
     userInputQueue.poll(); //get rid of opening bracket
     StringBuilder listString = new StringBuilder();
-    //System.out.println("hits this method");
-    while(!syntaxParser.getSymbol(userInputQueue.peek()).equals("ListEnd")) {
-      //System.out.format("%s : %s\n" , userInputQueue.peek(), syntaxParser.getSymbol(userInputQueue.peek()));
+    int listCount = 0;
+    String nextUserSyntax = syntaxParser.getSymbol(userInputQueue.peek());
+    while(!(nextUserSyntax.equals("ListEnd") && listCount == 0)) {
+      if(nextUserSyntax.equals("ListStart")) {
+        listCount++;
+        System.out.println(listCount);
+      }
+      if(nextUserSyntax.equals("ListEnd")) {
+        listCount--;
+      }
       String thingAdded = userInputQueue.poll();
       if(thingAdded == null) throw new CompilerException(myErrorBundle.getString("noListEnd")); //have to add this error message still
 
       listString.append(thingAdded + " ");
+      nextUserSyntax = syntaxParser.getSymbol(userInputQueue.peek());
+      System.out.println(listString.toString());
     }
     userInputQueue.poll(); //get rid of ending bracket
     Deque<Instruction> listQueue = listCompiler.getCommands(listString.toString());
@@ -193,7 +241,7 @@ public class Compiler {
     variablesMap.put(name, newVar);
     finalInstructionQueue.offer(newVar);
     try{
-      constantMethod();
+      paramMethod();
     }
     catch (Exception NotAValueException) {
       commandStack.push(newVar);
@@ -219,16 +267,8 @@ public class Compiler {
     userInstructionMap.put(name, newUserInsn);
   }
 
-  private void finishCmdStack() {
-    System.out.format("Cmd Stack: %d  |  Val Stack: %d\n", commandStack.size(), valueStack.size());
-    while(!commandStack.isEmpty()) {
-      Instruction currCmd = commandStack.pop();
-      finalInstructionQueue.offer(currCmd);
-      currCmd.setParameters(valueStack);
-    }
-  }
-
   private void makeUserInputStack(String userInput) {
+    if(userInput.isBlank()) return;
     userInput.trim();
     for(String line : userInput.split("\n")) {
       line.trim();

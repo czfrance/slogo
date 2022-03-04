@@ -41,7 +41,7 @@ public class SketchbookView extends Region {
   Map<TurtleModel, TurtleView> myTurtlesMap;
   private SimulationDisplay mySimulation;
   private BorderPane myRoot;
-  private TurtleModel myCurrModel;
+  //private TurtleModel myCurrModel;
   private TurtleInsnModel myInsnModel;
   private Group root;
   private boolean isAnimated;
@@ -49,7 +49,7 @@ public class SketchbookView extends Region {
 
   public SketchbookView(TurtleInsnModel insnModel) {
     myInsnModel = insnModel;
-    myCurrModel = myInsnModel.getCurrTurtle();
+    //myCurrModel = myInsnModel.getCurrTurtle();
     myTurtlesMap = createTurtleMap();
   }
 
@@ -109,11 +109,12 @@ public class SketchbookView extends Region {
   }
 
   public void play() {
+    // displayWindow();
     try {
-      updateCurrTurtle();
+      //updateCurrTurtle();
       updateTurtleMap();
       Animation animation = makeAnimation();
-      checkShowing();
+      //checkShowing();
       animation.play();
       animation.setOnFinished(e -> play());
     } catch (InvocationTargetException e) {
@@ -127,26 +128,43 @@ public class SketchbookView extends Region {
 
   public Animation makeAnimation()
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-
-    TurtleModel oldModelState = new TurtleModel(myCurrModel.getNextPos()[0], myCurrModel.getNextPos()[1],
-        myCurrModel.getHeading());
+    List<Integer> activeIDList = myInsnModel.getActiveIDList();
+    List<TurtleModel> activeTurtles= new ArrayList<TurtleModel>();
+    List<TurtleModel> oldActiveTurtles = new ArrayList<TurtleModel>();
+    for(int i: activeIDList) {
+      TurtleModel currActiveTurtle = myInsnModel.getCreatedTurtleMap().get(i);
+      TurtleModel oldActiveTurtle = new TurtleModel(currActiveTurtle.getNextPos()[0], currActiveTurtle.getNextPos()[1],
+          currActiveTurtle.getHeading());
+      activeTurtles.add(currActiveTurtle);
+      oldActiveTurtles.add(oldActiveTurtle);
+    }
+    //TurtleModel oldModelState = new TurtleModel(myCurrModel.getNextPos()[0], myCurrModel.getNextPos()[1],
+     //   myCurrModel.getHeading());
 
     Optional<Object> o = myInsnModel.runNextInsn();
-    myCurrModel = myInsnModel.getCurrTurtle();
+    //myCurrModel = myInsnModel.getCurrTurtle();
     if (o.isPresent()) {
-      return getTransition(o, oldModelState);
+      return getTransition(o, oldActiveTurtles, activeTurtles);
     } else {
-      return doNothingPath(oldModelState);
+      return doNothingPath(oldActiveTurtles.get(0), activeTurtles.get(0));
     }
   }
 
-  private Transition getTransition(Optional<Object> o, TurtleModel oldModel)
+  private Transition getTransition(Optional<Object> o, List<TurtleModel> oldModel, List<TurtleModel> newModel)
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
-    PathTransition pt = getPathTransition(o, oldModel);
-    RotateTransition rt = getRotateTransition(o, oldModel);
-    return new SequentialTransition(myTurtlesMap.get(myCurrModel), pt, rt);
+    SequentialTransition transition = new SequentialTransition();
+    for(int i = 0; i<oldModel.size(); i++) {
+      //System.out.printf("CurrTurtle Transition ID %s\n", myInsnModel.getActiveIDList().get(i));
+      PathTransition pt = getPathTransition(o, oldModel.get(i), newModel.get(i));
+      RotateTransition rt = getRotateTransition(o, oldModel.get(i), newModel.get(i));
+      transition.getChildren().addAll(pt, rt);
+
+    }
+    return transition;
+    //return new SequentialTransition(myTurtlesMap.get(myCurrModel), pt, rt);
   }
 
+  /*
   private Optional<Method> getChangeFunction(TurtleModel oldModel)
       throws NoSuchMethodException {
     if (!oldModel.getNextPos().equals(myCurrModel.getNextPos())) {
@@ -159,7 +177,9 @@ public class SketchbookView extends Region {
     return Optional.empty();
   }
 
-  private RotateTransition getRotateTransition(Optional<Object> o, TurtleModel oldModel) {
+   */
+
+  private RotateTransition getRotateTransition(Optional<Object> o, TurtleModel oldModel, TurtleModel myCurrModel) {
     RotateTransition rt = new RotateTransition();
     rt.setNode(myTurtlesMap.get(myCurrModel));
     if (o.isPresent() && !(oldModel.getHeading() == myCurrModel.getHeading())) {
@@ -168,11 +188,11 @@ public class SketchbookView extends Region {
       rt.setByAngle(angle);
       return rt;
     } else {
-      return doNothingRotate();
+      return doNothingRotate(myCurrModel);
     }
   }
 
-  private PathTransition getPathTransition(Optional<Object> o, TurtleModel oldModel)
+  private PathTransition getPathTransition(Optional<Object> o, TurtleModel oldModel, TurtleModel myCurrModel)
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     MoveTo move = new MoveTo(convertX(oldModel.getNextPos()[0]),
         convertY(oldModel.getNextPos()[1]));
@@ -180,14 +200,14 @@ public class SketchbookView extends Region {
     path.getElements().addAll(move,
         new LineTo(convertX(myCurrModel.getNextPos()[0]), convertY(myCurrModel.getNextPos()[1])));
     Duration pathAnimDuration;
-    if (o.isPresent() && moved(oldModel.getNextPos())) {
+    if (o.isPresent() && moved(oldModel.getNextPos(), myCurrModel)) {
       pathAnimDuration = Duration.seconds(Math.abs((double) o.get()) / TURTLE_SPEED);
       PathTransition pathTrans = new PathTransition(pathAnimDuration, path, myTurtlesMap.get(
           myCurrModel));
       setListener(pathTrans);
       return pathTrans;
     } else {
-      return doNothingPath(oldModel);
+      return doNothingPath(oldModel, myCurrModel);
     }
   }
 
@@ -202,32 +222,37 @@ public class SketchbookView extends Region {
       @Override
       public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
 
-        // skip starting at 0/0
-        if(oldValue == Duration.ZERO)
-          return;
+        for(int i: myInsnModel.getActiveIDList()) {
+          TurtleModel myCurrModel = myInsnModel.getCreatedTurtleMap().get(i);
+          // skip starting at 0/0
+          if (oldValue == Duration.ZERO)
+            return;
 
-        // get current location
-        double x = myTurtlesMap.get(myCurrModel).getBoundsInParent().getCenterX();
-        double y = myTurtlesMap.get(myCurrModel).getBoundsInParent().getCenterY();
+          // get current location
+          double x = myTurtlesMap.get(myCurrModel).getBoundsInParent().getCenterX();
+          double y = myTurtlesMap.get(myCurrModel).getBoundsInParent().getCenterY();
 
-        // initialize the location
-        if(oldLocation == null) {
-          oldLocation = new double[]{x, y};
-          return;
+          // initialize the location
+          if (oldLocation == null) {
+            oldLocation = new double[]{x, y};
+            return;
+          }
+
+          // draw line
+          if (myCurrModel.getTurtleRecord().isPenDown()) {
+            root.getChildren().add(
+                myTurtlesMap.get(myCurrModel).getPen().draw(oldLocation[0], oldLocation[1], x, y));
+          }
+
+          // update old location with current one
+          oldLocation[0] = x;
+          oldLocation[1] = y;
         }
-
-        // draw line
-        if (myCurrModel.getTurtleRecord().isPenDown()) {
-          root.getChildren().add(myTurtlesMap.get(myCurrModel).getPen().draw(oldLocation[0], oldLocation[1], x, y));
-        }
-
-        // update old location with current one
-        oldLocation[0] = x;
-        oldLocation[1] = y;
       }
     });
   }
 
+  /*
   private void checkShowing() {
     if (!myCurrModel.getTurtleRecord().isShowing())  {
       root.getChildren().remove(myTurtlesMap.get(myCurrModel));
@@ -237,7 +262,9 @@ public class SketchbookView extends Region {
     }
   }
 
-  private PathTransition doNothingPath(TurtleModel oldModel) {
+   */
+
+  private PathTransition doNothingPath(TurtleModel oldModel, TurtleModel myCurrModel) {
     MoveTo move = new MoveTo(convertX(oldModel.getNextPos()[0]),
         convertY(oldModel.getNextPos()[1]));
     Path path = new Path();
@@ -248,7 +275,7 @@ public class SketchbookView extends Region {
     return new PathTransition(Duration.seconds(NO_MOVEMENT), path, myTurtlesMap.get(myCurrModel));
   }
 
-  private RotateTransition doNothingRotate() {
+  private RotateTransition doNothingRotate(TurtleModel myCurrModel) {
     RotateTransition rt = new RotateTransition();
     rt.setNode(myTurtlesMap.get(myCurrModel));
     rt.setDuration(Duration.seconds(NO_MOVEMENT));
@@ -256,7 +283,7 @@ public class SketchbookView extends Region {
     return rt;
   }
 
-  private boolean moved(double[] nextPos) {
+  private boolean moved(double[] nextPos, TurtleModel myCurrModel) {
     return (nextPos[0] != myCurrModel.getNextPos()[0] || nextPos[1] != myCurrModel.getNextPos()[1]);
   }
 
@@ -268,6 +295,7 @@ public class SketchbookView extends Region {
     return (DEFAULT_SIZE.height / 2) - modelY;
   }
 
+  /*
   public void updateCurrTurtle() {
     double x = myTurtlesMap.get(myCurrModel).getBoundsInParent().getCenterX();
     double y = myTurtlesMap.get(myCurrModel).getBoundsInParent().getCenterY();
@@ -275,6 +303,8 @@ public class SketchbookView extends Region {
     Color color = myTurtlesMap.get(myCurrModel).getColor();
     myTurtlesMap.get(myCurrModel).updateTurtle(x, y, heading, color);
   }
+
+   */
 
 //    @Override
 //    public Node getStyleableNode() {
