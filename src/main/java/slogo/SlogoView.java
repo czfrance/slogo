@@ -136,10 +136,10 @@ public class SlogoView {
         myTurtleModel.addInsn("penUp");
         myTurtleModel.addInsn("setXY -100 0");
 
-        mySketch = new SketchbookView(myTurtleModel);
+        //mySketch = new SketchbookView(myTurtleModel);
         mySimulation = new SimulationDisplay(mySketch);
         myRoot = mySimulation.updateVariableDisplay(mySketch, myRoot);
-        stage.setScene(mySketch.makeScene(myRoot));
+        //stage.setScene(mySketch.makeScene(myRoot));
         stage.show();
         mySketch.play();
     }
@@ -174,8 +174,8 @@ public class SlogoView {
     }
 
     private void addSimulation() {
-        SketchbookView sketch = new SketchbookView(myTurtleModel);
-        gridOfSimulations.add(sketch.getBorderPane(), currentGridX, currentGridY);
+        //SketchbookView sketch = new SketchbookView(myTurtleModel);
+        //gridOfSimulations.add(sketch.getBorderPane(), currentGridX, currentGridY);
         if (currentGridX == 1) {
             currentGridY++;
             currentGridX = 0;

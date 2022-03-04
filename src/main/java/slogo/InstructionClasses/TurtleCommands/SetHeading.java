@@ -15,6 +15,7 @@ public class SetHeading extends TurtleCommand {
     super(SET_HEADING_PARAM_NUM, turtleModel);
   }
 
+<<<<<<< HEAD
   /*
   private int setHeading(int[] params) {
     System.out.println("setHeading");
@@ -25,6 +26,8 @@ public class SetHeading extends TurtleCommand {
   }
    */
 
+=======
+>>>>>>> master
 
   @Override
   public double returnValue() {
