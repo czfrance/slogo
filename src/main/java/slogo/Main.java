@@ -112,19 +112,26 @@ public class Main extends Application {
       TurtleInsnModel insnModel = new TurtleInsnModel(collection, "English");
       //Console console = new Console("English",model);
 
-      insnModel.addUserInput("forward 100");
-      insnModel.addUserInput("setheading 180");
-      insnModel.addUserInput("penUp");
-      insnModel.addUserInput("back 150");
-      insnModel.addUserInput("right 45");
-      insnModel.addUserInput("left 78");
-      insnModel.addUserInput("setHeading 270");
-      //insnModel.addUserInput("towards -100 0");
-      insnModel.addUserInput("penDown");
-      insnModel.addUserInput("hideTurtle");
+      insnModel.addUserInput("tell [ 1 2 ]");
+      insnModel.addUserInput("turtles");
+      insnModel.addUserInput("forward 10");
+      insnModel.addUserInput("rt 90");
+        insnModel.addUserInput("forward 10");
+
+
       //insnModel.addUserInput("setXY -100 0");
 
 //      SketchbookView view = new SketchbookView(model);
+//      sketch = new SketchbookView(insnModel);
+//      SimulationDisplay mySimulation = new SimulationDisplay(sketch);
+//      theFeatures = new BorderPane();
+//      theFeatures = mySimulation.updateVariableDisplay(sketch, theFeatures);
+//      // theFeatures.getChildren().addAll(mySimulation.makeSidePanel(), mySimulation.makeConfigButtons());
+////      theFeatures.setBottom(mySimulation.makeConfigButtons());
+//
+//      stage.setScene(sketch.makeScene(theFeatures));
+//      stage.show();
+//      sketch.play();
 
       SketchbookView sketch = new SketchbookView(insnModel);
       //SimulationDisplay mySimulation = new SimulationDisplay(sketch);
@@ -135,71 +142,5 @@ public class Main extends Application {
       stage.show();
       sketch.play();
 
-      insnModel.addUserInput("forward 100");
-      insnModel.addUserInput("showTurtle");
-      insnModel.addUserInput("right 164");
-      insnModel.addUserInput("forward 100");
-      //insnModel.addUserInput("towards 0 0");
-      //insnModel.addUserInput("setXY 0 0");
-      //insnModel.addUserInput("towards 0 0");
-
-
-
-
-//      SketchbookView sketch = new SketchbookView(insnModel);
-//      SlogoView view = new SlogoView("English");
-//      view.makeScene(800, 800, stage);
-
-
-
-
-
-
-//      stage.setScene(sketch.makeScene());
-//      stage.show();
-//      sketch.play();
-//
-//
-
-//        SketchbookView mySketch = new SketchbookView(turtleModel);
-//        SimulationDisplay view = new SimulationDisplay(sketch);
-//        // give the window a title
-//         BorderPane myRoot = new BorderPane();
-//         Scene scene = new Scene(myRoot, 800, 800);
-////         myRoot.getChildren().add(view);
-//        stage.setTitle(TITLE);
-//        // add our user interface components to Frame and show it
-//        stage.setScene(scene);
-////        stage.setScene(mySketch.makeScene());
-//        stage.setScene(view.makeScene(DEFAULT_SIZE.width, DEFAULT_SIZE.height));
-//        stage.show();
-        // sketch.play();
-
     }
-
-    /**
-     * Start of the program.
-     */
-//    public static void main (String[] args) {
-//        Main m = new Main();
-//        System.out.println(m.getVersion());
-//        System.out.println(m.getCommand("English", "Forward"));
-//        System.out.println(m.getExampleProgram("loops", "star"));
-//
-//        TurtleModel model = new TurtleModel(0, 0, 90);
-//        model.addInsn("forward 50");
-//        try {
-//            model.runNextInsn();
-//        } catch (NoSuchMethodException e) {
-//            e.printStackTrace();
-//        } catch (InvocationTargetException e) {
-//            e.printStackTrace();
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//        }
-//        System.out.printf("location: %f, %f\n", model.getNextPos()[0], model.getNextPos()[1]);
-//        SketchbookView view = new SketchbookView(model);
-//        view.makeScene();
-//
-//    }
 }

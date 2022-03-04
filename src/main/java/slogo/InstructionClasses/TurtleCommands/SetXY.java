@@ -5,6 +5,8 @@ import slogo.InstructionClasses.Instruction;
 import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleRecord;
 
+//copy of SetTowards
+
 public class SetXY extends TurtleCommand{
   public static final int SET_XY_PARAM_NUM = 2;
 

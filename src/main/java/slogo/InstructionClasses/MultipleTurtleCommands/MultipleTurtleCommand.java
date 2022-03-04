@@ -1,14 +1,14 @@
-package slogo.InstructionClasses.MathOperations;
+package slogo.InstructionClasses.MultipleTurtleCommands;
 
 import java.util.function.BiFunction;
 import slogo.InstructionClasses.Instruction;
 import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleRecord;
 
-public abstract class MathOperation extends Instruction {
+public abstract class MultipleTurtleCommand extends Instruction {
 
-  public MathOperation(int numParam, TurtleCollection model) {
-    super(numParam, model);
+  public MultipleTurtleCommand(int numParam, TurtleCollection collection) {
+    super(numParam, collection);
   }
 
   @Override
@@ -16,6 +16,6 @@ public abstract class MathOperation extends Instruction {
 
   @Override
   public BiFunction<Instruction[], TurtleRecord, TurtleRecord> getLambda() {
-    return (Instruction[] myParam, TurtleRecord myRecord) -> myRecord;
+    return (Instruction[] params, TurtleRecord myRecord) -> myRecord;
   }
 }
