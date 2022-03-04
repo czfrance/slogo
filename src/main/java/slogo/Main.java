@@ -114,9 +114,11 @@ public class Main extends Application {
 
       insnModel.addUserInput("tell [ 1 2 ]");
       insnModel.addUserInput("turtles");
-      insnModel.addUserInput("forward 10");
+      insnModel.addUserInput("forward 50");
       insnModel.addUserInput("rt 90");
-        insnModel.addUserInput("forward 10");
+      insnModel.addUserInput("forward 50");
+      insnModel.addUserInput("tell [ 1 ]");
+      insnModel.addUserInput("lt 90 forward 50");
 
 
       //insnModel.addUserInput("setXY -100 0");
