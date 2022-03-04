@@ -142,7 +142,7 @@ public class SlogoView {
         mySketch = new SketchbookView(insnModel);
         mySimulation = new SimulationDisplay(mySketch);
         myRoot = mySimulation.updateVariableDisplay(mySketch, myRoot);
-        stage.setScene(mySketch.makeScene(myRoot));
+        //stage.setScene(mySketch.makeScene(myRoot));
         stage.show();
         mySketch.play();
     }

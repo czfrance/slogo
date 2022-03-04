@@ -13,11 +13,17 @@ public class InsnList extends Instruction {
   private Map<String, Variable> myVarMap;
 
   private int currNumInstruction = 0;
+  private double currFrontEndVal = 0;
 
   public InsnList(Deque<Instruction> instructionQueue, Map<String, Variable> varMap, TurtleCollection model) {
     super(instructionQueue.size(), model);
+    System.out.println(instructionQueue.size());
     queueToParam(instructionQueue);
     myVarMap = varMap;
+  }
+
+  public InsnList(Instruction parent) {
+    super(parent);
   }
 
   @Override
@@ -39,6 +45,7 @@ public class InsnList extends Instruction {
     if(currNumInstruction<getNumParameters()) {
       Instruction currInstruction = getMyParameters()[currNumInstruction];
       currInstruction.run();
+      currFrontEndVal = currInstruction.frontEndReturnValue();
       if(currInstruction.getIsDone()) {
         currNumInstruction++;
       }
@@ -55,6 +62,11 @@ public class InsnList extends Instruction {
   @Override
   public double returnValue() {
     return getMyParameters()[getNumParameters()-1].returnValue();
+  }
+
+  @Override
+  public double frontEndReturnValue() {
+    return currFrontEndVal;
   }
 
   @Override
