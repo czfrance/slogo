@@ -124,13 +124,16 @@ public class Main extends Application {
       //model.addInsn("setXY -100 0");
 
 //      SketchbookView view = new SketchbookView(model);
-      SketchbookView sketch = new SketchbookView(insnModel);
-      SimulationDisplay mySimulation = new SimulationDisplay(sketch);
-      theFeatures = mySimulation.updateVariableDisplay(sketch, theFeatures);
-
-      stage.setScene(sketch.makeScene(theFeatures));
-      stage.show();
-      sketch.play();
+//      sketch = new SketchbookView(insnModel);
+//      SimulationDisplay mySimulation = new SimulationDisplay(sketch);
+//      theFeatures = new BorderPane();
+//      theFeatures = mySimulation.updateVariableDisplay(sketch, theFeatures);
+//      // theFeatures.getChildren().addAll(mySimulation.makeSidePanel(), mySimulation.makeConfigButtons());
+////      theFeatures.setBottom(mySimulation.makeConfigButtons());
+//
+//      stage.setScene(sketch.makeScene(theFeatures));
+//      stage.show();
+//      sketch.play();
 
     //  insnModel.addUserInput("forward 100");
 
@@ -138,8 +141,8 @@ public class Main extends Application {
 
 
 //      SketchbookView sketch = new SketchbookView(insnModel);
-//      SlogoView view = new SlogoView("English");
-//      view.makeScene(800, 800, stage);
+        SlogoView view = new SlogoView("English");
+        view.makeScene(800, 800, stage);
 
 
 

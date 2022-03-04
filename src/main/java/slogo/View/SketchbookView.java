@@ -128,6 +128,7 @@ public class SketchbookView extends Region {
   }
 
   public void play() {
+    // displayWindow();
     try {
       updateTurtleMap();
       Animation animation = makeAnimation();
