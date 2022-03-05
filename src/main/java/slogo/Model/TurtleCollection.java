@@ -107,7 +107,4 @@ public class TurtleCollection {
     }
     tellTurtleList.add(id);
   }
-  public int returnTurtleCount(){
-
-  }
 }

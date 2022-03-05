@@ -145,21 +145,14 @@ public class SlogoView {
         scene.getStylesheets()
                 .add(getClass().getResource("/simdisplay.css").toExternalForm());
         myTurtleModel = new TurtleModel(0, 0, 90);
-        TurtleCollection collection = new TurtleCollection();
-        TurtleInsnModel insnModel = new TurtleInsnModel(collection, myLanguage);
-        insnModel.addUserInput("tell [ 1 2 ]");
-        insnModel.addUserInput("turtles");
-        insnModel.addUserInput("forward 50");
-        insnModel.addUserInput("rt 90");
-        insnModel.addUserInput("forward 50");
-        insnModel.addUserInput("tell [ 1 ]");
-        insnModel.addUserInput("lt 90 forward 50");
+        //urtleCollection collection = new TurtleCollection();
+        //TurtleInsnModel insnModel = new TurtleInsnModel(collection, myLanguage);
 
         // mySketch = new SketchbookView(myTurtleModel);
-        mySketch = new SketchbookView(insnModel);
+        mySketch = new SketchbookView(myModel);
         mySimulation = new SimulationDisplay(mySketch);
         myRoot = mySimulation.updateVariableDisplay(mySketch, myRoot);
-        //stage.setScene(mySketch.makeScene(myRoot));
+        myRoot.getChildren().add(mySketch.makeScene());
         stage.show();
         mySketch.play();
     }
