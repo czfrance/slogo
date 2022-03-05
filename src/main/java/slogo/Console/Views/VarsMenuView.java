@@ -3,6 +3,7 @@ package slogo.Console.Views;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -22,6 +23,7 @@ public class VarsMenuView {
   private ResourceBundle myResources;
 
   public VarsMenuView(TurtleInsnModel model, TurtleCollection turtles, ResourceBundle bundle){
+    myStage = new Stage();
     myModel = model;
     myTurtles = turtles;
     myResources = bundle;
@@ -33,6 +35,10 @@ public class VarsMenuView {
     myPane.setContent(layout);
     myPane.setFitToWidth(true);
     myPane.setPrefHeight(300);
+
+    Scene myScene = new Scene(myPane);
+    myStage.setScene(myScene);
+
   }
 
   private void makeVBox() {
@@ -43,28 +49,27 @@ public class VarsMenuView {
   }
 
   public void update(){
-    if(myVars.equals(myModel.getCompiler().getVariableMap()))
-      return;
-
-    myVars = myModel.getCompiler().getVariableMap();
-
     if(allNodes.keySet().equals(myVars.keySet())){
+      System.out.println("this occurs line 56");
       for(String key: allNodes.keySet()){
         allNodes.get(key).update(myVars.get(key));
       }
     }else{
+      System.out.println("this occurs line 61");
       addDelete();
     }
   }
 
   private void addDelete(){
+    System.out.println("this occurs line 67");
     for(String str: allNodes.keySet()){
       if(!myVars.containsKey(str))
         allNodes.remove(str);
     }
     for(String str: myVars.keySet()){
       if(!allNodes.containsKey(str)){
-        allNodes.put(str, new InteractiveVars(str, myModel, myTurtles, myResources)))
+        System.out.println("this occurs line 74");
+        allNodes.put(str, new InteractiveVars(str, myModel, myTurtles, myResources));
       }
     }
     makeVBox();
