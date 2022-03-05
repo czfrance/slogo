@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ResourceBundle;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -67,7 +68,7 @@ public class SlogoView {
     private static int currentGridY;
     private static int currentGridX;
     private boolean inNightMode;
-    private String myLanguage;
+    private static String myLanguage;
 
     private TurtleCollection myTurtleCollection;
     private static TurtleModel myTurtleModel; // this is a temp solution
@@ -79,8 +80,8 @@ public class SlogoView {
      * @param language - chooses what language file to read from between: English
      */
     public SlogoView(String language) {
-        myLanguage = language;
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
+        myLanguage = language;
         currentGridY = 0;
         currentGridX = 0;
         myRoot = new BorderPane();
@@ -116,22 +117,23 @@ public class SlogoView {
         myWelcome = new OpeningWindow(myResources);
         myRoot.setCenter(myWelcome.getPane());
         Button proceed = SlogoView.makeButton("Go", event -> {
-                try {
-                    displaySketch(myStage, scene);
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            },
+                    try {
+                        displaySketch(myStage, scene);
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (InstantiationException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                },
                 myResources);
-        myWelcome.getContainer().getChildren().addAll(proceed);
+        Button compiler = SlogoView.makeButton("Compiler", event -> displayConsole(), myResources);
+        myWelcome.getContainer().getChildren().addAll(proceed, compiler);
         myWelcome.getContainer().setAlignment(Pos.CENTER);
         currentGridY = 0;
         currentGridX = 0;
@@ -139,26 +141,19 @@ public class SlogoView {
         myStage.show();
     }
 
-    public void displaySketch(Stage stage, Scene scene)
-        throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+    public void displaySketch(Stage stage, Scene scene) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        myRoot.getChildren().clear();
         scene.getStylesheets()
                 .add(getClass().getResource("/simdisplay.css").toExternalForm());
         myTurtleModel = new TurtleModel(0, 0, 90);
-        TurtleCollection collection = new TurtleCollection();
-        TurtleInsnModel insnModel = new TurtleInsnModel(collection, "English");
-        //Console console = new Console("English",model);
-
-        insnModel.addUserInput("penDown");
-        insnModel.addUserInput("setHeading 270");
-        insnModel.addUserInput("towards -100 0");
-        insnModel.addUserInput("penUp");
-        insnModel.addUserInput("setXY -100 0");
+        //urtleCollection collection = new TurtleCollection();
+        //TurtleInsnModel insnModel = new TurtleInsnModel(collection, myLanguage);
 
         // mySketch = new SketchbookView(myTurtleModel);
-        mySketch = new SketchbookView(insnModel);
+        mySketch = new SketchbookView(myModel);
         mySimulation = new SimulationDisplay(mySketch);
         myRoot = mySimulation.updateVariableDisplay(mySketch, myRoot);
-        //stage.setScene(mySketch.makeScene(myRoot));
+        myRoot.getChildren().add(mySketch.makeScene());
         stage.show();
         mySketch.play();
     }
@@ -225,7 +220,7 @@ public class SlogoView {
     // creates the display of the console
     private void displayConsole() {
         myRoot.getChildren().clear();
-        myConsole = new Console(myLanguage, myTurtleCollection,  myModel);
+        myConsole = new Console(myResources, myTurtleCollection,  myModel);
         myRoot.setCenter(myWelcome.getPane());
         currentGridY = 0;
         currentGridX = 0;

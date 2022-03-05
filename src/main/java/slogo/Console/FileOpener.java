@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ResourceBundle;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
@@ -20,8 +21,9 @@ public class FileOpener {
   private final String[] EXTENSION_NAMES = { "Text File (*.txt)", "Slogo Script(*.slogo)"};
   private final String[] ALLOWABLE_EXTENSIONS= { "*.txt", "*.slogo"};
   private FileChooser myFileChooser;
-
-  public FileOpener(){
+  private ResourceBundle resources;
+  public FileOpener(ResourceBundle language){
+    resources = language;
     myFileChooser = makeFileChooser();
   }
 

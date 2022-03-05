@@ -53,10 +53,11 @@ public class SketchbookView extends Region {
     myTurtlesMap = createTurtleMap();
   }
 
-  public Scene makeScene() {
+  public Group makeScene() {
     root = new Group();
     addTurtlesToRoot();
-    return new Scene(root, DEFAULT_SIZE.width, DEFAULT_SIZE.height);
+    return root;
+    //return new Scene(root, DEFAULT_SIZE.width, DEFAULT_SIZE.height);
   }
 
 //  public Scene makeScene(BorderPane myFeatures) {

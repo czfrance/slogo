@@ -19,6 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import slogo.Console.LanguageMenu;
 import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleInsnModel;
 import slogo.Model.TurtleModel;
@@ -107,18 +108,12 @@ public class Main extends Application {
     @Override
     public void start(Stage stage)
         throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+      LanguageMenu menu = new LanguageMenu();
       //TurtleModel model = new TurtleModel(0, 0, 90);
       TurtleCollection collection = new TurtleCollection();
-      TurtleInsnModel insnModel = new TurtleInsnModel(collection, "English");
+      TurtleInsnModel insnModel = new TurtleInsnModel(collection, menu.getAppLanguage());
+      //Console console = new Console(menu.getLanguageBundle(), collection, insnModel);
       //Console console = new Console("English",model);
-
-      insnModel.addUserInput("tell [ 1 2 ]");
-      insnModel.addUserInput("turtles");
-      insnModel.addUserInput("forward 50");
-      insnModel.addUserInput("rt 90");
-      insnModel.addUserInput("forward 50");
-      insnModel.addUserInput("tell [ 1 ]");
-      insnModel.addUserInput("lt 90 forward 50");
 
 
       //insnModel.addUserInput("setXY -100 0");
@@ -135,14 +130,17 @@ public class Main extends Application {
 //      stage.show();
 //      sketch.play();
 
-      SketchbookView sketch = new SketchbookView(insnModel);
-      //SimulationDisplay mySimulation = new SimulationDisplay(sketch);
-      //theFeatures = mySimulation.updateVariableDisplay(sketch, theFeatures);
-
-      stage.setScene(sketch.makeScene());
-      //stage.setScene(sketch.makeScene(theFeatures));
-      stage.show();
-      sketch.play();
+        // JUST COMMENTED
+//      SketchbookView sketch = new SketchbookView(insnModel);
+//      //SimulationDisplay mySimulation = new SimulationDisplay(sketch);
+//      //theFeatures = mySimulation.updateVariableDisplay(sketch, theFeatures);
+//
+//      stage.setScene(sketch.makeScene());
+//      //stage.setScene(sketch.makeScene(theFeatures));
+//      stage.show();
+//      sketch.play();
+        SlogoView view = new SlogoView("English");
+        view.makeScene(800, 800, stage);
 
     }
 }
