@@ -57,7 +57,7 @@ public abstract class Instruction {
       Instruction currParam = valueStack.pop();
       getMyParameters()[i] = currParam;
     }
-    System.out.println(this.toString());
+    //System.out.println(this.toString());
     valueStack.push(this);
   }
 
@@ -76,7 +76,7 @@ public abstract class Instruction {
 
   public void run() {
     isDone = true;
-    System.out.printf("Turtle %d moving\n",myTurtles.getActiveTurtleID());
+    //System.out.printf("Turtle %d moving\n",myTurtles.getActiveTurtleID());
     myTurtles.runInsnOnTurtles(myParameters, getLambda());
   }
 
