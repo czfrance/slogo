@@ -36,9 +36,11 @@ public class SlogoView {
      * Holds all of the main view elements for the application
      *
      * <p>
-     * Initializes a welcome page that first allows users to select the language that they want to use
-     * for the project. After selecting and submitting a language it initializes a a simulation page
-     * that holds all of the simulations and their configurations.
+     * First, we see an option to select a language for us. Then, once a language is selected, an opening window pops
+     * up, where we are able to see two buttons: Proceed and Console. Console takes us to the console window through the
+     * displayConsole() function, while Proceed takes us to the main window with the displaySketch() function. The
+     * important part to note here is that SlogoView is where we hold all the components for our program, and listed
+     * above were the major components.
      * </p>
      *
      *
@@ -46,8 +48,6 @@ public class SlogoView {
      */
 
     public static final String DEFAULT_RESOURCE_PACKAGE = "/slogo.languages/";
-    private static final String DARK_BACKGROUND = "-fx-background-color: BLACK";
-    private static final String LIGHT_BACKGROUND = "-fx-background-color: BEIGE";
     private static final String LANGUAGE = "English";
     private String STYLESHEET;
 
@@ -56,9 +56,7 @@ public class SlogoView {
 
     private OpeningWindow myWelcome;
     private Console myConsole;
-    private Compiler myCompiler;
     private static SketchbookView mySketch;
-    private HBox TitleBox;
     private ScrollPane ScrollBox;
     private HBox ScreenConfigBox;
     private Label titleText;
@@ -86,9 +84,6 @@ public class SlogoView {
         currentGridX = 0;
         myRoot = new BorderPane();
         STYLESHEET = "welcome.css";
-        inNightMode = false;
-
-        //temp solution delete later
         myTurtleCollection = new TurtleCollection();
         //myTurtleModel = new TurtleModel(0,0,0);
         myTurtleModel = myTurtleCollection.getActiveTurtle();
@@ -105,7 +100,6 @@ public class SlogoView {
     public Scene makeScene(int width, int height, Stage stage) {
         Scene scene = new Scene(myRoot, width, height);
         displayWelcome(scene, stage);
-        // displaySketch(stage);
         return scene;
     }
 
@@ -143,18 +137,20 @@ public class SlogoView {
 
     public void displaySketch(Stage stage, Scene scene) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         myRoot.getChildren().clear();
-        scene.getStylesheets()
-                .add(getClass().getResource("/simdisplay.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/welcome.css").toExternalForm());
         myTurtleModel = new TurtleModel(0, 0, 90);
-        //urtleCollection collection = new TurtleCollection();
-        //TurtleInsnModel insnModel = new TurtleInsnModel(collection, myLanguage);
-
-        // mySketch = new SketchbookView(myTurtleModel);
+        TurtleCollection collection = new TurtleCollection();
+        TurtleInsnModel insnModel = new TurtleInsnModel(collection, myLanguage);
+        mySketch = new SketchbookView(insnModel);
+        mySimulation = new SimulationDisplay(mySketch);
+        myRoot = mySimulation.updateVariableDisplay(mySketch, myRoot);
         mySketch = new SketchbookView(myModel);
         mySimulation = new SimulationDisplay(mySketch);
         myRoot = mySimulation.updateVariableDisplay(mySketch, myRoot);
         myRoot.getChildren().add(mySketch.makeScene());
+        myRoot.setRight(makeSimulationConfigRow());
         stage.show();
+
         mySketch.play();
     }
 
@@ -198,14 +194,6 @@ public class SlogoView {
             currentGridX++;
         }
     }
-
-//    private static void setupSketch(TurtleModel turtle) {
-//        mySketch = new SketchbookView(turtle);
-//        // mySimulation = new SimulationDisplay(mySketch);
-////        mySketch.play();
-////        mySketch.prefWidthProperty().bind(myRoot.widthProperty());
-////        mySketch.prefHeightProperty().bind(myRoot.heightProperty());
-//    }
 
     //returns a button with the title provided linked to the event passed as a parameter
     public static Button makeButton(String property, EventHandler<ActionEvent> handler,
