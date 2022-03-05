@@ -1,4 +1,4 @@
-package slogo;
+package slogo.Console;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import slogo.Compiler;
 import slogo.CompilerExceptions.CompilerException;
 import slogo.CompilerExceptions.NotAValueException;
 import slogo.Model.TurtleCollection;
@@ -35,7 +36,6 @@ class ConsoleTest {
         TurtleCollection myCollection = new TurtleCollection();
         myCompiler = new Compiler(DEFAULT_LANGUAGE, myCollection);
         myErrorBundle = ResourceBundle.getBundle(Compiler.ERROR_RESOURCE_PACKAGE+DEFAULT_LANGUAGE);
-        // myStage = new Stage ();
     }
 
     @Test

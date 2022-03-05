@@ -52,7 +52,7 @@ public class TurtleCollection {
   }
 
   //make immutable
-  protected Map<Integer, TurtleModel> getCreatedTurtleMap() {
+  public Map<Integer, TurtleModel> getCreatedTurtleMap() {
     return Collections.unmodifiableMap(createdTurtleMap);
   }
 
