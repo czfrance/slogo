@@ -1,5 +1,6 @@
 package slogo;
 
+import java.lang.reflect.InvocationTargetException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -114,7 +115,21 @@ public class SlogoView {
         myRoot.getChildren().clear();
         myWelcome = new OpeningWindow(myResources);
         myRoot.setCenter(myWelcome.getPane());
-        Button proceed = SlogoView.makeButton("Go", event -> displaySketch(myStage, scene),
+        Button proceed = SlogoView.makeButton("Go", event -> {
+                try {
+                    displaySketch(myStage, scene);
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            },
                 myResources);
         myWelcome.getContainer().getChildren().addAll(proceed);
         myWelcome.getContainer().setAlignment(Pos.CENTER);
@@ -124,7 +139,8 @@ public class SlogoView {
         myStage.show();
     }
 
-    public void displaySketch(Stage stage, Scene scene) {
+    public void displaySketch(Stage stage, Scene scene)
+        throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         scene.getStylesheets()
                 .add(getClass().getResource("/simdisplay.css").toExternalForm());
         myTurtleModel = new TurtleModel(0, 0, 90);
@@ -132,11 +148,11 @@ public class SlogoView {
         TurtleInsnModel insnModel = new TurtleInsnModel(collection, "English");
         //Console console = new Console("English",model);
 
-        myTurtleModel.addInsn("penDown");
-        myTurtleModel.addInsn("setHeading 270");
-        myTurtleModel.addInsn("towards -100 0");
-        myTurtleModel.addInsn("penUp");
-        myTurtleModel.addInsn("setXY -100 0");
+        insnModel.addUserInput("penDown");
+        insnModel.addUserInput("setHeading 270");
+        insnModel.addUserInput("towards -100 0");
+        insnModel.addUserInput("penUp");
+        insnModel.addUserInput("setXY -100 0");
 
         // mySketch = new SketchbookView(myTurtleModel);
         mySketch = new SketchbookView(insnModel);

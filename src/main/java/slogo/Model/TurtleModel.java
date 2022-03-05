@@ -15,17 +15,14 @@ public class TurtleModel extends Region {
   public static final double[] DEFAULT_START = new double[]{0, 0};
   public static final int DEFAULT_HEADING = 90;
 
-  private InstructionModel insnModel;
   private TurtleRecord myRecord;
   //assumption: facing right = 0 degrees, increases clockwise
 
   public TurtleModel() {
-    insnModel = new InstructionModel();
     myRecord = new TurtleRecord(DEFAULT_START[0], DEFAULT_START[1], DEFAULT_HEADING, DEFAULT_PEN_DOWN, DEFAULT_SHOWING);
   }
 
   public TurtleModel(double startX, double startY, double startHeading) {
-    insnModel = new InstructionModel();
     myRecord = new TurtleRecord(startX, startY, startHeading, DEFAULT_PEN_DOWN, DEFAULT_SHOWING);
   }
 
@@ -42,24 +39,8 @@ public class TurtleModel extends Region {
     return myRecord.myHeading();
   }
 
-
-//  public double[] getNextPos() {
-//    return new double[]{myX, myY};
-//  }
-//
-//  public double getHeading() {
-//    return heading;
-//  }
-
   public TurtleRecord getTurtleRecord() {
     return myRecord;
   }
-
-  //delete this
-  public void addInsn(String instruction) {
-    insnModel.addInsn(instruction);
-  }
-
-
 
 }

@@ -38,12 +38,7 @@ public class TurtleInsnModel {
       }
       return Optional.of(nextInsn.frontEndReturnValue());
     }
-
     return Optional.empty();
-  }
-
-  public TurtleModel getCurrTurtle() {
-    return myTurtleModel.getActiveTurtle();
   }
 
   //make this return a immutable hashmap
