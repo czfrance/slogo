@@ -1,5 +1,6 @@
 package slogo;
 
+import java.lang.reflect.InvocationTargetException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -145,6 +146,7 @@ public class SlogoView {
         scene.getStylesheets()
                 .add(getClass().getResource("/simdisplay.css").toExternalForm());
         myTurtleModel = new TurtleModel(0, 0, 90);
+<<<<<<< HEAD
         TurtleCollection collection = new TurtleCollection();
         TurtleInsnModel insnModel = new TurtleInsnModel(collection, myLanguage);
         // mySketch = new SketchbookView(myTurtleModel);
@@ -160,6 +162,16 @@ public class SlogoView {
         insnModel.addUserInput("tell [ 1 ]");
         insnModel.addUserInput("lt 90 forward 50");
 
+=======
+        //urtleCollection collection = new TurtleCollection();
+        //TurtleInsnModel insnModel = new TurtleInsnModel(collection, myLanguage);
+
+        // mySketch = new SketchbookView(myTurtleModel);
+        mySketch = new SketchbookView(myModel);
+        mySimulation = new SimulationDisplay(mySketch);
+        myRoot = mySimulation.updateVariableDisplay(mySketch, myRoot);
+        myRoot.getChildren().add(mySketch.makeScene());
+>>>>>>> master
         stage.show();
 
         mySketch.play();

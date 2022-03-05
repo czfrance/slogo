@@ -38,17 +38,16 @@ public class TurtleInsnModel {
       }
       return Optional.of(nextInsn.frontEndReturnValue());
     }
-
     return Optional.empty();
-  }
-
-  public TurtleModel getCurrTurtle() {
-    return myTurtleModel.getActiveTurtle();
   }
 
   //make this return a immutable hashmap
   public Map<Integer, TurtleModel> getCreatedTurtleMap() {
     return myTurtleModel.getCreatedTurtleMap();
+  }
+
+  public Compiler getCompiler(){
+    return myCompiler;
   }
 
   public List<Integer> getActiveIDList() {

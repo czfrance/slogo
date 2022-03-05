@@ -34,11 +34,11 @@ def main(phrase, language):
 
   if(translatedText == None):
     return
-
-  languageFile = open(myPathToFile, "a", encoding="utf_8")
+  phrase = phrase.replace(" ","\\u0020")
+  languageFile = open(myPathToFile, "a", encoding="utf-8",)
   str = phrase + "=" + translatedText+ "\n"
+  print(phrase )
   languageFile.write(str)
-  print(phrase + "=" + translatedText+ "\n")
   languageFile.close()
 
   return

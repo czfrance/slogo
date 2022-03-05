@@ -30,6 +30,9 @@ public class Variable extends Instruction{
     return (Instruction[] params, TurtleRecord myRecord) -> myRecord;
   }
 
+  public String valToString(){
+    return ""+getMyParameters()[0].returnValue();
+  }
   @Override
   public String toString() {
     double myVal = getMyParameters()[0].returnValue();
