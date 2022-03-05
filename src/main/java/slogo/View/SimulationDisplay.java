@@ -48,22 +48,13 @@ public class SimulationDisplay extends Region implements DashboardView {
     @Override
     public BorderPane updateVariableDisplay(SketchbookView sketch, BorderPane root) {
         FlowPane buttons = new FlowPane() ;
-        buttons.getChildren().addAll(makeSidePanel(), makeConfigButtons()) ;
-        root.setBottom(buttons);
-//        root.setBottom(makeSidePanel());
-//        root.setBottom(makeConfigButtons());
+//        buttons.getChildren().addAll(makeSidePanel(), makeConfigButtons());
+        buttons.getChildren().addAll(makeSidePanel());
+        root.setCenter(buttons);
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+ "English");
         return root;
     }
 
-    private void createElements(String val) {
-        mySidePanel.getChildren().clear();
-        // mySim = new Label(myResources.getString("Welcome"));
-//        myWelcome.setId("welcome-text");
-//        myContainer.setId("opening-window");
-//        myWelcome.setTextAlignment(TextAlignment.CENTER);
-//        myContainer.getChildren().addAll(myWelcome);
-    }
 
     public VBox makeSidePanel() {
         mySidePanel = new VBox();
@@ -90,38 +81,6 @@ public class SimulationDisplay extends Region implements DashboardView {
         return speedBox;
     }
 
-    public Node makeConfigButtons() {
-        HBox box = new HBox();
-        box.setId("configBox");
-        Button loadFile = SlogoView.makeButton("LoadFile", event -> {
-            try {
-                saveState();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }, myResources);
-        Button saveFile = SlogoView.makeButton("SaveFile", event -> {
-            try {
-                saveState();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }, myResources);
-//        ChoiceBox<String> gridShapeChoice = makeChoiceBox(GRID_SHAPE_OPTIONS,
-//                (ov, old_val, new_val) -> changeGridShape(new_val));
-//        gridShapeChoice.getSelectionModel().select(0);
-        box.getChildren().addAll(loadFile, saveFile);
-        return box;
-    }
-
     public static ChoiceBox<String> makeChoiceBox(List<String> options,
                                                   ChangeListener<String> handler) {
         ChoiceBox<String> choiceBox = new ChoiceBox<>();
@@ -134,18 +93,30 @@ public class SimulationDisplay extends Region implements DashboardView {
         mySketch.pause();
     }
 
+    private void goState() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        mySketch.play();
+    }
+
+    private void clearState() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        mySketch.reset();
+    }
 
     private VBox makeControlButtons() {
         VBox control = new VBox();
         control.setId("control");
-        HBox playPause = new HBox();
-        playPause.setId("playPause");
+//        HBox playPause = new HBox();
+//        playPause.setId("playPause");
+
         HBox resetNext = new HBox();
         resetNext.setId("resetNext");
+        HBox play = new HBox();
+        play.setId("PlayButton");
+        HBox pause = new HBox();
+        pause.setId("PauseButton");
 
         myPauseButton = SlogoView.makeButton("PauseButton", event -> {
                     try {
-                        mySketch.pause();
+                        saveState();
                     } catch (InvocationTargetException e) {
                         e.printStackTrace();
                     } catch (NoSuchMethodException e) {
@@ -155,17 +126,36 @@ public class SimulationDisplay extends Region implements DashboardView {
                     }
                 },
                 myResources);
-        myPlayButton = SlogoView.makeButton("PlayButton", event -> mySketch.play(),
-                myResources);
-        myResetButton = SlogoView.makeButton("ResetButton", event -> mySketch.reset(),
+        myPlayButton = SlogoView.makeButton("PlayButton", event -> {
+            try {
+                goState();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }, myResources);
+        myResetButton = SlogoView.makeButton("ResetButton", event -> {
+                    try {
+                        clearState();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                },
                 myResources);
 
+        play.getChildren().addAll(myPlayButton);
+        pause.getChildren().addAll(myPauseButton);
         resetNext.getChildren().addAll(myResetButton);
-        playPause.getChildren().addAll(myPauseButton, myPlayButton);
-        control.getChildren().addAll(playPause, resetNext);
+        control.getChildren().addAll(play, pause, resetNext);
         return control;
     }
-
 
 
 }

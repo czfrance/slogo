@@ -43,7 +43,7 @@ import slogo.View.SketchbookView;
  */
 public class Main extends Application {
     // useful names for constant values used, ADD TO RESOURCE FILE (note to self from Thivya)
-    public static final String TITLE = "Cell Society";
+    public static final String TITLE = "Slogo";
     public static final String LANGUAGE = "English";
     public static final Dimension DEFAULT_SIZE = new Dimension(800, 600);
     private static final String LANGUAGE_RESOURCE_PATH = "/slogo/languages/";
