@@ -99,7 +99,7 @@ public class Console {
       // SlogoView.displaySketch();
     }
     catch(Exception e){
-      ConsoleAlerts myAlert = new ConsoleAlerts("Error in the Instruction");
+      ConsoleAlerts myAlert = new ConsoleAlerts(e.getMessage());
       // SlogoView.displaySketch();
     }
   }

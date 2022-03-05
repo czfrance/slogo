@@ -3,7 +3,7 @@ package slogo.InstructionClasses.MathOperations;
 import slogo.Model.TurtleCollection;
 
 public class Remainder extends MathOperation{
-  public static final int REMAINDER_PARAM_NUM = 1;
+  public static final int REMAINDER_PARAM_NUM = 2;
 
   public Remainder(TurtleCollection turtleModel) {
     super(REMAINDER_PARAM_NUM, turtleModel);
