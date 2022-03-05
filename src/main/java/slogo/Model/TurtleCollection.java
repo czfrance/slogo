@@ -28,7 +28,8 @@ public class TurtleCollection {
   }
 
   public boolean runInsnOnTurtles(Instruction[] insnParameters, BiFunction<Instruction[], TurtleRecord, TurtleRecord> function) {
-    System.out.println(activeTurtleList);
+    System.out.println("Activeturtlelist: " + activeTurtleList);
+    System.out.println("TellTurtleList: " + tellTurtleList);
     for(int i: activeTurtleList) {
 
       TurtleModel currTurtleModel = createdTurtleMap.get(i);
@@ -55,15 +56,6 @@ public class TurtleCollection {
     return Collections.unmodifiableMap(createdTurtleMap);
   }
 
-  protected boolean setNextActive() {
-    if(numActiveTurtlesRun+1<activeTurtleList.size()) {
-      activeTurtleID = activeTurtleList.get(numActiveTurtlesRun++);
-      return true;
-    }
-    else{
-      return false;
-    }
-  }
   protected void resetNumActiveTurtles() {
     numActiveTurtlesRun = 0;
   }
@@ -76,9 +68,16 @@ public class TurtleCollection {
     return getCreatedTurtleMap().size();
   }
 
-  public void setAllTurtlesActive() {
+  public void setActiveWithCond(Instruction conditional) {
     activeTurtleList.clear();
-    activeTurtleList.addAll(createdTurtleMap.keySet());
+    for(int id: createdTurtleMap.keySet()) {
+      activeTurtleID = id;
+      System.out.printf("ID: %d conditional %f\n", id, conditional.returnValue());
+      if(Math.abs(conditional.returnValue())>0.001) {
+        System.out.println("turtleadded: " + id);
+        activeTurtleList.add(id);
+      }
+    }
   }
 
   public void clearActiveTurtles() {
