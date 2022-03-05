@@ -103,7 +103,9 @@ public class SlogoView {
         return scene;
     }
 
-    //Creates the initial welcome screen for the user to select a language
+    /**
+     * Displays our welcome screen
+     */
     private void displayWelcome(Scene scene, Stage myStage) {
         scene.getStylesheets()
                 .add(getClass().getResource("/welcome.css").toExternalForm());
@@ -135,6 +137,9 @@ public class SlogoView {
         myStage.show();
     }
 
+    /**
+     * Displays our sketch
+     */
     public void displaySketch(Stage stage, Scene scene) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         myRoot.getChildren().clear();
         scene.getStylesheets().add(getClass().getResource("/welcome.css").toExternalForm());

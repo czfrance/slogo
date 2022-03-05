@@ -43,22 +43,12 @@ import slogo.View.SketchbookView;
  */
 public class Main extends Application {
     // useful names for constant values used, ADD TO RESOURCE FILE (note to self from Thivya)
-    public static final String TITLE = "Slogo";
     public static final String LANGUAGE = "English";
     public static final Dimension DEFAULT_SIZE = new Dimension(800, 600);
     private static final String LANGUAGE_RESOURCE_PATH = "/slogo/languages/";
     private static final String EXAMPLE_PROGRAMS_PATH = "/examples";
-    public static final int FRAMES_PER_SECOND = 60;
-    public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-    public static final int[] INITIAL_XY = new int[]{0, 0};
-    public static final int INITIAL_HEADING = 90;
-    private ResourceBundle myResources;
-    private javafx.scene.control.Button myPauseButton;
-    private javafx.scene.control.Button myPlayButton;
-    private Button myResetButton;
-    private SketchbookView sketch;
-    private BorderPane theFeatures;
     public static final String DEFAULT_RESOURCE_PACKAGE = "/slogo.languages/";
+    private SlogoView myView;
 
     // the next three methods should be used somewhere else if we are to make an efficient use of design
     /**
@@ -109,38 +99,10 @@ public class Main extends Application {
     public void start(Stage stage)
         throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
       LanguageMenu menu = new LanguageMenu();
-      //TurtleModel model = new TurtleModel(0, 0, 90);
       TurtleCollection collection = new TurtleCollection();
       TurtleInsnModel insnModel = new TurtleInsnModel(collection, menu.getAppLanguage());
-      //Console console = new Console(menu.getLanguageBundle(), collection, insnModel);
-      //Console console = new Console("English",model);
-
-
-      //insnModel.addUserInput("setXY -100 0");
-
-//      SketchbookView view = new SketchbookView(model);
-//      sketch = new SketchbookView(insnModel);
-//      SimulationDisplay mySimulation = new SimulationDisplay(sketch);
-//      theFeatures = new BorderPane();
-//      theFeatures = mySimulation.updateVariableDisplay(sketch, theFeatures);
-//      // theFeatures.getChildren().addAll(mySimulation.makeSidePanel(), mySimulation.makeConfigButtons());
-////      theFeatures.setBottom(mySimulation.makeConfigButtons());
-//
-//      stage.setScene(sketch.makeScene(theFeatures));
-//      stage.show();
-//      sketch.play();
-
-        // JUST COMMENTED
-//      SketchbookView sketch = new SketchbookView(insnModel);
-//      //SimulationDisplay mySimulation = new SimulationDisplay(sketch);
-//      //theFeatures = mySimulation.updateVariableDisplay(sketch, theFeatures);
-//
-//      stage.setScene(sketch.makeScene());
-//      //stage.setScene(sketch.makeScene(theFeatures));
-//      stage.show();
-//      sketch.play();
-        SlogoView view = new SlogoView("English");
-        view.makeScene(800, 800, stage);
+      myView = new SlogoView("English");
+      myView.makeScene(800, 600, stage);
 
     }
 }

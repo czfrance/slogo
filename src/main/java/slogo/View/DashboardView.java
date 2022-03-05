@@ -12,9 +12,8 @@ public interface DashboardView {
     /**
      * Updates the displayed variable in the dashboard
      */
-//    public void updateVariableDisplay(SketchbookView sketch);
 
 
-    public BorderPane updateVariableDisplay(SketchbookView sketch, BorderPane root);
+    BorderPane updateVariableDisplay(SketchbookView sketch, BorderPane root);
 }
 

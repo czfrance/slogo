@@ -1,20 +1,16 @@
 package slogo.View;
 
-import javafx.beans.value.ChangeListener;
-import javafx.scene.Node;
+
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.stage.Stage;
 import slogo.SlogoView;
-
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 import java.util.ResourceBundle;
 
-
+/**
+ * Creates all the necessary buttons we need in order to have our simulation running
+ * @author Thivya Sivarajah
+ */
 
 public class SimulationDisplay extends Region implements DashboardView {
 
@@ -23,18 +19,14 @@ public class SimulationDisplay extends Region implements DashboardView {
     public static final double SLIDER_START = 5;
     public static final String DEFAULT_RESOURCE_PACKAGE = "/slogo.languages/";
 
-    Pane myPane;
     private BorderPane myRoot;
-    // private StackPane myRoot;
     private SketchbookView mySketch;
-    private SimulationDisplay mySimulation;
     private ResourceBundle myResources;
     private Button myPauseButton;
     private Button myPlayButton;
     private Button myResetButton;
     private VBox mySidePanel;
     private Label mySim;
-    private String language;
 
     public SimulationDisplay(SketchbookView sketch) {
 
@@ -44,19 +36,21 @@ public class SimulationDisplay extends Region implements DashboardView {
         updateVariableDisplay(mySketch, myRoot);
     }
 
-
+    /**
+     * Method used to update our sketch while the turtle runs as well (just to keep track of everything
+     * It is important to note that this is our only public method in this class and it is part of our Dashboard
+     * interface as well
+     */
     @Override
     public BorderPane updateVariableDisplay(SketchbookView sketch, BorderPane root) {
         FlowPane buttons = new FlowPane() ;
-//        buttons.getChildren().addAll(makeSidePanel(), makeConfigButtons());
         buttons.getChildren().addAll(makeSidePanel());
         root.setCenter(buttons);
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+ "English");
         return root;
     }
 
-
-    public VBox makeSidePanel() {
+    private VBox makeSidePanel() {
         mySidePanel = new VBox();
         mySidePanel.setId("sidePanel");
         VBox control = makeControlButtons();
@@ -81,14 +75,6 @@ public class SimulationDisplay extends Region implements DashboardView {
         return speedBox;
     }
 
-    public static ChoiceBox<String> makeChoiceBox(List<String> options,
-                                                  ChangeListener<String> handler) {
-        ChoiceBox<String> choiceBox = new ChoiceBox<>();
-        choiceBox.getItems().addAll(options);
-        choiceBox.valueProperty().addListener(handler);
-        return choiceBox;
-    }
-
     private void saveState() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         mySketch.pause();
     }
@@ -104,9 +90,6 @@ public class SimulationDisplay extends Region implements DashboardView {
     private VBox makeControlButtons() {
         VBox control = new VBox();
         control.setId("control");
-//        HBox playPause = new HBox();
-//        playPause.setId("playPause");
-
         HBox resetNext = new HBox();
         resetNext.setId("resetNext");
         HBox play = new HBox();
@@ -114,6 +97,18 @@ public class SimulationDisplay extends Region implements DashboardView {
         HBox pause = new HBox();
         pause.setId("PauseButton");
 
+        makePauseButton();
+        makePlayButton();
+        makeResetButton();
+
+        play.getChildren().addAll(myPlayButton);
+        pause.getChildren().addAll(myPauseButton);
+        resetNext.getChildren().addAll(myResetButton);
+        control.getChildren().addAll(play, pause, resetNext);
+        return control;
+    }
+
+    private void makePauseButton() {
         myPauseButton = SlogoView.makeButton("PauseButton", event -> {
                     try {
                         saveState();
@@ -124,8 +119,10 @@ public class SimulationDisplay extends Region implements DashboardView {
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }
-                },
-                myResources);
+                }, myResources);
+    }
+
+    private void makePlayButton() {
         myPlayButton = SlogoView.makeButton("PlayButton", event -> {
             try {
                 goState();
@@ -137,6 +134,9 @@ public class SimulationDisplay extends Region implements DashboardView {
                 e.printStackTrace();
             }
         }, myResources);
+    }
+
+    private void makeResetButton() {
         myResetButton = SlogoView.makeButton("ResetButton", event -> {
                     try {
                         clearState();
@@ -147,15 +147,7 @@ public class SimulationDisplay extends Region implements DashboardView {
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }
-                },
-                myResources);
-
-        play.getChildren().addAll(myPlayButton);
-        pause.getChildren().addAll(myPauseButton);
-        resetNext.getChildren().addAll(myResetButton);
-        control.getChildren().addAll(play, pause, resetNext);
-        return control;
+                }, myResources);
     }
-
 
 }
