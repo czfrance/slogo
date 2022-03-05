@@ -10,11 +10,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import slogo.Compiler;
 import slogo.Console.Views.VarsMenuView;
 import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleInsnModel;
-import slogo.SlogoView;
 
 public class Console {
 
