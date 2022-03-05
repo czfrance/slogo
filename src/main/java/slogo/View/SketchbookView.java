@@ -110,12 +110,10 @@ public class SketchbookView extends Region {
   }
 
   public void play() {
-    // displayWindow();
     try {
-      //updateCurrTurtle();
+      updateTurtles();
       updateTurtleMap();
       Animation animation = makeAnimation();
-      //checkShowing();
       animation.play();
       animation.setOnFinished(e -> play());
     } catch (InvocationTargetException e) {
@@ -130,8 +128,8 @@ public class SketchbookView extends Region {
   public Animation makeAnimation()
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     List<Integer> activeIDList = myInsnModel.getActiveIDList();
-    List<TurtleModel> activeTurtles= new ArrayList<TurtleModel>();
-    List<TurtleModel> oldActiveTurtles = new ArrayList<TurtleModel>();
+    List<TurtleModel> activeTurtles= new ArrayList<>();
+    List<TurtleModel> oldActiveTurtles = new ArrayList<>();
     for(int i: activeIDList) {
       TurtleModel currActiveTurtle = myInsnModel.getCreatedTurtleMap().get(i);
       TurtleModel oldActiveTurtle = new TurtleModel(currActiveTurtle.getNextPos()[0], currActiveTurtle.getNextPos()[1],
@@ -139,11 +137,8 @@ public class SketchbookView extends Region {
       activeTurtles.add(currActiveTurtle);
       oldActiveTurtles.add(oldActiveTurtle);
     }
-    //TurtleModel oldModelState = new TurtleModel(myCurrModel.getNextPos()[0], myCurrModel.getNextPos()[1],
-     //   myCurrModel.getHeading());
 
     Optional<Object> o = myInsnModel.runNextInsn();
-    //myCurrModel = myInsnModel.getCurrTurtle();
     if (o.isPresent()) {
       return getTransition(o, oldActiveTurtles, activeTurtles);
     } else {
@@ -155,11 +150,10 @@ public class SketchbookView extends Region {
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
     SequentialTransition transition = new SequentialTransition();
     for(int i = 0; i<oldModel.size(); i++) {
-      //System.out.printf("CurrTurtle Transition ID %s\n", myInsnModel.getActiveIDList().get(i));
+      checkShowing(newModel.get(i));
       PathTransition pt = getPathTransition(o, oldModel.get(i), newModel.get(i));
       RotateTransition rt = getRotateTransition(o, oldModel.get(i), newModel.get(i));
       transition.getChildren().addAll(pt, rt);
-
     }
     return transition;
     //return new SequentialTransition(myTurtlesMap.get(myCurrModel), pt, rt);
@@ -213,7 +207,7 @@ public class SketchbookView extends Region {
   }
 
   private void setListener(PathTransition pathTrans) {
-    pathTrans.currentTimeProperty().addListener( new ChangeListener<Duration>() {
+    pathTrans.currentTimeProperty().addListener( new ChangeListener<>() {
 
       double[] oldLocation = null;
 
@@ -253,8 +247,7 @@ public class SketchbookView extends Region {
     });
   }
 
-  /*
-  private void checkShowing() {
+  private void checkShowing(TurtleModel myCurrModel) {
     if (!myCurrModel.getTurtleRecord().isShowing())  {
       root.getChildren().remove(myTurtlesMap.get(myCurrModel));
     }
@@ -262,8 +255,6 @@ public class SketchbookView extends Region {
       root.getChildren().add(myTurtlesMap.get(myCurrModel));
     }
   }
-
-   */
 
   private PathTransition doNothingPath(TurtleModel oldModel, TurtleModel myCurrModel) {
     MoveTo move = new MoveTo(convertX(oldModel.getNextPos()[0]),
@@ -296,8 +287,7 @@ public class SketchbookView extends Region {
     return (DEFAULT_SIZE.height / 2) - modelY;
   }
 
-  /*
-  public void updateCurrTurtle() {
+  private void updateTurtle(TurtleModel myCurrModel) {
     double x = myTurtlesMap.get(myCurrModel).getBoundsInParent().getCenterX();
     double y = myTurtlesMap.get(myCurrModel).getBoundsInParent().getCenterY();
     double heading = myCurrModel.getHeading();
@@ -305,7 +295,11 @@ public class SketchbookView extends Region {
     myTurtlesMap.get(myCurrModel).updateTurtle(x, y, heading, color);
   }
 
-   */
+  private void updateTurtles() {
+    for (TurtleModel turtle : myTurtlesMap.keySet()) {
+      updateTurtle(turtle);
+    }
+  }
 
 //    @Override
 //    public Node getStyleableNode() {

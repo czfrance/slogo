@@ -8,6 +8,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -21,51 +23,49 @@ import org.junit.jupiter.api.Test;
 import slogo.CompilerExceptions.CompilerException;
 import slogo.CompilerExceptions.NotAValueException;
 import slogo.Model.InstructionModel;
+import slogo.Model.TurtleCollection;
+import slogo.Model.TurtleInsnModel;
 import slogo.Model.TurtleModel;
 
 class TurtleTest {
 
-    InstructionModel insnModel;
+    TurtleInsnModel insnModel;
+    TurtleCollection myTurtles;
     double x;
     double y;
     //assumption: facing right = 0 degrees, increases clockwise
     int heading;
 
     @BeforeEach
-    void setup() {
-        insnModel = new InstructionModel();
-        x = 0;
-        y = 0;
-        heading = 90;
-        TurtleModel model = new TurtleModel(0, 0, 90);
+    void setup()
+        throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        myTurtles = new TurtleCollection();
+        insnModel = new TurtleInsnModel(myTurtles, "English");
+
         // Console input = new Console("", new Compiler(""));
-        insnModel.addInsn("forward 200");
-        insnModel.addInsn("back 200");
-        insnModel.addInsn("forward 200");
-        insnModel.addInsn("back 200");
+        insnModel.addUserInput("forward 200");
+        insnModel.addUserInput("back 200");
+        insnModel.addUserInput("tell [ 1 2 3 ]");
+        insnModel.addUserInput("forward 100");
+        insnModel.addUserInput("tell [ 1 2 ]");
+        insnModel.addUserInput("back 100");
     }
 
     @Test
-    // see if we have all of our instructions
-    // CHECK IN CODE
-    void checkNumberOfInstruction() {
-        String[] insn = insnModel.getNextInsn().split(" ");
-        Assertions.assertEquals(4, insn.length);
-    }
-
-    @Test
-    // negative test to see if our instructions exist and are being added properly
-    void checkNoInstructions() {
-        Assertions.assertTrue(!insnModel.hasNextInsn());
-    }
-
-    @Test
-    void checkInts() {
-        String[] insn = insnModel.getNextInsn().split(" ");
-        int[] params = new int[insn.length-1];
-        for (int i = 1; i < insn.length; i++) {
-            params[i-1] = Integer.parseInt(insn[i]);
+    // check if we have the correct number of turtles
+    void checkTotalTurles() {
+        for (int i = 0; i < 6; i++) {
+            insnModel.runNextInsn();
         }
-        Assertions.assertEquals(params[0], 200);
+        Map<Integer, TurtleModel> turtleMap = insnModel.getCreatedTurtleMap();
+        Assertions.assertEquals(3, turtleMap.keySet().size());
+    }
+
+    @Test
+    //check if run instruction returns the correct value
+    void checkRunInsn() {
+        Optional<Object> o = insnModel.runNextInsn();
+        Assertions.assertTrue(o.isPresent());
+        Assertions.assertEquals(200.0, o.get());
     }
 }

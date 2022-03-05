@@ -42,6 +42,7 @@ public abstract class TurtleView extends ImageView {
 
   public void updateTurtle(double x, double y, double heading, Color color) {
     setColor(x, y, color);
+    myPen = new LinePen(color);
     setLocation(x, y);
     setRotate(360-heading);
   }
