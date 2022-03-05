@@ -1,2 +1,5 @@
-package slogo.View.Transitions.Rotations;public class TurtleRotation {
+package slogo.View.Transitions.Rotations;
+
+public class TurtleRotation {
+
 }
