@@ -8,8 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import slogo.CompilerExceptions.CompilerException;
 import slogo.CompilerExceptions.NotAValueException;
+import slogo.CompilerPackage.Compiler;
 import slogo.Model.TurtleCollection;
-import slogo.Model.TurtleModel;
 
 class CompilerTest {
 
