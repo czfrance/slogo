@@ -51,6 +51,10 @@ public class TurtleInsnModel {
     return myTurtleModel.getCreatedTurtleMap();
   }
 
+  public Compiler getCompiler(){
+    return myCompiler;
+  }
+
   public List<Integer> getActiveIDList() {
     return myTurtleModel.getActiveTurtleIDList();
   }
