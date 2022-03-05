@@ -38,10 +38,8 @@ public class TurtleInsnModel {
       }
       return Optional.of(nextInsn.frontEndReturnValue());
     }
-
     return Optional.empty();
   }
-
 
   //make this return a immutable hashmap
   public Map<Integer, TurtleModel> getCreatedTurtleMap() {
