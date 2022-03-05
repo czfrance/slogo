@@ -33,6 +33,7 @@ import slogo.Model.TurtleModel;
 import slogo.SlogoView;
 import slogo.View.Pen.Pen;
 import slogo.View.Transitions.Paths.TurtlePath;
+import slogo.View.Transitions.Rotations.TurtleRotation;
 
 public class SketchbookView extends Region {
 
@@ -111,7 +112,7 @@ public class SketchbookView extends Region {
 
   public void play() {
     try {
-      //updateTurtles();
+      updateTurtles();
       updateTurtleMap();
       Animation animation = makeAnimation();
       animation.play();
@@ -154,7 +155,9 @@ public class SketchbookView extends Region {
       TurtlePath tp = new TurtlePath(o, oldModel.get(i), newModel.get(i), myTurtlesMap.get(newModel.get(i)), root);
       PathTransition pt = tp.getPathTransition();
       //PathTransition pt = getPathTransition(o, oldModel.get(i), newModel.get(i));
-      RotateTransition rt = getRotateTransition(o, oldModel.get(i), newModel.get(i));
+      TurtleRotation tr = new TurtleRotation(o, oldModel.get(i), newModel.get(i), myTurtlesMap.get(newModel.get(i)));
+      RotateTransition rt = tr.getTurtleRotation();
+      //RotateTransition rt = getRotateTransition(o, oldModel.get(i), newModel.get(i));
       transition.getChildren().addAll(pt, rt);
     }
     return transition;
