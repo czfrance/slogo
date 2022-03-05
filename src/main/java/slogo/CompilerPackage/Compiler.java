@@ -1,4 +1,4 @@
-package slogo;
+package slogo.CompilerPackage;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -18,6 +18,7 @@ import slogo.InstructionClasses.InsnList;
 import slogo.InstructionClasses.UserInstruction;
 import slogo.InstructionClasses.Variable;
 import slogo.Model.TurtleCollection;
+import slogo.PatternParser;
 
 public class Compiler {
 
@@ -35,19 +36,20 @@ public class Compiler {
   private Deque<Instruction> finalInstructionQueue = new LinkedList<Instruction>();
   private Map<String, Variable> variablesMap = new HashMap<String, Variable>(); //change out command for variable instead
   private Map<String, UserInstruction> userInstructionMap = new HashMap<String, UserInstruction>();
+  private ListCreator listCreator;
   private ResourceBundle myErrorBundle;
   private TurtleCollection myTurtles;
   private String myLanguage;
 
   public Compiler(String language, TurtleCollection turtleModel) {
     myLanguage = language;
-
     myErrorBundle = ResourceBundle.getBundle(ERROR_RESOURCE_PACKAGE+"English");
     syntaxParser = new PatternParser();
     languageParser = new PatternParser();
     syntaxParser.addPatterns("Syntax");
     languageParser.addPatterns(language);
     myTurtles = turtleModel;
+    listCreator = new ListCreator(variablesMap, userInstructionMap, myTurtles);
   }
 
   public Compiler(Compiler parent) {
@@ -58,44 +60,50 @@ public class Compiler {
     syntaxParser = parent.syntaxParser;
     languageParser = parent.languageParser;
     myTurtles = parent.myTurtles;
+    listCreator = parent.listCreator;
   }
 
-  public Deque<Instruction> getCommands(String userInput)
-      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException, CompilerException {
-    //clear stacks method
+  public Deque<Instruction> getCommands(String userInput) throws CompilerException {
+    try {
+      clearStacks();
+      makeUserInputStack(userInput);
+      while(!userInputQueue.isEmpty()) {
+        String currString = userInputQueue.peek();
+        String currStringType = syntaxParser.getSymbol(currString);
+        if(languageParser.getSymbol(currString).equals("MakeVariable")) {
+          makeVariable();
+        }
+        else if (languageParser.getSymbol(currString).equals("MakeUserInstruction")) {
+          makeUserInstruction();
+        }
+        if(currStringType.equals(PatternParser.NO_MATCH)) {
+          String errorMessage = String.format(myErrorBundle.getString("unrecognizedCharacterMessage"), currString); // make error in package
+          throw new CompilerException(errorMessage);
+        }
+        else {
+          String methodName = inputToMethodBundle.getString(currStringType);
+          Method inputMethod = this.getClass().getDeclaredMethod(methodName, null);
+          inputMethod.setAccessible(true);
+          Object returnValue = inputMethod.invoke(this);
+        }
+      }
+      finishCmdStack();
+      return finalInstructionQueue;
+    }
+    catch (CompilerException compilerException) {
+      throw compilerException;
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+      throw new CompilerException(myErrorBundle.getString("GeneralizedErrorMessage")); //make this error in bundle
+    }
+
+  }
+
+  private void clearStacks() {
     finalInstructionQueue.clear();
     commandStack.clear();
     valueStack.clear();
-    makeUserInputStack(userInput);
-
-    while(!userInputQueue.isEmpty()) {
-      String currString = userInputQueue.peek();
-      String currStringType = syntaxParser.getSymbol(currString);
-      System.out.format("%s : %s\n" , currString, currStringType);
-      if(languageParser.getSymbol(currString).equals("MakeVariable")) {
-        makeVariable();
-      }
-      else if (languageParser.getSymbol(currString).equals("MakeUserInstruction")) {
-        makeUserInstruction();
-      }
-      else if (currStringType.equals("Variable")) makeEmptyVariable();
-      //if(languageParser.getSymbol(currString).equals("MakeUserInstruction")) makeUserInstruction();
-      /*
-      if(currStringType.equals("Constant")) {
-        String errorMessage = myErrorBundle.get()
-        throw new CompilerException(myErrorBundle.get())
-      }
-      */
-      else {
-        System.out.println(currStringType);
-        String methodName = inputToMethodBundle.getString(currStringType);
-        Method inputMethod = this.getClass().getDeclaredMethod(methodName, null);
-        inputMethod.setAccessible(true);
-        Object returnValue = inputMethod.invoke(this);
-      }
-    }
-    finishCmdStack();
-    return finalInstructionQueue;
   }
 
   private void commandMethod()
@@ -104,7 +112,6 @@ public class Compiler {
     String translatedCmd = languageParser.getSymbol(cmdString);
     Instruction currCmd;
     if(translatedCmd.equals(PatternParser.NO_MATCH)) {
-      System.out.printf("bad cmd: %s", cmdString);
       currCmd = userInstructionMap.get(cmdString);
       if(currCmd == null) throw new CompilerException(myErrorBundle.getString("noSuchInstructionError")); //haven't made this error bundle yet
       currCmd = new UserInstruction(userInstructionMap.get(cmdString));
@@ -115,7 +122,6 @@ public class Compiler {
       currCmd = (Instruction) cmdConstructor.newInstance(myTurtles);
     }
     if(getCmdParam(currCmd)){
-      //finalInstructionQueue.offer(currCmd);
       currCmd.setParameters(valueStack);
       finishCmdStack();
     }
@@ -125,13 +131,10 @@ public class Compiler {
       throws CompilerException {
     int currNumParsedParameters = currCmd.getNumParsedParameters();
     for(int i = 0; i<currCmd.getNumParameters()-currNumParsedParameters; i++) {
-      //System.out.println(currCmd.getNumParsedParameters());
-      /*
-      if(userInputQueue.size() == 0) {
-        throw new CompilerException(myErrorBundle.getString("numParamError"), currCmd.getClass().toString(), currCmd.getNumParameters());
-      }
 
-       */
+      if(userInputQueue.size() == 0) {
+        throw new CompilerException(myErrorBundle.getString("numParamError"), currCmd.getClass().toString(), currCmd.getNumParameters());//need to add to error package
+      }
 
       try{
         paramMethod();
@@ -141,17 +144,15 @@ public class Compiler {
         return false;
       }
       catch (Exception e) {
-        e.printStackTrace();
+        throw new CompilerException(myErrorBundle.getString("GeneralErrorMessage"));
       }
       currCmd.addNumParsedParameters();
     }
     finalInstructionQueue.offer(currCmd);
-    //currCmd.setParameters(valueStack);
     return true;
   }
 
   private void finishCmdStack() {
-    System.out.format("Cmd Stack: %d  |  Val Stack: %d\n", commandStack.size(), valueStack.size());
     while(!commandStack.isEmpty()) {
       Instruction currCmd = commandStack.pop();
       for(int i = 0; i<valueStack.size(); i++) currCmd.addNumParsedParameters();
@@ -159,13 +160,11 @@ public class Compiler {
         break;
       }
       currCmd.setParameters(valueStack);
-      System.out.println("we're here");
     }
 
   }
 
   private void constantMethod() {
-    System.out.println("constantmethod hit");
     String constantString = userInputQueue.poll();
     Constant loneConstant = new Constant(constantString);
     finalInstructionQueue.offer(loneConstant);
@@ -175,7 +174,6 @@ public class Compiler {
       throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException, NotAValueException {
     String valString = userInputQueue.peek();
     String valType = syntaxParser.getSymbol(valString);
-    System.out.format("%s, %s\n", valString, valType);
     //make these into the reflection from resource bundle thing
     if(valType.equals("Variable")) {
       userInputQueue.poll();
@@ -187,7 +185,8 @@ public class Compiler {
       return;
     }
     else if(valType.equals("ListStart") || valType.equals("ListEnd")) {
-      InsnList listParam = createList();
+
+      InsnList listParam = listCreator.createList(userInputQueue, this);
       valueStack.push(listParam);
       return;
     }
@@ -200,36 +199,6 @@ public class Compiler {
     Instruction currVal = (Instruction) valConstructor.newInstance(valString);
 
     valueStack.push(currVal);
-  }
-
-  private InsnList createList()
-      throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-    Compiler listCompiler = new Compiler(this);
-    userInputQueue.poll(); //get rid of opening bracket
-    StringBuilder listString = new StringBuilder();
-    int listCount = 0;
-    String nextUserSyntax = syntaxParser.getSymbol(userInputQueue.peek());
-    while(!(nextUserSyntax.equals("ListEnd") && listCount == 0)) {
-      if(nextUserSyntax.equals("ListStart")) {
-        listCount++;
-        System.out.println(listCount);
-      }
-      if(nextUserSyntax.equals("ListEnd")) {
-        listCount--;
-      }
-      String thingAdded = userInputQueue.poll();
-      if(thingAdded == null) throw new CompilerException(myErrorBundle.getString("noListEnd")); //have to add this error message still
-
-      listString.append(thingAdded + " ");
-      nextUserSyntax = syntaxParser.getSymbol(userInputQueue.peek());
-      System.out.println(listString.toString());
-    }
-    userInputQueue.poll(); //get rid of ending bracket
-    Deque<Instruction> listQueue = listCompiler.getCommands(listString.toString());
-    InsnList listParam = new InsnList(listQueue, listCompiler.getVariableMap(), myTurtles);
-    variablesMap.putAll(listCompiler.getVariableMap());
-    userInstructionMap.putAll(listCompiler.getUserInstructionMap());
-    return listParam;
   }
 
   private void makeVariable()
@@ -261,8 +230,8 @@ public class Compiler {
       throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
     userInputQueue.poll(); //remove TO method call
     String name = userInputQueue.poll();
-    InsnList variables = createList();
-    InsnList insn = createList();
+    InsnList variables = listCreator.createList(userInputQueue, this);
+    InsnList insn = listCreator.createList(userInputQueue, this);
     UserInstruction newUserInsn = new UserInstruction(name, myTurtles, variables,insn, insn.getVarMap());
     userInstructionMap.put(name, newUserInsn);
   }
