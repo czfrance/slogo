@@ -52,8 +52,9 @@ public class SetTowards extends TurtleCommand{
       return heading;
     }
 
-    double angleToX = calcAngleToX(x, y, myX, myY);
-    int quadrant = findQuadrant(x, y);
+    double angleToX = calcAngleToX(myX, myY, x, y);
+    int quadrant = findQuadrant(x, y, myX, myY);
+    System.out.println("ANGLE " + angleToX + quadrant);
 
     switch (quadrant) {
       case 1 -> {return angleToX;}

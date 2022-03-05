@@ -41,14 +41,14 @@ public abstract class TurtleCommand extends Instruction {
     return Math.toDegrees(Math.atan(yDist/xDist));
   }
 
-  protected int findQuadrant(double x, double y) {
-    if (x >= 0 && y >= 0) { //normal angle
+  protected int findQuadrant(double x, double y, double myX, double mY) {
+    if (x >= myX && y >= mY) { //normal angle
       return 1;
     }
-    else if (x < 0 && y >= 0) { //180-angle
+    else if (x < myX && y >= mY) { //180-angle
       return 2;
     }
-    else if (x < 0 && y < 0) { //180+angle
+    else if (x < myX && y < mY) { //180+angle
       return 3;
     }
     else { //360-angle
