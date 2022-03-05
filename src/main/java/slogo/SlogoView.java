@@ -147,6 +147,11 @@ public class SlogoView {
         myTurtleModel = new TurtleModel(0, 0, 90);
         TurtleCollection collection = new TurtleCollection();
         TurtleInsnModel insnModel = new TurtleInsnModel(collection, myLanguage);
+        // mySketch = new SketchbookView(myTurtleModel);
+        mySketch = new SketchbookView(insnModel);
+        mySimulation = new SimulationDisplay(mySketch);
+        myRoot = mySimulation.updateVariableDisplay(mySketch, myRoot);
+        //stage.setScene(mySketch.makeScene(myRoot));
         insnModel.addUserInput("tell [ 1 2 ]");
         insnModel.addUserInput("turtles");
         insnModel.addUserInput("forward 50");
@@ -155,12 +160,8 @@ public class SlogoView {
         insnModel.addUserInput("tell [ 1 ]");
         insnModel.addUserInput("lt 90 forward 50");
 
-        // mySketch = new SketchbookView(myTurtleModel);
-        mySketch = new SketchbookView(insnModel);
-        mySimulation = new SimulationDisplay(mySketch);
-        myRoot = mySimulation.updateVariableDisplay(mySketch, myRoot);
-        //stage.setScene(mySketch.makeScene(myRoot));
         stage.show();
+
         mySketch.play();
     }
 

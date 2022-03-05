@@ -37,9 +37,8 @@ public class SimulationDisplay extends Region implements DashboardView {
     private String language;
 
     public SimulationDisplay(SketchbookView sketch) {
-        // super(sketch.getPane());
+
         myRoot = new BorderPane();
-//        myRoot = new StackPane();
         mySketch = sketch;
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+ "English");
         updateVariableDisplay(mySketch, myRoot);
@@ -48,22 +47,14 @@ public class SimulationDisplay extends Region implements DashboardView {
 
     @Override
     public BorderPane updateVariableDisplay(SketchbookView sketch, BorderPane root) {
-
-        // myRoot.setCenter(mySketch);
-//        myRoot.setLeft(makeSidePanel());
-//        myRoot.setBottom(makeConfigButtons());
-        // root.setCenter(mySketch);
-        root.setLeft(makeSidePanel());
-        root.setBottom(makeConfigButtons());
+        FlowPane buttons = new FlowPane() ;
+        buttons.getChildren().addAll(makeSidePanel(), makeConfigButtons()) ;
+        root.setBottom(buttons);
+//        root.setBottom(makeSidePanel());
+//        root.setBottom(makeConfigButtons());
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+ "English");
         return root;
     }
-
-//    private void createScreen() {
-//        language = "English";
-//        createElements(language);
-//        myPane.getChildren().add(mySidePanel);
-//    }
 
     private void createElements(String val) {
         mySidePanel.getChildren().clear();
@@ -77,9 +68,6 @@ public class SimulationDisplay extends Region implements DashboardView {
     public VBox makeSidePanel() {
         mySidePanel = new VBox();
         mySidePanel.setId("sidePanel");
-//        SideInfoPanel info = new SideInfoPanel(myRecord);
-//        VBox infoBox = info.getPane();
-//        bindWidth(infoBox, mySidePanel);
         VBox control = makeControlButtons();
         bindWidth(control, mySidePanel);
         VBox speed = makeSpeedSlider();
@@ -144,7 +132,6 @@ public class SimulationDisplay extends Region implements DashboardView {
 
     private void saveState() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         mySketch.pause();
-        // FileWriters save = new FileWriters(myResources, myRecord, myGridView.getCurrentGrid());
     }
 
 
@@ -179,24 +166,6 @@ public class SimulationDisplay extends Region implements DashboardView {
         return control;
     }
 
-//    private void selectNewFile() {
-//        try {
-//            myGridView.pause();
-//            File dataFile = FILE_CHOOSER.showOpenDialog(new Stage());
-//            if (dataFile != null) {
-//                FileReader initial = new FileReader(dataFile.getCanonicalPath());
-//                myRecord = initial.getRecord();
-//                myRoot.setCenter(chooseGrid(myRecord));
-//                myRoot.setLeft(makeSidePanel());
-//            }
-//        } catch (XMLException | IOException e) {
-//            SlogoView.showMessage(Alert.AlertType.ERROR, e.getMessage());
-//        }
-//    }
-
-    public Pane getPane() {
-        return myPane;
-    }
 
 
 }
