@@ -112,6 +112,7 @@ public class Main extends Application {
       //TurtleModel model = new TurtleModel(0, 0, 90);
       TurtleCollection collection = new TurtleCollection();
       TurtleInsnModel insnModel = new TurtleInsnModel(collection, menu.getAppLanguage());
+      Console console = new Console(menu.getLanguageBundle(), collection, insnModel);
       //Console console = new Console("English",model);
 
       insnModel.addUserInput("tell [ 1 2 ]");

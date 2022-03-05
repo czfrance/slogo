@@ -26,8 +26,8 @@ public class CommandHistory {
   public CommandHistory(ResourceBundle resources){
     myStage = new Stage();
     history = new ArrayList<String>();
-    setUpRoot();
     myResources = resources;
+    setUpRoot();
     myScene = new Scene(root,400,400);
     myStage.setScene(myScene);
   }
