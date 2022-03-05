@@ -29,6 +29,7 @@ import javafx.util.Duration;
 import slogo.Model.TurtleInsnModel;
 import slogo.Model.TurtleModel;
 import slogo.View.Pen.Pen;
+import slogo.View.Transitions.Paths.TurtlePath;
 
 public class SketchbookView extends Region {
 
@@ -41,7 +42,6 @@ public class SketchbookView extends Region {
   Map<TurtleModel, TurtleView> myTurtlesMap;
   private SimulationDisplay mySimulation;
   private BorderPane myRoot;
-  //private TurtleModel myCurrModel;
   private TurtleInsnModel myInsnModel;
   private Group root;
   private boolean isAnimated;
@@ -49,7 +49,6 @@ public class SketchbookView extends Region {
 
   public SketchbookView(TurtleInsnModel insnModel) {
     myInsnModel = insnModel;
-    //myCurrModel = myInsnModel.getCurrTurtle();
     myTurtlesMap = createTurtleMap();
   }
 
@@ -111,7 +110,7 @@ public class SketchbookView extends Region {
 
   public void play() {
     try {
-      updateTurtles();
+      //updateTurtles();
       updateTurtleMap();
       Animation animation = makeAnimation();
       animation.play();
@@ -140,6 +139,7 @@ public class SketchbookView extends Region {
 
     Optional<Object> o = myInsnModel.runNextInsn();
     if (o.isPresent()) {
+      //return new TurtlePath(o, oldActiveTurtles.get(0), activeTurtles.get(0), myTurtlesMap.get(activeTurtles.get(0)), root).getPathTransition();
       return getTransition(o, oldActiveTurtles, activeTurtles);
     } else {
       return doNothingPath(oldActiveTurtles.get(0), activeTurtles.get(0));
@@ -151,12 +151,13 @@ public class SketchbookView extends Region {
     SequentialTransition transition = new SequentialTransition();
     for(int i = 0; i<oldModel.size(); i++) {
       checkShowing(newModel.get(i));
+      //TurtlePath tp = new TurtlePath(o, oldModel.get(i), newModel.get(i), myTurtlesMap.get(newModel.get(i)), root);
+      //PathTransition pt = tp.getPathTransition();
       PathTransition pt = getPathTransition(o, oldModel.get(i), newModel.get(i));
       RotateTransition rt = getRotateTransition(o, oldModel.get(i), newModel.get(i));
       transition.getChildren().addAll(pt, rt);
     }
     return transition;
-    //return new SequentialTransition(myTurtlesMap.get(myCurrModel), pt, rt);
   }
 
   /*
