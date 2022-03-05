@@ -139,7 +139,6 @@ public class SketchbookView extends Region {
 
     Optional<Object> o = myInsnModel.runNextInsn();
     if (o.isPresent()) {
-      //return new TurtlePath(o, oldActiveTurtles.get(0), activeTurtles.get(0), myTurtlesMap.get(activeTurtles.get(0)), root).getPathTransition();
       return getTransition(o, oldActiveTurtles, activeTurtles);
     } else {
       return doNothingPath(oldActiveTurtles.get(0), activeTurtles.get(0));
@@ -151,9 +150,9 @@ public class SketchbookView extends Region {
     SequentialTransition transition = new SequentialTransition();
     for(int i = 0; i<oldModel.size(); i++) {
       checkShowing(newModel.get(i));
-      //TurtlePath tp = new TurtlePath(o, oldModel.get(i), newModel.get(i), myTurtlesMap.get(newModel.get(i)), root);
-      //PathTransition pt = tp.getPathTransition();
-      PathTransition pt = getPathTransition(o, oldModel.get(i), newModel.get(i));
+      TurtlePath tp = new TurtlePath(o, oldModel.get(i), newModel.get(i), myTurtlesMap.get(newModel.get(i)), root);
+      PathTransition pt = tp.getPathTransition();
+      //PathTransition pt = getPathTransition(o, oldModel.get(i), newModel.get(i));
       RotateTransition rt = getRotateTransition(o, oldModel.get(i), newModel.get(i));
       transition.getChildren().addAll(pt, rt);
     }
