@@ -34,7 +34,7 @@ public class Compiler {
   private Stack<Instruction> valueStack = new Stack<Instruction>();
   private Queue<String> userInputQueue = new LinkedList<String>();
   private Deque<Instruction> finalInstructionQueue = new LinkedList<Instruction>();
-  private Map<String, Variable> variablesMap = new HashMap<String, Variable>(); //change out command for variable instead
+  private Map<String, Variable> variablesMap = new HashMap<String, Variable>();
   private Map<String, UserInstruction> userInstructionMap = new HashMap<String, UserInstruction>();
   private ListCreator listCreator;
   private ResourceBundle myErrorBundle;
@@ -64,11 +64,12 @@ public class Compiler {
   }
 
   public Deque<Instruction> getCommands(String userInput) throws CompilerException {
+    String currString = "";
     try {
       clearStacks();
       makeUserInputStack(userInput);
       while(!userInputQueue.isEmpty()) {
-        String currString = userInputQueue.peek();
+        currString = userInputQueue.peek();
         String currStringType = syntaxParser.getSymbol(currString);
         if(languageParser.getSymbol(currString).equals("MakeVariable")) {
           makeVariable();
@@ -77,14 +78,14 @@ public class Compiler {
           makeUserInstruction();
         }
         if(currStringType.equals(PatternParser.NO_MATCH)) {
-          String errorMessage = String.format(myErrorBundle.getString("unrecognizedCharacterMessage"), currString); // make error in package
+          String errorMessage = String.format(myErrorBundle.getString("unrecognizedCharacter"), currString);
           throw new CompilerException(errorMessage);
         }
         else {
-          String methodName = inputToMethodBundle.getString(currStringType);
-          Method inputMethod = this.getClass().getDeclaredMethod(methodName, null);
-          inputMethod.setAccessible(true);
-          Object returnValue = inputMethod.invoke(this);
+            String methodName = inputToMethodBundle.getString(currStringType);
+            Method inputMethod = this.getClass().getDeclaredMethod(methodName, null);
+            inputMethod.setAccessible(true);
+            Object returnValue = inputMethod.invoke(this);
         }
       }
       finishCmdStack();
@@ -94,10 +95,9 @@ public class Compiler {
       throw compilerException;
     }
     catch (Exception e) {
-      e.printStackTrace();
-      throw new CompilerException(myErrorBundle.getString("GeneralizedErrorMessage")); //make this error in bundle
+      String errorMessage = String.format(myErrorBundle.getString("unrecognizedCommand"), currString);
+      throw new CompilerException(errorMessage);
     }
-
   }
 
   private void clearStacks() {
@@ -113,7 +113,7 @@ public class Compiler {
     Instruction currCmd;
     if(translatedCmd.equals(PatternParser.NO_MATCH)) {
       currCmd = userInstructionMap.get(cmdString);
-      if(currCmd == null) throw new CompilerException(myErrorBundle.getString("noSuchInstructionError")); //haven't made this error bundle yet
+      if(currCmd == null) throw new CompilerException(myErrorBundle.getString("unrecognizedCommand"), cmdString);
       currCmd = new UserInstruction(userInstructionMap.get(cmdString));
     }
     else {
@@ -144,7 +144,7 @@ public class Compiler {
         return false;
       }
       catch (Exception e) {
-        throw new CompilerException(myErrorBundle.getString("GeneralErrorMessage"));
+        throw new CompilerException(myErrorBundle.getString("generalErrorMessage"));
       }
       currCmd.addNumParsedParameters();
     }
@@ -179,7 +179,7 @@ public class Compiler {
       userInputQueue.poll();
       Variable varValue = variablesMap.get(valString);
       if(varValue == null) {
-        throw new CompilerException("Variable %d never initialized", valString);
+        throw new CompilerException(myErrorBundle.getString("unInitializedVar"), valString);
       }
       valueStack.push(varValue);
       return;
@@ -241,8 +241,9 @@ public class Compiler {
     userInput.trim();
     for(String line : userInput.split("\n")) {
       line.trim();
-      if(!syntaxParser.getSymbol(line).equals("Comment")) { // can't have space after newline after comment
+      if(!syntaxParser.getSymbol(line).equals("Comment")) {
         for (String token : line.split(DELIMITER)) {
+          token.trim();
           userInputQueue.offer(token);
         }
       }
