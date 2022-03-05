@@ -2,11 +2,9 @@ package slogo.CompilerPackage;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 import slogo.CompilerExceptions.CompilerException;
 import slogo.InstructionClasses.InsnList;
 import slogo.InstructionClasses.Instruction;

@@ -1,6 +1,5 @@
 package slogo.Model;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.LinkedList;

@@ -11,4 +11,5 @@ open module slogo_app {
     exports slogo;
   exports slogo.Console;
   exports slogo.Model;
+  exports slogo.CompilerPackage;
 }
