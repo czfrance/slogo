@@ -9,6 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ResourceBundle;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -114,9 +115,24 @@ public class SlogoView {
         myRoot.getChildren().clear();
         myWelcome = new OpeningWindow(myResources);
         myRoot.setCenter(myWelcome.getPane());
-        Button proceed = SlogoView.makeButton("Go", event -> displaySketch(myStage, scene),
+        Button proceed = SlogoView.makeButton("Go", event -> {
+                    try {
+                        displaySketch(myStage, scene);
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (InstantiationException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                },
                 myResources);
-        myWelcome.getContainer().getChildren().addAll(proceed);
+        Button compiler = SlogoView.makeButton("Compiler", event -> displayConsole(), myResources);
+        myWelcome.getContainer().getChildren().addAll(proceed, compiler);
         myWelcome.getContainer().setAlignment(Pos.CENTER);
         currentGridY = 0;
         currentGridX = 0;
@@ -124,19 +140,20 @@ public class SlogoView {
         myStage.show();
     }
 
-    public void displaySketch(Stage stage, Scene scene) {
+    public void displaySketch(Stage stage, Scene scene) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        myRoot.getChildren().clear();
         scene.getStylesheets()
                 .add(getClass().getResource("/simdisplay.css").toExternalForm());
         myTurtleModel = new TurtleModel(0, 0, 90);
         TurtleCollection collection = new TurtleCollection();
         TurtleInsnModel insnModel = new TurtleInsnModel(collection, myLanguage);
-        //Console console = new Console("English",model);
-
-        myTurtleModel.addInsn("penDown");
-        myTurtleModel.addInsn("setHeading 270");
-        myTurtleModel.addInsn("towards -100 0");
-        myTurtleModel.addInsn("penUp");
-        myTurtleModel.addInsn("setXY -100 0");
+        insnModel.addUserInput("tell [ 1 2 ]");
+        insnModel.addUserInput("turtles");
+        insnModel.addUserInput("forward 50");
+        insnModel.addUserInput("rt 90");
+        insnModel.addUserInput("forward 50");
+        insnModel.addUserInput("tell [ 1 ]");
+        insnModel.addUserInput("lt 90 forward 50");
 
         // mySketch = new SketchbookView(myTurtleModel);
         mySketch = new SketchbookView(insnModel);

@@ -138,14 +138,17 @@ public class Main extends Application {
 //      stage.show();
 //      sketch.play();
 
-      SketchbookView sketch = new SketchbookView(insnModel);
-      //SimulationDisplay mySimulation = new SimulationDisplay(sketch);
-      //theFeatures = mySimulation.updateVariableDisplay(sketch, theFeatures);
-
-      stage.setScene(sketch.makeScene());
-      //stage.setScene(sketch.makeScene(theFeatures));
-      stage.show();
-      sketch.play();
+        // JUST COMMENTED
+//      SketchbookView sketch = new SketchbookView(insnModel);
+//      //SimulationDisplay mySimulation = new SimulationDisplay(sketch);
+//      //theFeatures = mySimulation.updateVariableDisplay(sketch, theFeatures);
+//
+//      stage.setScene(sketch.makeScene());
+//      //stage.setScene(sketch.makeScene(theFeatures));
+//      stage.show();
+//      sketch.play();
+        SlogoView view = new SlogoView("English");
+        view.makeScene(800, 800, stage);
 
     }
 }
