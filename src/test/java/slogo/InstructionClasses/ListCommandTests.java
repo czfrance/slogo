@@ -15,7 +15,7 @@ import slogo.Model.TurtleInsnModel;
 import slogo.Model.TurtleModel;
 import slogo.Model.TurtleRecord;
 
-public class TurtleCommandsTests {
+public class ListCommandTests {
 
   public static final String DEFAULT_LANGUAGE = "English";
   private ResourceBundle myErrorBundle;
@@ -31,118 +31,91 @@ public class TurtleCommandsTests {
   }
 
   @Test
-  public void BackwardsCommandTest()
+  public void DoTimesTest()
       throws CompilerException {
-    String userInsn = "bk 50";
+    String userInsn = "dotimes [ :t 4 ] [ fd :t ]";
     TurtleRecord updatedRecord;
     myInsnModel.addUserInput(userInsn);
 
     myInsnModel.runNextInsn();
     updatedRecord = myModel.getTurtleRecord();
-    assertEquals(-50.0, updatedRecord.myY());
+    assertEquals(1, updatedRecord.myY());
+    myInsnModel.runNextInsn();
+    updatedRecord = myModel.getTurtleRecord();
+    assertEquals(3, updatedRecord.myY());
+    myInsnModel.runNextInsn();
+    updatedRecord = myModel.getTurtleRecord();
+    assertEquals(6, updatedRecord.myY());
+    myInsnModel.runNextInsn();
+    updatedRecord = myModel.getTurtleRecord();
+    assertEquals(10, updatedRecord.myY());
   }
 
   @Test
-  public void HideCommandTest()
+  public void ForTest()
       throws CompilerException {
-    String userInsn = "hideturtle";
+    String userInsn = "for [ :t 2 8 2 ] [ fd :t ]";
     TurtleRecord updatedRecord;
     myInsnModel.addUserInput(userInsn);
 
     myInsnModel.runNextInsn();
     updatedRecord = myModel.getTurtleRecord();
-    assertEquals(false, updatedRecord.isShowing());
+    assertEquals(2, updatedRecord.myY());
+    myInsnModel.runNextInsn();
+    updatedRecord = myModel.getTurtleRecord();
+    assertEquals(6, updatedRecord.myY());
+    myInsnModel.runNextInsn();
+    updatedRecord = myModel.getTurtleRecord();
+    assertEquals(12, updatedRecord.myY());
+    myInsnModel.runNextInsn();
+    updatedRecord = myModel.getTurtleRecord();
+    assertEquals(20, updatedRecord.myY());
   }
 
   @Test
-  public void HomeCommandTest()
+  public void IfElseTest()
       throws CompilerException {
-    String userInsn = "fd 50 home";
+    String userInsn = "ifelse equal? 1 0 [ fd 50 ] [ bk 50 ]";
     TurtleRecord updatedRecord;
     myInsnModel.addUserInput(userInsn);
 
     myInsnModel.runNextInsn();
     myInsnModel.runNextInsn();
+
     updatedRecord = myModel.getTurtleRecord();
-    assertTrue(Math.abs(updatedRecord.myX())<=0.001);
-    assertTrue(Math.abs(updatedRecord.myY())<=0.001);
+    assertEquals(-50, updatedRecord.myY());
+
+    userInsn = "ifelse equal? 0 0 [ fd 50 ] [ bk 50 ]";
+    myInsnModel.addUserInput(userInsn);
+
+    myInsnModel.runNextInsn();
+    myInsnModel.runNextInsn();
+    updatedRecord = myModel.getTurtleRecord();
+    assertEquals(0, updatedRecord.myY());
   }
 
   @Test
-  public void PenDownTest()
+  public void Repeat()
       throws CompilerException {
-    String userInsn = "pd";
-    TurtleRecord updatedRecord;
-    myInsnModel.addUserInput(userInsn);
-
-    myInsnModel.runNextInsn();
-    updatedRecord = myModel.getTurtleRecord();
-    assertTrue(updatedRecord.isPenDown());
-  }
-  @Test
-  public void PenUpTest()
-      throws NotAValueException, CompilerException {
-    String userInsn = "pu";
-    TurtleRecord updatedRecord;
-    myInsnModel.addUserInput(userInsn);
-
-    myInsnModel.runNextInsn();
-    updatedRecord = myModel.getTurtleRecord();
-    assertFalse(updatedRecord.isPenDown());
-  }
-
-  @Test
-  public void SetHeadingTest()
-      throws NotAValueException, CompilerException {
-    String userInsn = "seth 90";
-    TurtleRecord updatedRecord;
-    myInsnModel.addUserInput(userInsn);
-
-    myInsnModel.runNextInsn();
-    updatedRecord = myModel.getTurtleRecord();
-    assertTrue(updatedRecord.myHeading() == 90);
-  }
-
-  @Test
-  public void SetPositionTest()
-      throws NotAValueException, CompilerException {
-    String userInsn = "setxy 90 -90";
-    TurtleRecord updatedRecord;
-    myInsnModel.addUserInput(userInsn);
-
-    myInsnModel.runNextInsn();
-    updatedRecord = myModel.getTurtleRecord();
-    assertTrue(updatedRecord.myX() == 90);
-    assertTrue(updatedRecord.myY() == -90);
-  }
-
-  @Test
-  public void SetTowardsTest()
-      throws NotAValueException, CompilerException {
-    String userInsn = "towards 90 0";
-    TurtleRecord updatedRecord;
-    myInsnModel.addUserInput(userInsn);
-
-    myInsnModel.runNextInsn();
-    updatedRecord = myModel.getTurtleRecord();
-    System.out.println(updatedRecord.myHeading());
-    assertTrue(updatedRecord.myHeading() == 0);
-  }
-
-  @Test
-  public void ShowTurtleTest()
-      throws NotAValueException, CompilerException {
-    String userInsn = "ht st";
+    String userInsn = "repeat sum 1 3 [ fd 25 ]";
     TurtleRecord updatedRecord;
     myInsnModel.addUserInput(userInsn);
 
     myInsnModel.runNextInsn();
     myInsnModel.runNextInsn();
     updatedRecord = myModel.getTurtleRecord();
-    System.out.println(updatedRecord.myHeading());
-    assertTrue(updatedRecord.isShowing());
+    assertEquals(25, updatedRecord.myY());
+    myInsnModel.runNextInsn();
+    updatedRecord = myModel.getTurtleRecord();
+    assertEquals(50, updatedRecord.myY());
+    myInsnModel.runNextInsn();
+    updatedRecord = myModel.getTurtleRecord();
+    assertEquals(75, updatedRecord.myY());
+    myInsnModel.runNextInsn();
+    updatedRecord = myModel.getTurtleRecord();
+    assertEquals(100, updatedRecord.myY());
+    myInsnModel.runNextInsn();
+    updatedRecord = myModel.getTurtleRecord();
+    assertEquals(100, updatedRecord.myY());
   }
-
-
 }
-
