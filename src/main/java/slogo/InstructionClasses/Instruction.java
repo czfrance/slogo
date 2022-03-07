@@ -57,7 +57,6 @@ public abstract class Instruction {
       Instruction currParam = valueStack.pop();
       getMyParameters()[i] = currParam;
     }
-    //System.out.println(this.toString());
     valueStack.push(this);
   }
 

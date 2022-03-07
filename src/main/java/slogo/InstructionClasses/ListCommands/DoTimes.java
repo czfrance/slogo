@@ -12,7 +12,7 @@ public class DoTimes extends ListCommand {
 
   public static final int DO_TIMES_PARAMS = 2;
 
-  private int currIteration = 0;
+  private int currIteration;
   private int limit;
   private Instruction myInsnList;
   private Instruction myVar;
@@ -27,6 +27,8 @@ public class DoTimes extends ListCommand {
     myInsnList = insnList;
     Instruction limitList = valueStack.pop();
     myVar = limitList.getParamNum(0);
+    currIteration = 1;
+    setVarVal(myVar, currIteration);
     limit = (int) limitList.getParamNum(1).returnValue();
     valueStack.push(this);
   }
