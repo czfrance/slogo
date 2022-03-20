@@ -52,7 +52,6 @@ public class BasicInstructView {
     for(String key:instructions.keySet()){
       InteractiveBasic node = new InteractiveBasic(key,myModel, myTurtles, myResources);
       layout.getChildren().add(node.getLabel());
-      System.out.println(key);
     }
   }
   public void show(){

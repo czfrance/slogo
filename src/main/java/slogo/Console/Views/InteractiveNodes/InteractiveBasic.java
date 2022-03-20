@@ -23,6 +23,7 @@ import slogo.Model.TurtleInsnModel;
 
 public class InteractiveBasic extends InteractiveNode {
 
+
   private Instruction myInstruction;
   private ResourceBundle instructionTypes = ResourceBundle.getBundle("slogo/languages/InstructionType");
 
@@ -35,25 +36,21 @@ public class InteractiveBasic extends InteractiveNode {
   @Override
   public void hoverToolTip() {
     String message = null;
-
+    System.out.println(super.name.toLowerCase());
     try {
-      var website = new URL(
-          "https://courses.cs.duke.edu/compsci308/spring22/assign/03_parser/reference/and");
+      URL website = new URL(
+          "https://courses.cs.duke.edu/compsci308/spring22/assign/03_parser/reference/" + super.name.toLowerCase());
 
-      var br = new BufferedReader(new InputStreamReader(website.openStream()));
-      String line;
-      var sb = new StringBuilder();
-      while ((line = br.readLine()) != null) {
-        sb.append(line);
-        sb.append(System.lineSeparator());
+      BufferedReader br = new BufferedReader(new InputStreamReader(website.openStream()));
+      String inputLine;
+      while ((inputLine = br.readLine()) != null) {
+        message+= inputLine +"\n";
       }
       br.close();
     } catch (Exception e) {
-      ConsoleAlerts alert = new ConsoleAlerts("Description not available at this time");
     }
 
     if (message != null) {
-      System.out.println(message);
       myLabel.setTooltip(new Tooltip(message));
       myLabel.getTooltip().setShowDelay(Duration.seconds(0.5));
     }
