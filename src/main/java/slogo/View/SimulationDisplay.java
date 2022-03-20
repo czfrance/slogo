@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
  * @author Thivya Sivarajah
  */
 
-public class SimulationDisplay extends Region implements DashboardView {
+public class  SimulationDisplay extends Region implements DashboardView {
 
     public static final int SLIDER_MINIMUM = 1;
     public static final int SLIDER_MAXIMUM = 10;

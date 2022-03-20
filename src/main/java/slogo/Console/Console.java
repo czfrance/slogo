@@ -10,6 +10,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import slogo.Console.Views.BasicInstructView;
 import slogo.Console.Views.VarsMenuView;
 import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleInsnModel;
@@ -106,12 +107,15 @@ public class Console {
 
   private MenuButton generateInteractives() {
     myVarsMenu = new VarsMenuView(myInstructionModel, myTurtleCollection, myResourceBundle);
+    BasicInstructView basicMenu = new BasicInstructView(myInstructionModel, myTurtleCollection, myResourceBundle);
     MenuItem varsButton = new MenuItem("Your Variables");
-    varsButton.setOnAction(e->myVarsMenu.show());
+    MenuItem basicButton = new MenuItem("Basic Commmands");
 
+    varsButton.setOnAction(e->myVarsMenu.show());
+    basicButton.setOnAction(e->basicMenu.show());
 
     MenuButton menuChoice = new MenuButton("Interactives");
-    menuChoice.getItems().add(varsButton);
+    menuChoice.getItems().addAll(varsButton, basicButton);
     return menuChoice;
   }
 }

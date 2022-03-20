@@ -1,4 +1,4 @@
-package slogo;
+package slogo.Console;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +29,6 @@ class ConsoleTest {
         TurtleCollection myCollection = new TurtleCollection();
         myCompiler = new Compiler(DEFAULT_LANGUAGE, myCollection);
         myErrorBundle = ResourceBundle.getBundle(Compiler.ERROR_RESOURCE_PACKAGE+DEFAULT_LANGUAGE);
-        // myStage = new Stage ();
     }
 
     @Test
