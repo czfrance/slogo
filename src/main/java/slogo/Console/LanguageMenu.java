@@ -62,12 +62,14 @@ public class LanguageMenu {
       public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
         String selectedLanguage = (String) chooseLanguage.getValue();
         if (selectedLanguage != null) {
-          if (selectedLanguage.equals("Choose Different Language"))
+          if (selectedLanguage.equals("Choose Different Language")){
             newLanguagePrompt();
+            System.out.println(applicationBundle == null);
+          }
           else{
             applicationBundle = ResourceBundle.getBundle( RESOURCE_PATH + selectedLanguage);
             myLanguage = selectedLanguage;
-          }
+            }
           }
         if(applicationBundle != null)
           myStage.close();
@@ -110,13 +112,15 @@ public class LanguageMenu {
     String finalPath = currentWorkingDir + PYTHON_SCRIPT;
     System.out.println(currentWorkingDir);
     System.out.println(finalPath);
+    System.out.println("python " +finalPath +" " +"hello"+" "+language);
 
     for(String str: englishBundle.keySet()){
       System.out.println(str);
       try{
         ProcessBuilder builder = new ProcessBuilder("python " +finalPath +" " +str+" "+language);
         Process process = builder.start();
-        process.waitFor();
+        int status = process.waitFor();
+
         try{
           ResourceBundle testbundle = ResourceBundle.getBundle(RESOURCE_PATH + language);
         }catch (Exception e){

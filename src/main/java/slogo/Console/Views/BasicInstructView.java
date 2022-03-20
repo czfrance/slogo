@@ -1,6 +1,5 @@
 package slogo.Console.Views;
 
-import static slogo.Compiler.INSTRUCTION_PACKAGE;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
