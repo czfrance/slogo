@@ -29,7 +29,7 @@ public class If extends ListCommand{
     if(myInsnList.getIsDone()) {
       setIsDone(true);
     }
-    if(myConditional.returnValue()!=0) {
+    else if(myConditional.returnValue()!=0) {
       myInsnList.run();
     }
     else{

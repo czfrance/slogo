@@ -8,8 +8,4 @@ public class CompilerException extends RuntimeException {
     public CompilerException (String message, Object ... values) {
       super(String.format(message, values));
     }
-
-    public CompilerException (Throwable cause, String message, Object ... values) {
-      super(String.format(message, values), cause);
-    }
 }

@@ -24,7 +24,6 @@ public class SetHeading extends TurtleCommand {
   @Override
   public BiFunction<Instruction[], TurtleRecord, TurtleRecord> getLambda() {
     return (Instruction[] params, TurtleRecord myRecord) -> {
-      System.out.println("setHeading");
       heading = checkHeading(myRecord.myHeading());
       oldHeading = heading;
       heading = checkHeading(params[0].returnValue());

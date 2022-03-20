@@ -28,6 +28,7 @@ public class Repeat extends ListCommand {
     myInsnList = insnList;
     Instruction expr = valueStack.pop();
     numIterations = expr.returnValue();
+    currIteration = 1;
     valueStack.push(this);
   }
 

@@ -10,6 +10,7 @@ public class IfElse extends ListCommand {
   private Instruction myConditional;
   private Instruction myIfInsnList;
   private Instruction myElseInsnList;
+  private Instruction listToRun;
 
   public IfElse(TurtleCollection model) {
     super(IF_ELSE_NUM_PARAMS, model);
@@ -24,25 +25,24 @@ public class IfElse extends ListCommand {
     Instruction conditional = valueStack.pop();
     myConditional = conditional;
     valueStack.push(this);
+    listToRun = getListToRun();
   }
 
   @Override
   public void run() {
-    Instruction listToRun;
-    listToRun = getListToRun();
+    listToRun.run();
     if(listToRun.getIsDone()) {
       setIsDone(true);
     }
-      listToRun.run();
   }
 
   private Instruction getListToRun() {
     Instruction listToRun;
-    if(myConditional.returnValue()!=0) {
-      listToRun = myIfInsnList;
+    if(Math.abs(myConditional.returnValue())<=0.001) {
+      listToRun = myElseInsnList;
     }
     else{
-      listToRun = myElseInsnList;
+      listToRun = myIfInsnList;
     }
     return listToRun;
   }

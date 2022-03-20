@@ -6,7 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ResourceBundle;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import slogo.Compiler;
 import slogo.CompilerExceptions.CompilerException;
 import slogo.CompilerExceptions.NotAValueException;
 
@@ -81,4 +80,6 @@ class TurtleInsnModelTest {
     updatedRecord = myModel.getTurtleRecord();
     assertEquals(0.0, updatedRecord.myHeading());
   }
+
+
 }

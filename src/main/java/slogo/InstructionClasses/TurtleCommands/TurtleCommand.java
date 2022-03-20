@@ -3,6 +3,7 @@ package slogo.InstructionClasses.TurtleCommands;
 import java.util.Stack;
 import slogo.InstructionClasses.Instruction;
 import slogo.Model.TurtleCollection;
+import slogo.Model.TurtleRecord;
 
 public abstract class TurtleCommand extends Instruction {
 
@@ -31,23 +32,7 @@ public abstract class TurtleCommand extends Instruction {
     return pixels * Math.sin(Math.toRadians(currHeading));
   }
 
-  protected double calcAbsHeading(double currHeading, double currX, double currY, double x, double y) {
-    if (x == currX && y == currY) {
-      return currHeading;
-    }
-
-    double angleToX = calcAngleToX(currX, currY, x, y);
-    int quadrant = findQuadrant(x, y);
-
-    switch (quadrant) {
-      case 1 -> {return angleToX;}
-      case 2 -> {return 180-angleToX;}
-      case 3 -> {return 180+angleToX;}
-      default -> {return 360-angleToX;}
-    }
-  }
-
-  private double calcAngleToX(double currX, double currY, double x, double y) {
+  protected double calcAngleToX(double currX, double currY, double x, double y) {
     double xDist = Math.abs(currX - x);
     double yDist = Math.abs(currY - y);
 
@@ -56,14 +41,14 @@ public abstract class TurtleCommand extends Instruction {
     return Math.toDegrees(Math.atan(yDist/xDist));
   }
 
-  private int findQuadrant(double x, double y) {
-    if (x >= 0 && y >= 0) { //normal angle
+  protected int findQuadrant(double x, double y, double myX, double mY) {
+    if (x >= myX && y >= mY) { //normal angle
       return 1;
     }
-    else if (x < 0 && y >= 0) { //180-angle
+    else if (x < myX && y >= mY) { //180-angle
       return 2;
     }
-    else if (x < 0 && y < 0) { //180+angle
+    else if (x < myX && y < mY) { //180+angle
       return 3;
     }
     else { //360-angle

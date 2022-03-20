@@ -38,7 +38,7 @@ def main(phrase, language):
   if(translatedText == None):
     return
 
-  languageFile = open(myPathToFile, "a", encoding="utf_8")
+  languageFile = open(myPathToFile, "a+", encoding="utf_8")
   str = phrase + "=" + translatedText+ "\n"
   languageFile.write(str)
   print(phrase + "=" + translatedText+ "\n")

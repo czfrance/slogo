@@ -1,20 +1,16 @@
 package slogo.View;
 
-import javafx.beans.value.ChangeListener;
-import javafx.scene.Node;
+
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.stage.Stage;
 import slogo.SlogoView;
-
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 import java.util.ResourceBundle;
 
-
+/**
+ * Creates all the necessary buttons we need in order to have our simulation running
+ * @author Thivya Sivarajah
+ */
 
 public class  SimulationDisplay extends Region implements DashboardView {
 
@@ -23,63 +19,40 @@ public class  SimulationDisplay extends Region implements DashboardView {
     public static final double SLIDER_START = 5;
     public static final String DEFAULT_RESOURCE_PACKAGE = "/slogo.languages/";
 
-    Pane myPane;
     private BorderPane myRoot;
-    // private StackPane myRoot;
     private SketchbookView mySketch;
-    private SimulationDisplay mySimulation;
     private ResourceBundle myResources;
     private Button myPauseButton;
     private Button myPlayButton;
     private Button myResetButton;
     private VBox mySidePanel;
     private Label mySim;
-    private String language;
 
     public SimulationDisplay(SketchbookView sketch) {
-        // super(sketch.getPane());
+
         myRoot = new BorderPane();
-//        myRoot = new StackPane();
         mySketch = sketch;
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+ "English");
         updateVariableDisplay(mySketch, myRoot);
     }
 
-
+    /**
+     * Method used to update our sketch while the turtle runs as well (just to keep track of everything
+     * It is important to note that this is our only public method in this class and it is part of our Dashboard
+     * interface as well
+     */
     @Override
     public BorderPane updateVariableDisplay(SketchbookView sketch, BorderPane root) {
-
-        // myRoot.setCenter(mySketch);
-//        myRoot.setLeft(makeSidePanel());
-//        myRoot.setBottom(makeConfigButtons());
-        // root.setCenter(mySketch);
-        root.setLeft(makeSidePanel());
-        root.setBottom(makeConfigButtons());
+        FlowPane buttons = new FlowPane() ;
+        buttons.getChildren().addAll(makeSidePanel());
+        root.setCenter(buttons);
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+ "English");
         return root;
     }
 
-//    private void createScreen() {
-//        language = "English";
-//        createElements(language);
-//        myPane.getChildren().add(mySidePanel);
-//    }
-
-    private void createElements(String val) {
-        mySidePanel.getChildren().clear();
-        // mySim = new Label(myResources.getString("Welcome"));
-//        myWelcome.setId("welcome-text");
-//        myContainer.setId("opening-window");
-//        myWelcome.setTextAlignment(TextAlignment.CENTER);
-//        myContainer.getChildren().addAll(myWelcome);
-    }
-
-    public VBox makeSidePanel() {
+    private VBox makeSidePanel() {
         mySidePanel = new VBox();
         mySidePanel.setId("sidePanel");
-//        SideInfoPanel info = new SideInfoPanel(myRecord);
-//        VBox infoBox = info.getPane();
-//        bindWidth(infoBox, mySidePanel);
         VBox control = makeControlButtons();
         bindWidth(control, mySidePanel);
         VBox speed = makeSpeedSlider();
@@ -102,63 +75,43 @@ public class  SimulationDisplay extends Region implements DashboardView {
         return speedBox;
     }
 
-    public Node makeConfigButtons() {
-        HBox box = new HBox();
-        box.setId("configBox");
-        Button loadFile = SlogoView.makeButton("LoadFile", event -> {
-            try {
-                saveState();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }, myResources);
-        Button saveFile = SlogoView.makeButton("SaveFile", event -> {
-            try {
-                saveState();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }, myResources);
-//        ChoiceBox<String> gridShapeChoice = makeChoiceBox(GRID_SHAPE_OPTIONS,
-//                (ov, old_val, new_val) -> changeGridShape(new_val));
-//        gridShapeChoice.getSelectionModel().select(0);
-        box.getChildren().addAll(loadFile, saveFile);
-        return box;
-    }
-
-    public static ChoiceBox<String> makeChoiceBox(List<String> options,
-                                                  ChangeListener<String> handler) {
-        ChoiceBox<String> choiceBox = new ChoiceBox<>();
-        choiceBox.getItems().addAll(options);
-        choiceBox.valueProperty().addListener(handler);
-        return choiceBox;
-    }
-
     private void saveState() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
         mySketch.pause();
-        // FileWriters save = new FileWriters(myResources, myRecord, myGridView.getCurrentGrid());
     }
 
+    private void goState() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        mySketch.play();
+    }
+
+    private void clearState() throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+        mySketch.reset();
+    }
 
     private VBox makeControlButtons() {
         VBox control = new VBox();
         control.setId("control");
-        HBox playPause = new HBox();
-        playPause.setId("playPause");
         HBox resetNext = new HBox();
         resetNext.setId("resetNext");
+        HBox play = new HBox();
+        play.setId("PlayButton");
+        HBox pause = new HBox();
+        pause.setId("PauseButton");
 
+        makePauseButton();
+        makePlayButton();
+        makeResetButton();
+
+        play.getChildren().addAll(myPlayButton);
+        pause.getChildren().addAll(myPauseButton);
+        resetNext.getChildren().addAll(myResetButton);
+        control.getChildren().addAll(play, pause, resetNext);
+        return control;
+    }
+
+    private void makePauseButton() {
         myPauseButton = SlogoView.makeButton("PauseButton", event -> {
                     try {
-                        mySketch.pause();
+                        saveState();
                     } catch (InvocationTargetException e) {
                         e.printStackTrace();
                     } catch (NoSuchMethodException e) {
@@ -166,37 +119,35 @@ public class  SimulationDisplay extends Region implements DashboardView {
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }
-                },
-                myResources);
-        myPlayButton = SlogoView.makeButton("PlayButton", event -> mySketch.play(),
-                myResources);
-        myResetButton = SlogoView.makeButton("ResetButton", event -> mySketch.reset(),
-                myResources);
-
-        resetNext.getChildren().addAll(myResetButton);
-        playPause.getChildren().addAll(myPauseButton, myPlayButton);
-        control.getChildren().addAll(playPause, resetNext);
-        return control;
+                }, myResources);
     }
 
-//    private void selectNewFile() {
-//        try {
-//            myGridView.pause();
-//            File dataFile = FILE_CHOOSER.showOpenDialog(new Stage());
-//            if (dataFile != null) {
-//                FileReader initial = new FileReader(dataFile.getCanonicalPath());
-//                myRecord = initial.getRecord();
-//                myRoot.setCenter(chooseGrid(myRecord));
-//                myRoot.setLeft(makeSidePanel());
-//            }
-//        } catch (XMLException | IOException e) {
-//            SlogoView.showMessage(Alert.AlertType.ERROR, e.getMessage());
-//        }
-//    }
-
-    public Pane getPane() {
-        return myPane;
+    private void makePlayButton() {
+        myPlayButton = SlogoView.makeButton("PlayButton", event -> {
+            try {
+                goState();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }, myResources);
     }
 
+    private void makeResetButton() {
+        myResetButton = SlogoView.makeButton("ResetButton", event -> {
+                    try {
+                        clearState();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }, myResources);
+    }
 
 }

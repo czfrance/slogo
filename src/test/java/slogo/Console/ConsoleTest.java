@@ -1,24 +1,17 @@
 package slogo.Console;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import slogo.Compiler;
-import slogo.CompilerExceptions.CompilerException;
-import slogo.CompilerExceptions.NotAValueException;
+import slogo.CompilerPackage.Compiler;
 import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleModel;
 

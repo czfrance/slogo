@@ -17,7 +17,6 @@ public class HideTurtle extends TurtleCommand{
   @Override
   public BiFunction<Instruction[], TurtleRecord, TurtleRecord> getLambda() {
     return (Instruction[] params, TurtleRecord myRecord) -> {
-      System.out.println("hideTurtle");
       boolean isShowing = false;
 
       return new TurtleRecord(myRecord.myX(), myRecord.myY(), myRecord.myHeading(), myRecord.isPenDown(), isShowing);

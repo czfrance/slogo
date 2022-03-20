@@ -28,6 +28,7 @@ public class For extends ListCommand {
     Instruction limitList = valueStack.pop();
     myVar = limitList.getParamNum(0);
     currCount = limitList.getParamNum(1).returnValue();
+    setVarVal(myVar, currCount);
     myEnd = limitList.getParamNum(2).returnValue();
     myIncrement = limitList.getParamNum(3).returnValue();
     valueStack.push(this);
