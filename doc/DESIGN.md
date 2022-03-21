@@ -10,6 +10,9 @@
 * Thivya Sivarajah
 
 * Prajwal Jagadish
+  * Console, Interactives
+  * History, File i/o
+  * Language Menu, Translator
 
 * Cynthia France
 
@@ -20,7 +23,7 @@
 * Flexible Features:
   * New Commands
   * (Any front end features easy to add? such as buttons, new windows, panes, etc...)
-  * (Any parts of the compiler easy to add? such as new stats to display, user defined variables or components)
+  * The user interactives were fairly easy to implement such as the sliders and the pop up to change variable value. This was because you simply added the instruction name before and the numbers after to convert it to a valid command.
   * (Any parts of the turtlemodel/view easy to add? such as new colors, images, turtle behavior)
 * New Commands - New commands are easily developed by extending our Instruction class hierarchy. Here users simply need to define the new instructions returnValue() and getLambda().
   The returnValue() allows for users to define how the returnValue is calculated for the new command. This is especially useful for calculation type instructions that are used primarily
@@ -45,9 +48,11 @@
   * Compiler
   * Instruction class Hierarchy
   * TurtleModel, TurtleCollection, TurtleInsnModel
-* Model (?)
-  * Console
 * View
+  * Console 
+    * Views Packages
+    * Console
+    * FileOpener/Saver
   * SketchbookView
   * Simulation Display
   * SlogoView
@@ -61,8 +66,9 @@
   * This means that we can define the return value of each instruction in its instruction class representation
   * The only exception to this assumption is if return values depend on variables as returning a variable during runtime will return the most updated version of that variable due to our use of "passing by reference" when interacting with anything involving variables.
 * (Any frontend assumptions ?)
-* (Any console assumptions ?)
-* (Any turtleModel Assumptions?)
+* The console make the assumption that all it is doing is acting as an intermediary between the user and the parser 
+  * It itself will not be able to do any processing of the information. It will only be responsible for passing the literal message to the parser 
+* (Any turtleModel Assumptions?)`
 
 ## Changes from the Plan
 * Instruction Classes
@@ -80,3 +86,5 @@
     * Define methods returnValue() with the appropriate calculations for the instructions return value
     * Define methods getLambda() so that it returns a Functional that defines functionality of how the instruction alters a turtleModel's turtle record
       * The Functional takes in a turtle record and list of doubles representing the parameters to the Instruction. It then returns a new TurtleRecord with updated turtle values.
+  New User UI
+    * The way new user interactions can be generated, such as Speech to text, is by simply converting the operation into a string and then passing it to the console which will in turn do all the storing of data and passing to the compiler

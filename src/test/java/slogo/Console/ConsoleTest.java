@@ -41,14 +41,5 @@ class ConsoleTest {
 
     }
 
-    @Test
-    // negative test to see if it exists
-    void checkFileToString() throws IOException {
-        String content = null;
-        File file = new File("c:/users/program.txt");
-        content = Files.readString(Paths.get(file.getPath()));
-        Assertions.assertEquals("program.txt", content);
-
-    }
 
 }
