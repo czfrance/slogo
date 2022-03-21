@@ -7,7 +7,10 @@
 * Brandon Bae
   * User command compiler/parser (Backend)
   * Command class hierarchy (Backend)
+
 * Thivya Sivarajah
+  * Splash screen introduction and main window set up (frontend)
+  * Integration of model and console components
 
 * Prajwal Jagadish
   * Console, Interactives
@@ -87,6 +90,9 @@
 * TurtleCollection
   * In the original plan, we didn't properly account for multiple turtles. Therefore we only had a turtleModel class to represent single models. Originally we were simply going to account for multiple turtles by keeping them in an arrayList or something similar
   * In the final version we have a TurtleCollection class now which essentially holds a hashmap of all existing turtles while also handling the creation of new turtles and the updating of active turtles,
+* DashboardModel and DashboardView
+  * We initially had a model class for our entire simulation instead of just the turtle, which would ultimately use DashboardView to display the current state of the simulation
+  * In our final version, SlogoView handles the integration of the components of the simulation and the TurtleModel class is what contains our turtle itself. The state of everything else is updated through SlogoView and SimulationDisplay, depending on what the component is.  
 
 
 ## How to Add New Features
@@ -98,3 +104,7 @@
         New User UI
 * New Interactives 
   * The way new user interactions can be generated, such as Speech to text, is by simply converting the operation into a string and then passing it to the console which will in turn do all the storing of data and passing to the compiler
+* Multiple Workspaces
+  * Create a "grid" class that contains all of our SlogoView classes (contains each running simulation)
+  * Add each new simulation to this grid class and have them be displayed in a grid-like fashion (note, this is similar to the implementation of multiple simulations in CellSociety)
+  * This would obviously involve adding a layer of the hierarchy, which is something that should've been reflected in design choices (the possibility of multiple workspaces)
