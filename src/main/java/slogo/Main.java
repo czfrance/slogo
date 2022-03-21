@@ -44,7 +44,10 @@ import slogo.View.SketchbookView;
 public class Main extends Application {
     // useful names for constant values used, ADD TO RESOURCE FILE (note to self from Thivya)
 <<<<<<< HEAD
+<<<<<<< HEAD
     public static final String TITLE = "SLogo";
+=======
+>>>>>>> master
 =======
 >>>>>>> master
     public static final String LANGUAGE = "English";
@@ -104,6 +107,7 @@ public class Main extends Application {
         throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
       LanguageMenu menu = new LanguageMenu();
       TurtleCollection collection = new TurtleCollection();
+<<<<<<< HEAD
 <<<<<<< HEAD
       TurtleInsnModel insnModel = new TurtleInsnModel(collection, "English");
       //Console console = new Console("English",model);
@@ -184,6 +188,13 @@ public class Main extends Application {
 
     }
 
+=======
+      TurtleInsnModel insnModel = new TurtleInsnModel(collection, menu.getAppLanguage());
+      myView = new SlogoView("English");
+      myView.makeScene(800, 600, stage);
+
+    }
+>>>>>>> master
 =======
       TurtleInsnModel insnModel = new TurtleInsnModel(collection, menu.getAppLanguage());
       myView = new SlogoView("English");

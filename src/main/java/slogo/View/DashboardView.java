@@ -15,8 +15,12 @@ public interface DashboardView {
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     public BorderPane updateVariableDisplay(SketchbookView sketch);
 
+=======
+    BorderPane updateVariableDisplay(SketchbookView sketch, BorderPane root);
+>>>>>>> master
 =======
     BorderPane updateVariableDisplay(SketchbookView sketch, BorderPane root);
 >>>>>>> master

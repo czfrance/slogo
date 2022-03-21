@@ -20,9 +20,13 @@ public class  SimulationDisplay extends Region implements DashboardView {
     public static final String DEFAULT_RESOURCE_PACKAGE = "/slogo.languages/";
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     Pane myPane;
      private BorderPane myRoot;
     // private StackPane myRoot;
+=======
+    private BorderPane myRoot;
+>>>>>>> master
 =======
     private BorderPane myRoot;
 >>>>>>> master
@@ -49,6 +53,7 @@ public class  SimulationDisplay extends Region implements DashboardView {
      */
     @Override
 <<<<<<< HEAD
+<<<<<<< HEAD
     public BorderPane updateVariableDisplay(SketchbookView sketch) {
 
         // myRoot.setCenter(mySketch);
@@ -57,13 +62,20 @@ public class  SimulationDisplay extends Region implements DashboardView {
         myRoot.setLeft(makeSidePanel());
         myRoot.setRight(makeConfigButtons());
 =======
+=======
+>>>>>>> master
     public BorderPane updateVariableDisplay(SketchbookView sketch, BorderPane root) {
         FlowPane buttons = new FlowPane() ;
         buttons.getChildren().addAll(makeSidePanel());
         root.setCenter(buttons);
+<<<<<<< HEAD
 >>>>>>> master
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+ "English");
         return myRoot;
+=======
+        myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE+ "English");
+        return root;
+>>>>>>> master
     }
 
     private VBox makeSidePanel() {
@@ -112,6 +124,7 @@ public class  SimulationDisplay extends Region implements DashboardView {
         play.setId("PlayButton");
         HBox pause = new HBox();
         pause.setId("PauseButton");
+<<<<<<< HEAD
 
         makePauseButton();
         makePlayButton();
@@ -124,6 +137,20 @@ public class  SimulationDisplay extends Region implements DashboardView {
         return control;
     }
 
+=======
+
+        makePauseButton();
+        makePlayButton();
+        makeResetButton();
+
+        play.getChildren().addAll(myPlayButton);
+        pause.getChildren().addAll(myPauseButton);
+        resetNext.getChildren().addAll(myResetButton);
+        control.getChildren().addAll(play, pause, resetNext);
+        return control;
+    }
+
+>>>>>>> master
     private void makePauseButton() {
         myPauseButton = SlogoView.makeButton("PauseButton", event -> {
                     try {

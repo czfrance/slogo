@@ -104,7 +104,10 @@ public class SlogoView {
         Scene scene = new Scene(myRoot, width, height);
         displayWelcome(scene, stage);
 <<<<<<< HEAD
+<<<<<<< HEAD
         // displaySketch(stage, scene);
+=======
+>>>>>>> master
 =======
 >>>>>>> master
         return scene;
@@ -119,6 +122,7 @@ public class SlogoView {
         myRoot.getChildren().clear();
         myWelcome = new OpeningWindow(myResources);
         myRoot.setCenter(myWelcome.getPane());
+<<<<<<< HEAD
 <<<<<<< HEAD
         Scene finalScene = scene;
         Button proceed = SlogoView.makeButton("Go", event -> displaySketch(myStage, finalScene),
@@ -161,12 +165,42 @@ public class SlogoView {
         myStage.show();
     }
 
+=======
+        Button proceed = SlogoView.makeButton("Go", event -> {
+                    try {
+                        displaySketch(myStage, scene);
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (InstantiationException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                },
+                myResources);
+        Button compiler = SlogoView.makeButton("Compiler", event -> displayConsole(), myResources);
+        myWelcome.getContainer().getChildren().addAll(proceed, compiler);
+        myWelcome.getContainer().setAlignment(Pos.CENTER);
+        currentGridY = 0;
+        currentGridX = 0;
+        myStage.setScene(scene);
+        myStage.show();
+    }
+
+>>>>>>> master
     /**
      * Displays our sketch
      */
     public void displaySketch(Stage stage, Scene scene) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         myRoot.getChildren().clear();
         scene.getStylesheets().add(getClass().getResource("/welcome.css").toExternalForm());
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
         myTurtleModel = new TurtleModel(0, 0, 90);
         TurtleCollection collection = new TurtleCollection();
@@ -174,15 +208,21 @@ public class SlogoView {
         mySketch = new SketchbookView(insnModel);
         mySimulation = new SimulationDisplay(mySketch);
 <<<<<<< HEAD
+<<<<<<< HEAD
         myRoot = mySimulation.updateVariableDisplay(mySketch);
         stage.setScene(mySketch.makeScene(myRoot));
 =======
+=======
+>>>>>>> master
         myRoot = mySimulation.updateVariableDisplay(mySketch, myRoot);
         mySketch = new SketchbookView(myModel);
         mySimulation = new SimulationDisplay(mySketch);
         myRoot = mySimulation.updateVariableDisplay(mySketch, myRoot);
         myRoot.getChildren().add(mySketch.makeScene());
         myRoot.setRight(makeSimulationConfigRow());
+<<<<<<< HEAD
+>>>>>>> master
+=======
 >>>>>>> master
         stage.show();
 
