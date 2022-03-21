@@ -15,6 +15,8 @@
   * Language Menu, Translator
 
 * Cynthia France
+  * Turtle commands (backend)
+  * Turtle movement & commands (frontend)
 
 
 ## Design Goals
@@ -24,7 +26,9 @@
   * New Commands
   * (Any front end features easy to add? such as buttons, new windows, panes, etc...)
   * The user interactives were fairly easy to implement such as the sliders and the pop up to change variable value. This was because you simply added the instruction name before and the numbers after to convert it to a valid command.
-  * (Any parts of the turtlemodel/view easy to add? such as new colors, images, turtle behavior)
+  * Changing turtle pen color
+  * New turtle images
+  * New turtle functions/commands
 * New Commands - New commands are easily developed by extending our Instruction class hierarchy. Here users simply need to define the new instructions returnValue() and getLambda().
   The returnValue() allows for users to define how the returnValue is calculated for the new command. This is especially useful for calculation type instructions that are used primarily
   for their return value such as Math type instructions (add, sub, and cos). The getLambda() function allows users to define any functionality to the instruction that affects the turtle.
@@ -68,7 +72,12 @@
 * (Any frontend assumptions ?)
 * The console make the assumption that all it is doing is acting as an intermediary between the user and the parser
   * It itself will not be able to do any processing of the information. It will only be responsible for passing the literal message to the parser
-* (Any turtleModel Assumptions?)`
+* Any command done on the turtle/program has been correctly executed in the backend TurtleModel
+  * This means that the frontend Turtle simply reflects the changes of the backend, rather than computing
+    the changes itself
+* All instructions passed from compiler to TurtleModel are the basic functions and are syntactically 
+  correct
+  * This includes command names and number & type of parameters
 
 ## Changes from the Plan
 * Instruction Classes
