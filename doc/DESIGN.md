@@ -12,6 +12,8 @@
 * Prajwal Jagadish
 
 * Cynthia France
+  * Turtle commands (backend)
+  * Turtle movement & commands (frontend)
 
 
 ## Design Goals
@@ -62,7 +64,12 @@
   * The only exception to this assumption is if return values depend on variables as returning a variable during runtime will return the most updated version of that variable due to our use of "passing by reference" when interacting with anything involving variables.
 * (Any frontend assumptions ?)
 * (Any console assumptions ?)
-* (Any turtleModel Assumptions?)
+* Any command done on the turtle/program has been correctly executed in the backend TurtleModel
+* This means that the frontend Turtle simply reflects the changes of the backend, rather than computing
+  the changes itself
+* All instructions passed from compiler to TurtleModel are the basic functions and are syntactically 
+  correct
+  * This includes command names and number & type of parameters
 
 ## Changes from the Plan
 * Instruction Classes
