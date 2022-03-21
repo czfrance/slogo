@@ -1,5 +1,6 @@
 package slogo;
 
+import java.lang.reflect.InvocationTargetException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -9,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ResourceBundle;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -36,9 +38,11 @@ public class SlogoView {
      * Holds all of the main view elements for the application
      *
      * <p>
-     * Initializes a welcome page that first allows users to select the language that they want to use
-     * for the project. After selecting and submitting a language it initializes a a simulation page
-     * that holds all of the simulations and their configurations.
+     * First, we see an option to select a language for us. Then, once a language is selected, an opening window pops
+     * up, where we are able to see two buttons: Proceed and Console. Console takes us to the console window through the
+     * displayConsole() function, while Proceed takes us to the main window with the displaySketch() function. The
+     * important part to note here is that SlogoView is where we hold all the components for our program, and listed
+     * above were the major components.
      * </p>
      *
      *
@@ -46,8 +50,6 @@ public class SlogoView {
      */
 
     public static final String DEFAULT_RESOURCE_PACKAGE = "/slogo.languages/";
-    private static final String DARK_BACKGROUND = "-fx-background-color: BLACK";
-    private static final String LIGHT_BACKGROUND = "-fx-background-color: BEIGE";
     private static final String LANGUAGE = "English";
     private String STYLESHEET;
 
@@ -56,9 +58,7 @@ public class SlogoView {
 
     private OpeningWindow myWelcome;
     private Console myConsole;
-    private Compiler myCompiler;
     private static SketchbookView mySketch;
-    private HBox TitleBox;
     private ScrollPane ScrollBox;
     private HBox ScreenConfigBox;
     private Label titleText;
@@ -68,7 +68,7 @@ public class SlogoView {
     private static int currentGridY;
     private static int currentGridX;
     private boolean inNightMode;
-    private String myLanguage;
+    private static String myLanguage;
 
     private TurtleCollection myTurtleCollection;
     private static TurtleModel myTurtleModel; // this is a temp solution
@@ -80,15 +80,12 @@ public class SlogoView {
      * @param language - chooses what language file to read from between: English
      */
     public SlogoView(String language) {
-        myLanguage = language;
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + language);
+        myLanguage = language;
         currentGridY = 0;
         currentGridX = 0;
         myRoot = new BorderPane();
         STYLESHEET = "welcome.css";
-        inNightMode = false;
-
-        //temp solution delete later
         myTurtleCollection = new TurtleCollection();
         //myTurtleModel = new TurtleModel(0,0,0);
         myTurtleModel = myTurtleCollection.getActiveTurtle();
@@ -106,17 +103,23 @@ public class SlogoView {
     public Scene makeScene(int width, int height, Stage stage) {
         Scene scene = new Scene(myRoot, width, height);
         displayWelcome(scene, stage);
+<<<<<<< HEAD
         // displaySketch(stage, scene);
+=======
+>>>>>>> master
         return scene;
     }
 
-    //Creates the initial welcome screen for the user to select a language
+    /**
+     * Displays our welcome screen
+     */
     private void displayWelcome(Scene scene, Stage myStage) {
         scene.getStylesheets()
                 .add(getClass().getResource("/welcome.css").toExternalForm());
         myRoot.getChildren().clear();
         myWelcome = new OpeningWindow(myResources);
         myRoot.setCenter(myWelcome.getPane());
+<<<<<<< HEAD
         Scene finalScene = scene;
         Button proceed = SlogoView.makeButton("Go", event -> displaySketch(myStage, finalScene),
                 myResources);
@@ -132,22 +135,57 @@ public class SlogoView {
     public void displaySketch(Stage stage, Scene scene) {
         scene.getStylesheets()
                 .add(getClass().getResource("/simdisplay.css").toExternalForm());
+=======
+        Button proceed = SlogoView.makeButton("Go", event -> {
+                    try {
+                        displaySketch(myStage, scene);
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    } catch (NoSuchMethodException e) {
+                        e.printStackTrace();
+                    } catch (InstantiationException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                },
+                myResources);
+        Button compiler = SlogoView.makeButton("Compiler", event -> displayConsole(), myResources);
+        myWelcome.getContainer().getChildren().addAll(proceed, compiler);
+        myWelcome.getContainer().setAlignment(Pos.CENTER);
+        currentGridY = 0;
+        currentGridX = 0;
+        myStage.setScene(scene);
+        myStage.show();
+    }
+
+    /**
+     * Displays our sketch
+     */
+    public void displaySketch(Stage stage, Scene scene) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        myRoot.getChildren().clear();
+        scene.getStylesheets().add(getClass().getResource("/welcome.css").toExternalForm());
+>>>>>>> master
         myTurtleModel = new TurtleModel(0, 0, 90);
         TurtleCollection collection = new TurtleCollection();
-        TurtleInsnModel insnModel = new TurtleInsnModel(collection, "English");
-        //Console console = new Console("English",model);
-
-        myTurtleModel.addInsn("penDown");
-        myTurtleModel.addInsn("setHeading 270");
-        myTurtleModel.addInsn("towards -100 0");
-        myTurtleModel.addInsn("penUp");
-        myTurtleModel.addInsn("setXY -100 0");
-
-        mySketch = new SketchbookView(myTurtleModel);
+        TurtleInsnModel insnModel = new TurtleInsnModel(collection, myLanguage);
+        mySketch = new SketchbookView(insnModel);
         mySimulation = new SimulationDisplay(mySketch);
+<<<<<<< HEAD
         myRoot = mySimulation.updateVariableDisplay(mySketch);
         stage.setScene(mySketch.makeScene(myRoot));
+=======
+        myRoot = mySimulation.updateVariableDisplay(mySketch, myRoot);
+        mySketch = new SketchbookView(myModel);
+        mySimulation = new SimulationDisplay(mySketch);
+        myRoot = mySimulation.updateVariableDisplay(mySketch, myRoot);
+        myRoot.getChildren().add(mySketch.makeScene());
+        myRoot.setRight(makeSimulationConfigRow());
+>>>>>>> master
         stage.show();
+
         mySketch.play();
     }
 
@@ -181,7 +219,8 @@ public class SlogoView {
     }
 
     private void addSimulation() {
-        SketchbookView sketch = new SketchbookView(myTurtleModel);
+//        SketchbookView sketch = new SketchbookView(myTurtleModel);
+        SketchbookView sketch = new SketchbookView(myModel);
         gridOfSimulations.add(sketch.getBorderPane(), currentGridX, currentGridY);
         if (currentGridX == 1) {
             currentGridY++;
@@ -190,14 +229,6 @@ public class SlogoView {
             currentGridX++;
         }
     }
-
-//    private static void setupSketch(TurtleModel turtle) {
-//        mySketch = new SketchbookView(turtle);
-//        // mySimulation = new SimulationDisplay(mySketch);
-////        mySketch.play();
-////        mySketch.prefWidthProperty().bind(myRoot.widthProperty());
-////        mySketch.prefHeightProperty().bind(myRoot.heightProperty());
-//    }
 
     //returns a button with the title provided linked to the event passed as a parameter
     public static Button makeButton(String property, EventHandler<ActionEvent> handler,
@@ -212,7 +243,7 @@ public class SlogoView {
     // creates the display of the console
     private void displayConsole() {
         myRoot.getChildren().clear();
-        myConsole = new Console(myLanguage, myTurtleCollection,  myModel);
+        myConsole = new Console(myResources, myTurtleCollection,  myModel);
         myRoot.setCenter(myWelcome.getPane());
         currentGridY = 0;
         currentGridX = 0;

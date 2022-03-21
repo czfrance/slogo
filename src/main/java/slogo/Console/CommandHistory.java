@@ -1,6 +1,7 @@
 package slogo.Console;
 
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -20,11 +21,12 @@ public class CommandHistory {
   private BorderPane root;
   private ScrollPane scrolling;
   private Scene myScene;
+  private ResourceBundle myResources;
 
-
-  public CommandHistory(){
+  public CommandHistory(ResourceBundle resources){
     myStage = new Stage();
     history = new ArrayList<String>();
+    myResources = resources;
     setUpRoot();
     myScene = new Scene(root,400,400);
     myStage.setScene(myScene);
@@ -59,14 +61,14 @@ public class CommandHistory {
   }
 
   private HBox setupButtons(){
-    Button save = new Button("Save");
-    Button clear = new Button("Clear");
+    Button save = new Button(myResources.getString("Save"));
+    Button clear = new Button(myResources.getString("Clear"));
     clear.setOnAction(e->{
       history.clear();
       pastInstructions.getChildren().clear();
     });
     save.setOnAction(e->{
-      FileSaver mySaver = new FileSaver(history);
+      FileSaver mySaver = new FileSaver(history, myResources);
     });
     HBox buttons = new HBox();
     buttons.getChildren().addAll(save, clear);

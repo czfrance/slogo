@@ -19,6 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import slogo.Console.LanguageMenu;
 import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleInsnModel;
 import slogo.Model.TurtleModel;
@@ -42,22 +43,16 @@ import slogo.View.SketchbookView;
  */
 public class Main extends Application {
     // useful names for constant values used, ADD TO RESOURCE FILE (note to self from Thivya)
+<<<<<<< HEAD
     public static final String TITLE = "SLogo";
+=======
+>>>>>>> master
     public static final String LANGUAGE = "English";
     public static final Dimension DEFAULT_SIZE = new Dimension(800, 600);
     private static final String LANGUAGE_RESOURCE_PATH = "/slogo/languages/";
     private static final String EXAMPLE_PROGRAMS_PATH = "/examples";
-    public static final int FRAMES_PER_SECOND = 60;
-    public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-    public static final int[] INITIAL_XY = new int[]{0, 0};
-    public static final int INITIAL_HEADING = 90;
-    private ResourceBundle myResources;
-    private javafx.scene.control.Button myPauseButton;
-    private javafx.scene.control.Button myPlayButton;
-    private Button myResetButton;
-    private SketchbookView sketch;
-    private BorderPane theFeatures;
     public static final String DEFAULT_RESOURCE_PACKAGE = "/slogo.languages/";
+    private SlogoView myView;
 
     // the next three methods should be used somewhere else if we are to make an efficient use of design
     /**
@@ -107,8 +102,9 @@ public class Main extends Application {
     @Override
     public void start(Stage stage)
         throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-      TurtleModel model = new TurtleModel(0, 0, 90);
+      LanguageMenu menu = new LanguageMenu();
       TurtleCollection collection = new TurtleCollection();
+<<<<<<< HEAD
       TurtleInsnModel insnModel = new TurtleInsnModel(collection, "English");
       //Console console = new Console("English",model);
 
@@ -188,4 +184,11 @@ public class Main extends Application {
 
     }
 
+=======
+      TurtleInsnModel insnModel = new TurtleInsnModel(collection, menu.getAppLanguage());
+      myView = new SlogoView("English");
+      myView.makeScene(800, 600, stage);
+
+    }
+>>>>>>> master
 }

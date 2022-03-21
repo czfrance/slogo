@@ -10,6 +10,7 @@ public abstract class MathOperation extends Instruction {
   public MathOperation(int numParam, TurtleCollection model) {
     super(numParam, model);
   }
+
   @Override
   public abstract double returnValue();
 

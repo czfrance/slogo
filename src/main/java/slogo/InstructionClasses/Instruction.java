@@ -3,15 +3,12 @@ package slogo.InstructionClasses;
 import java.util.Stack;
 import java.util.function.BiFunction;
 import slogo.Model.TurtleCollection;
-import slogo.Model.TurtleModel;
 import slogo.Model.TurtleRecord;
-import slogo.PatternParser;
 
 public abstract class Instruction {
 
   private int myNumParameters;
-
-  private PatternParser valueParser = new PatternParser();
+  private int numParsedParameters = 0;
 
   private Instruction[] myParameters; //make this a list instead
   // change so public getter with immutable view of myParameterList
@@ -23,12 +20,16 @@ public abstract class Instruction {
   private boolean isDone = false;
 
   public Instruction() {
-    valueParser.addPatterns("Syntax");
     myNumParameters = 0;
   }
 
+  public Instruction(Instruction parent) {
+    myNumParameters = parent.myNumParameters;
+    myParameters = parent.myParameters;
+    myTurtles = parent.myTurtles;
+  }
+
   public Instruction(int numParameters, TurtleCollection turtleModel) {
-    valueParser.addPatterns("Syntax");
     myNumParameters = numParameters;
     myParameters = new Instruction[numParameters];
     myTurtles = turtleModel;
@@ -40,6 +41,14 @@ public abstract class Instruction {
 
   public boolean getIsDone() {
     return isDone;
+  }
+
+  public int getNumParsedParameters() {
+    return numParsedParameters;
+  }
+
+  public void addNumParsedParameters() {
+    numParsedParameters++;
   }
 
   public void setParameters(Stack<Instruction> valueStack) {
@@ -66,18 +75,26 @@ public abstract class Instruction {
 
   public void run() {
     isDone = true;
-    myTurtles.runInsn(myParameters, getLambda());
+    //System.out.printf("Turtle %d moving\n",myTurtles.getActiveTurtleID());
+    myTurtles.runInsnOnTurtles(myParameters, getLambda());
   }
+
+  /*
+  protected boolean getAllActiveTurtlesRan() {
+    return myTurtles.getNumActiveTurtlesRun()==myTurtles.getTotalActiveTurtles();
+  }
+
+   */
 
   protected Instruction[] getMyParameters() {
     return myParameters;
   }
-  protected TurtleCollection getMyTurtles() {
-    return myTurtles;
+
+  public Instruction getParamNum(int i) {
+    return myParameters[i];
   }
 
-  public boolean isValueType(String desiredValueType, String poppedValue) {
-    String currType = valueParser.getSymbol(poppedValue);
-    return desiredValueType.equals(currType);
+  protected TurtleCollection getMyTurtles() {
+    return myTurtles;
   }
 }

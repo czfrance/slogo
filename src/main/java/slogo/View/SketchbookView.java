@@ -21,54 +21,59 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.util.Duration;
+import slogo.InstructionClasses.TurtleCommands.Home;
 import slogo.Model.TurtleInsnModel;
 import slogo.Model.TurtleModel;
-import slogo.View.Pen.LinePen;
+import slogo.SlogoView;
 import slogo.View.Pen.Pen;
+import slogo.View.Transitions.Paths.DoNothingPath;
+import slogo.View.Transitions.Paths.TurtlePath;
+import slogo.View.Transitions.Rotations.TurtleRotation;
 
 public class SketchbookView extends Region {
 
+<<<<<<< HEAD
   public static final Dimension DEFAULT_SIZE = new Dimension(800, 800);
+=======
+  public static final Dimension DEFAULT_SIZE = new Dimension(800, 600);
+>>>>>>> master
   public static int TURTLE_SPEED = 50; //pixels per second
-  public static final int TURTLE_TURN_SPEED = 45; //degrees per second
-  public static final double NO_MOVEMENT = 0.01; //pixels per second
+  public static String DEFAULT_IMAGE = "turtle";
+  public static Color DEFAULT_COLOR = Color.RED;
 
   Pane myPane;
   Map<TurtleModel, TurtleView> myTurtlesMap;
   private SimulationDisplay mySimulation;
   private BorderPane myRoot;
-  private List<TurtleModel> myModels;
-  private List<TurtleView> myTurtles;
-  //todo: could probably phase this out
-  private TurtleModel myModel;
   private TurtleInsnModel myInsnModel;
-  //private TurtleView turtle;
-  private Pen pen;
   private Group root;
   private boolean isAnimated;
 
-//  public SketchbookView(TurtleModel model) {
-//    myModel = model;
-//    //turtle = makeTurtle(myModel);
-//    //todo: put pen in turtleview
-//    //pen = new LinePen(turtle.getColor());
-//  }
 
   public SketchbookView(TurtleInsnModel insnModel) {
     myInsnModel = insnModel;
-    myModel = myInsnModel.getCurrTurtle();
     myTurtlesMap = createTurtleMap();
   }
 
+<<<<<<< HEAD
   public Scene makeScene(BorderPane myFeatures) {
+=======
+  public Group makeScene() {
+>>>>>>> master
     root = new Group();
-    root.getChildren().add(myFeatures);
-    return new Scene(root, DEFAULT_SIZE.width, DEFAULT_SIZE.height);
+    addTurtlesToRoot();
+    return root;
+  }
+
+  private void clearScene() {
+    root.getChildren().clear();
+    addTurtlesToRoot();
   }
 
   private Map<TurtleModel, TurtleView> createTurtleMap() {
@@ -95,6 +100,7 @@ public class SketchbookView extends Region {
           }
         }
 
+<<<<<<< HEAD
         private void updateTurtleMap() {
           Map<Integer, TurtleModel> turtleModelsMap = myInsnModel.getCreatedTurtleMap();
           if (!myTurtlesMap.keySet().containsAll(turtleModelsMap.values())) {
@@ -121,6 +127,28 @@ public class SketchbookView extends Region {
           return new TurtleDisplay(convertX(m.getNextPos()[0]), convertY(m.getNextPos()[1]),
                   m.getHeading(), "turtle", Color.RED);
         }
+=======
+  private TurtleView makeTurtle(TurtleModel m) {
+    return new TurtleDisplay(convertX(m.getNextPos()[0]), convertY(m.getNextPos()[1]),
+            m.getHeading(), DEFAULT_IMAGE, DEFAULT_COLOR);
+  }
+
+  public void play() {
+    try {
+      updateTurtles();
+      updateTurtleMap();
+      Animation animation = makeAnimation();
+      animation.play();
+      animation.setOnFinished(e -> play());
+    } catch (InvocationTargetException e) {
+      e.printStackTrace();
+    } catch (NoSuchMethodException e) {
+      e.printStackTrace();
+    } catch (IllegalAccessException e) {
+      e.printStackTrace();
+    }
+  }
+>>>>>>> master
 
         public void play () {
           try {
@@ -140,7 +168,19 @@ public class SketchbookView extends Region {
 
         public Animation makeAnimation ()
       throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
+    List<Integer> activeIDList = myInsnModel.getActiveIDList();
+    List<TurtleModel> activeTurtles= new ArrayList<>();
+    List<TurtleModel> oldActiveTurtles = new ArrayList<>();
 
+    for(int i: activeIDList) {
+      TurtleModel currActiveTurtle = myInsnModel.getCreatedTurtleMap().get(i);
+      TurtleModel oldActiveTurtle = new TurtleModel(currActiveTurtle.getNextPos()[0], currActiveTurtle.getNextPos()[1],
+          currActiveTurtle.getHeading());
+      activeTurtles.add(currActiveTurtle);
+      oldActiveTurtles.add(oldActiveTurtle);
+    }
+
+<<<<<<< HEAD
           TurtleModel oldModelState = new TurtleModel(myModel.getNextPos()[0], myModel.getNextPos()[1],
                   myModel.getHeading());
           Optional<Object> o = myInsnModel.runNextInsn();
@@ -270,11 +310,48 @@ public class SketchbookView extends Region {
         private double convertX ( double modelX){
           return modelX + (DEFAULT_SIZE.width / 2);
         }
+=======
+    Optional<Object> o = myInsnModel.runNextInsn();
+    if (o.isPresent()) {
+      return getTransition(o, oldActiveTurtles, activeTurtles);
+    } else {
+      return new DoNothingPath(o, oldActiveTurtles.get(0), activeTurtles.get(0), myTurtlesMap.get(activeTurtles.get(0)), root).getPath();
+    }
+  }
+
+  private Transition getTransition(Optional<Object> o, List<TurtleModel> oldModel, List<TurtleModel> newModel) {
+
+    SequentialTransition transition = new SequentialTransition();
+    for(int i = 0; i<oldModel.size(); i++) {
+      checkShowing(newModel.get(i));
+      //TurtlePath tp = new TurtlePath(o, oldModel.get(i), newModel.get(i), myTurtlesMap.get(newModel.get(i)), root);
+      PathTransition pt = new TurtlePath(o, oldModel.get(i), newModel.get(i), myTurtlesMap.get(newModel.get(i)), root).getPathTransition();
+      //TurtleRotation tr = new TurtleRotation(o, oldModel.get(i), newModel.get(i), myTurtlesMap.get(newModel.get(i)));
+      RotateTransition rt = new TurtleRotation(o, oldModel.get(i), newModel.get(i), myTurtlesMap.get(newModel.get(i))).getTurtleRotation();
+      transition.getChildren().addAll(pt, rt);
+    }
+    return transition;
+  }
+
+  private void checkShowing(TurtleModel myCurrModel) {
+    if (!myCurrModel.getTurtleRecord().isShowing())  {
+      root.getChildren().remove(myTurtlesMap.get(myCurrModel));
+    }
+    else if (!root.getChildren().contains(myTurtlesMap.get(myCurrModel))){
+      root.getChildren().add(myTurtlesMap.get(myCurrModel));
+    }
+  }
+
+  private double convertX(double modelX) {
+    return modelX + (DEFAULT_SIZE.width / 2);
+  }
+>>>>>>> master
 
         private double convertY ( double modelY){
           return (DEFAULT_SIZE.height / 2) - modelY;
         }
 
+<<<<<<< HEAD
         public void updateCurrTurtle () {
           double x = myTurtlesMap.get(myModel).getBoundsInParent().getCenterX();
           double y = myTurtlesMap.get(myModel).getBoundsInParent().getCenterY();
@@ -282,11 +359,21 @@ public class SketchbookView extends Region {
           Color color = myTurtlesMap.get(myModel).getColor();
           myTurtlesMap.get(myModel).updateTurtle(x, y, heading, color);
         }
+=======
+  private void updateTurtle(TurtleModel myCurrModel) {
+    double x = myTurtlesMap.get(myCurrModel).getBoundsInParent().getCenterX();
+    double y = myTurtlesMap.get(myCurrModel).getBoundsInParent().getCenterY();
+    double heading = myCurrModel.getHeading();
+    Color color = myTurtlesMap.get(myCurrModel).getColor();
+    myTurtlesMap.get(myCurrModel).updateTurtle(x, y, heading, color);
+  }
+>>>>>>> master
 
-//    @Override
-//    public Node getStyleableNode() {
-//        return super.getStyleableNode();
-//    }
+  private void updateTurtles() {
+    for (TurtleModel turtle : myTurtlesMap.keySet()) {
+      updateTurtle(turtle);
+    }
+  }
 
         public void pause () throws InvocationTargetException, NoSuchMethodException, IllegalAccessException {
           if (!isAnimated) {
@@ -299,6 +386,7 @@ public class SketchbookView extends Region {
           TURTLE_SPEED = (int) newValue;
         }
 
+<<<<<<< HEAD
         public void reset () {
           makeScene(myRoot);
           isAnimated = false;
@@ -308,6 +396,9 @@ public class SketchbookView extends Region {
         public Pane getPane () {
           return myPane;
         }
+=======
+  public void reset() { clearScene(); }
+>>>>>>> master
 
         public BorderPane getBorderPane () {
           return myRoot;

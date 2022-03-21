@@ -17,6 +17,7 @@ public class UserInstruction extends Instruction{
   private Map<String, Variable> varMap;
   private Map<Integer, String> varIndices = new HashMap<Integer,String>();
   private InsnList myInstructions;
+  private double currFrontEndVal = 0;
 
   public UserInstruction(UserInstruction parent) {
     super(parent.getNumParameters(), parent.getMyTurtles());
@@ -81,6 +82,11 @@ public class UserInstruction extends Instruction{
   @Override
   public double returnValue() {
     return 0;
+  }
+
+  @Override
+  public double frontEndReturnValue() {
+    return myInstructions.frontEndReturnValue();
   }
 
   @Override

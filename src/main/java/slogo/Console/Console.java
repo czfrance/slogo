@@ -4,14 +4,16 @@ import java.util.ResourceBundle;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import slogo.Compiler;
+import slogo.Console.Views.BasicInstructView;
+import slogo.Console.Views.VarsMenuView;
 import slogo.Model.TurtleCollection;
 import slogo.Model.TurtleInsnModel;
-import slogo.SlogoView;
 
 public class Console {
 
@@ -26,14 +28,15 @@ public class Console {
   private TextArea myConsole;
   private FileOpener myFileOpener;
   private TurtleCollection myTurtleCollection;
+  private VarsMenuView myVarsMenu;
 
-  public Console(String language, TurtleCollection turtles, TurtleInsnModel model) {
+  public Console(ResourceBundle language, TurtleCollection turtles, TurtleInsnModel model) {
     myStage = new Stage();
     myTurtleCollection = turtles;
-    ResourceBundle resources = ResourceBundle.getBundle(LANGUAGE_RESOURCE_PATH + language);
+    ResourceBundle myResourceBundle = language;
     myInstructionModel = model;
-    myFileOpener = new FileOpener();
-    myCmdHistory = new CommandHistory();
+    myFileOpener = new FileOpener(language);
+    myCmdHistory = new CommandHistory(myResourceBundle);
     generatePopup();
   }
 
@@ -50,6 +53,7 @@ public class Console {
     Button chooseScript = new Button("Load Script");
     Button enter = new Button("Enter Code");
     Button history = new Button("Command History");
+    MenuButton interactives = generateInteractives();
     chooseScript.setOnAction(e -> {
       try {
         File script = myFileOpener.fileChoice(myStage);
@@ -73,11 +77,11 @@ public class Console {
 
     HBox buttons = new HBox();
     buttons.setSpacing(50);
-    buttons.getChildren().addAll(chooseScript, enter, history);
+    buttons.getChildren().addAll(chooseScript, enter, history, interactives);
 
     layout.setBottom(buttons);
     BorderPane.setMargin(buttons, new Insets(10,10,0,0));
-    popup = new Scene(layout, 400, 400);
+    popup = new Scene(layout, 400, 600);
     myStage.setScene(popup);
     myStage.show();
   }
@@ -92,11 +96,26 @@ public class Console {
     try{
       myInstructionModel.addUserInput(in);
       myCmdHistory.updateHistory(in);
+      myVarsMenu.update();
       // SlogoView.displaySketch();
     }
     catch(Exception e){
-      ConsoleAlerts myAlert = new ConsoleAlerts("Error in the Instruction");
+      ConsoleAlerts myAlert = new ConsoleAlerts(e.getMessage());
       // SlogoView.displaySketch();
     }
+  }
+
+  private MenuButton generateInteractives() {
+    myVarsMenu = new VarsMenuView(myInstructionModel, myTurtleCollection, myResourceBundle);
+    BasicInstructView basicMenu = new BasicInstructView(myInstructionModel, myTurtleCollection, myResourceBundle);
+    MenuItem varsButton = new MenuItem("Your Variables");
+    MenuItem basicButton = new MenuItem("Basic Commmands");
+
+    varsButton.setOnAction(e->myVarsMenu.show());
+    basicButton.setOnAction(e->basicMenu.show());
+
+    MenuButton menuChoice = new MenuButton("Interactives");
+    menuChoice.getItems().addAll(varsButton, basicButton);
+    return menuChoice;
   }
 }
