@@ -27,6 +27,7 @@ public class InstructionGUI {
   private int numOfParameters;
   private Scene myScene;
   private Stage myStage;
+
   public InstructionGUI(String title, TurtleInsnModel myModel, TurtleCollection myTurtles) {
     myStage = new Stage();
     this.myName = title;

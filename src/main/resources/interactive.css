@@ -1,0 +1,23 @@
+#ParameterSlider{
+  -fx-show-tick-marks: true;
+  -fx-show-tick-labels: true;
+  -fx-orientation: HORIZONTAL;
+  -fx-major-tick-unit: 50;
+  -fx-minor-tick-count: 25;
+  -fx-block-increment: 5;
+}
+#theGridPane{
+  -fx-padding: 10, 10, 10, 10;
+  -fx-vgap: 10;
+  -fx-hgap: 25;
+  -fx-alignment: center;
+
+}
+
+#nodeLabel{
+  -fx-text-alignment: center;
+  -fx-setPrefSize(85,50);
+  -fx-background: rgb(225, 228, 203);
+  -fx-border-color: black
+
+}
