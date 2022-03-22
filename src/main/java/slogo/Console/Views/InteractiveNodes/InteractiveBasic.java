@@ -27,6 +27,15 @@ public class InteractiveBasic extends InteractiveNode {
   private Instruction myInstruction;
   private ResourceBundle instructionTypes = ResourceBundle.getBundle("slogo/languages/InstructionType");
 
+  /**
+   *
+   * @param title name of the current instruction
+   * @param model current turtle model
+   * @param turtles current turtle collection
+   * @param language which language
+   *
+   * Passes the values to the super class and then calls the hovertooltip method since this is the only difference
+   */
   public InteractiveBasic(String title, TurtleInsnModel model
       ,TurtleCollection turtles, ResourceBundle language) {
     super(title, model, turtles, language);
@@ -34,6 +43,10 @@ public class InteractiveBasic extends InteractiveNode {
   }
 
   @Override
+  /**
+   * Grabs the reference file from the given directory of instructions and then coverts into a textblock
+   * that can be displayed as a tool tip when hovered
+   */
   public void hoverToolTip() {
     String message = null;
     System.out.println(super.name.toLowerCase());
@@ -56,6 +69,11 @@ public class InteractiveBasic extends InteractiveNode {
     }
   }
   @Override
+  /**
+   * Implements the abstract popup method
+   * If the node that is clicked on is a interactive instruction - an instruction that affects the turtles
+   * then it will create and interactive no code popup
+   */
   public void popup() {
     if(instructionTypes.getString(super.name).equals("TurtleCommands")){
       InstructionGUI myGui = new InstructionGUI(super.name, myModel, myTurtles);
