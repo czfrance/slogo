@@ -1,19 +1,14 @@
 package slogo.View.Transitions.Paths;
 
-import java.awt.Dimension;
 import java.util.Optional;
 import javafx.animation.PathTransition;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.util.Duration;
 import slogo.Model.TurtleModel;
 import slogo.View.TurtleView;
 
 public class TurtlePath {
+  public static int X = 0;
+  public static int Y = 1;
 
   PathTransition turtlePath;
 
@@ -36,6 +31,6 @@ public class TurtlePath {
   }
 
   private boolean moved(double[] nextPos, TurtleModel myCurrModel) {
-    return (nextPos[0] != myCurrModel.getNextPos()[0] || nextPos[1] != myCurrModel.getNextPos()[1]);
+    return (nextPos[X] != myCurrModel.getNextPos()[X] || nextPos[Y] != myCurrModel.getNextPos()[Y]);
   }
 }

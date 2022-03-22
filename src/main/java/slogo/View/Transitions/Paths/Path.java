@@ -9,6 +9,8 @@ import slogo.View.TurtleView;
 
 public abstract class Path {
   public static final Dimension DEFAULT_SIZE = new Dimension(800, 600);
+  public static int X = 0;
+  public static int Y = 1;
 
   PathTransition path;
   public Path(Optional<Object> o, TurtleModel oldModel, TurtleModel myCurrModel, TurtleView myView, Group root) {

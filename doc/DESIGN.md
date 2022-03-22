@@ -65,8 +65,8 @@
 * (Any frontend assumptions ?)
 * (Any console assumptions ?)
 * Any command done on the turtle/program has been correctly executed in the backend TurtleModel
-* This means that the frontend Turtle simply reflects the changes of the backend, rather than computing
-  the changes itself
+  * This means that the frontend Turtle simply reflects the changes of the backend, rather than computing
+    the changes itself
 * All instructions passed from compiler to TurtleModel are the basic functions and are syntactically 
   correct
   * This includes command names and number & type of parameters

@@ -21,11 +21,11 @@ public class MovementPath extends Path {
   @Override
   protected PathTransition makePathTransition(Optional<Object> o, TurtleModel oldModel,
       TurtleModel myCurrModel, TurtleView myView, Group root) {
-    MoveTo move = new MoveTo(convertX(oldModel.getNextPos()[0]),
-        convertY(oldModel.getNextPos()[1]));
+    MoveTo move = new MoveTo(convertX(oldModel.getNextPos()[X]),
+        convertY(oldModel.getNextPos()[Y]));
     javafx.scene.shape.Path path = new javafx.scene.shape.Path();
     path.getElements().addAll(move,
-        new LineTo(convertX(myCurrModel.getNextPos()[0]), convertY(myCurrModel.getNextPos()[1])));
+        new LineTo(convertX(myCurrModel.getNextPos()[X]), convertY(myCurrModel.getNextPos()[X])));
     Duration pathAnimDuration;
     pathAnimDuration = Duration.seconds(Math.abs((double) o.get()) / TURTLE_SPEED);
     PathTransition pathTrans = new PathTransition(pathAnimDuration, path, myView);
@@ -63,12 +63,12 @@ public class MovementPath extends Path {
         // draw line
         if (myCurrModel.getTurtleRecord().isPenDown()) {
           root.getChildren().add(
-              myView.getPen().draw(oldLocation[0], oldLocation[1], x, y));
+              myView.getPen().draw(oldLocation[X], oldLocation[Y], x, y));
         }
 
         // update old location with current one
-        oldLocation[0] = x;
-        oldLocation[1] = y;
+        oldLocation[X] = x;
+        oldLocation[Y] = y;
         //}
       }
     });

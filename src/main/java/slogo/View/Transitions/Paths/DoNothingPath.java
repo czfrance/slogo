@@ -10,7 +10,8 @@ import slogo.Model.TurtleModel;
 import slogo.View.TurtleView;
 
 public class DoNothingPath extends Path {
-  public static final double NO_MOVEMENT = 0.01; //pixels per second
+  public static final double NO_MOVEMENT_TIME = 0.01; //pixels per second
+  public static final double NO_MOVEMENT_DISTANCE = 0.01; //pixels per second
 
   public DoNothingPath(Optional<Object> o, TurtleModel oldModel, TurtleModel myCurrModel, TurtleView myView, Group root) {
     super(o, oldModel, myCurrModel, myView, root);
@@ -19,13 +20,13 @@ public class DoNothingPath extends Path {
   @Override
   protected PathTransition makePathTransition(Optional<Object> o, TurtleModel oldModel,
       TurtleModel myCurrModel, TurtleView myView, Group root) {
-    MoveTo move = new MoveTo(convertX(oldModel.getNextPos()[0]),
-        convertY(oldModel.getNextPos()[1]));
+    MoveTo move = new MoveTo(convertX(oldModel.getNextPos()[X]),
+        convertY(oldModel.getNextPos()[Y]));
     javafx.scene.shape.Path path = new javafx.scene.shape.Path();
     path.getElements().addAll(move,
-        new LineTo(convertX(myCurrModel.getNextPos()[0]), convertY(myCurrModel.getNextPos()[1] - 1)),
-        new LineTo(convertX(oldModel.getNextPos()[0]), convertY(oldModel.getNextPos()[1])));
+        new LineTo(convertX(myCurrModel.getNextPos()[X]), convertY(myCurrModel.getNextPos()[Y] - NO_MOVEMENT_DISTANCE)),
+        new LineTo(convertX(oldModel.getNextPos()[X]), convertY(oldModel.getNextPos()[Y])));
 
-    return new PathTransition(Duration.seconds(NO_MOVEMENT), path, myView);
+    return new PathTransition(Duration.seconds(NO_MOVEMENT_TIME), path, myView);
   }
 }
